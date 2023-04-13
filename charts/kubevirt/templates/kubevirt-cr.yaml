@@ -1,4 +1,4 @@
-{{- if .Values.kubevirt.enableCR -}}
+{{- if .Values.kubevirt.installCR -}}
 apiVersion: kubevirt.io/v1
 kind: KubeVirt
 metadata:

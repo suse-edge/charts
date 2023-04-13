@@ -1,20 +1,20 @@
 kubevirt:
   installOperator: true 
   installCR: true
-  image: registry.suse.com/suse/sles/15.5/virt-operator:0.58.0-150500.4.21
+  image: registry.suse.com/suse/sles/15.4/virt-operator:0.54.0-150400.3.10.4
   pullPolicy: IfNotPresent
 
 cdi:
   installOperator: false
   installCR: false
   version: 1.55.0-150500.3.18
-  operatorImage: registry.suse.com/suse/sles/15.5/cdi-operator:1.55.0-150500.3.18
-  controllerImage: registry.suse.com/suse/sles/15.5/cdi-controller:1.55.0-150500.3.18
-  importerImage: registry.suse.com/suse/sles/15.5/cdi-importer:1.55.0-150500.3.18
-  clonerImage: registry.suse.com/suse/sles/15.5/cdi-cloner:1.55.0-150500.3.18
-  apiserverImage: registry.suse.com/suse/sles/15.5/cdi-apiserver:1.55.0-150500.3.18
-  uploadserverImage: registry.suse.com/suse/sles/15.5/cdi-uploadserver:1.55.0-150500.3.18
-  uploadproxyImage: registry.suse.com/suse/sles/15.5/cdi-uploadproxy:1.55.0-150500.3.18
+  operatorImage: registry.suse.com/suse/sles/15.4/cdi-operator:1.51.0-150400.4.10.4
+  controllerImage: registry.suse.com/suse/sles/15.4/cdi-controller:1.51.0-150400.4.10.4
+  importerImage: registry.suse.com/suse/sles/15.4/cdi-importer:1.51.0-150400.4.10.4
+  clonerImage: registry.suse.com/suse/sles/15.4/cdi-cloner:1.51.0-150400.4.10.4
+  apiserverImage: registry.suse.com/suse/sles/15.4/cdi-apiserver:1.51.0-150400.4.10.4
+  uploadserverImage: registry.suse.com/suse/sles/15.4/cdi-uploadserver:1.51.0-150400.4.10.4
+  uploadproxyImage: registry.suse.com/suse/sles/15.4/cdi-uploadproxy:1.51.0-150400.4.10.4
   pullPolicy: IfNotPresent
 
 

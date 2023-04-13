@@ -1,4 +1,4 @@
-{{- if .Values.cdi.enableCR -}}
+{{- if .Values.cdi.installCR -}}
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: CDI
 metadata:
