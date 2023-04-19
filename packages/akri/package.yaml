@@ -1,0 +1,3 @@
+url: https://github.com/project-akri/akri.git
+commit: 629bb54f90d89a68aae2cf78f069ec67fe0e7b04
+subdirectory: deployment/helm
