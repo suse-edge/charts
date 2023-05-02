@@ -3,7 +3,7 @@ apiVersion: kubevirt.io/v1
 kind: KubeVirt
 metadata:
   name: kubevirt
-  namespace: {{ .Release.Namespace }}
+  namespace: kubevirt
 spec:
   certificateRotateStrategy: {}
   configuration:

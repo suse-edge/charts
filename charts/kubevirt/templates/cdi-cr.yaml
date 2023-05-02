@@ -3,7 +3,7 @@ apiVersion: cdi.kubevirt.io/v1beta1
 kind: CDI
 metadata:
   name: cdi
-  namespace: {{ .Release.Namespace }}
+  namespace: cdi
 spec:
   imagePullPolicy: IfNotPresent
   infra:

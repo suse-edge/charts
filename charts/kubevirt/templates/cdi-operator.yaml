@@ -263,7 +263,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cdi-operator
-  namespace: {{ .Release.Namespace }}
+  namespace: cdi
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -271,7 +271,7 @@ metadata:
   labels:
     operator.cdi.kubevirt.io: ""
   name: cdi-operator
-  namespace: {{ .Release.Namespace }}
+  namespace: cdi
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -350,7 +350,7 @@ metadata:
     app.kubernetes.io/managed-by: cdi-operator
     cdi.kubevirt.io: ""
   name: cdi-operator
-  namespace: {{ .Release.Namespace }}
+  namespace: cdi
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -358,7 +358,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cdi-operator
-  namespace: {{ .Release.Namespace }}
+  namespace: cdi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -368,7 +368,7 @@ metadata:
     operator.cdi.kubevirt.io: ""
     prometheus.cdi.kubevirt.io: "true"
   name: cdi-operator
-  namespace: {{ .Release.Namespace }}
+  namespace: cdi
 spec:
   replicas: 1
   selector:
@@ -440,5 +440,5 @@ metadata:
   labels:
     operator.cdi.kubevirt.io: ""
   name: cdi-operator-leader-election-helper
-  namespace: {{ .Release.Namespace }}
+  namespace: cdi
 {{- end }}
