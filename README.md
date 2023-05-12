@@ -14,7 +14,9 @@
 
 # SUSE Edge Helm Charts
 
-A repository that contains different Helm Charts from the SUSE Edge engineering team
+A repository that contains different Helm Charts from the SUSE Edge engineering team.
+
+Visit a web friendly version at [https://suse-edge.github.io/charts/](https://suse-edge.github.io/charts/).
 
 > :warning: This is an unofficial tool, don't blame us!
 
