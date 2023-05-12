@@ -11,6 +11,16 @@
         min-width: 200px;
         margin: 0 auto;
         padding: 45px;
+        width: fit-content;
+        block-size: fit-content;
+      }
+
+      .markdown-head {
+        box-sizing: border-box;
+        min-width: 200px;
+        margin: 0 auto;
+        width: fit-content;
+        block-size: fit-content;
       }
     
       @media (max-width: 767px) {
@@ -71,7 +81,7 @@
         border: 1px solid #d7d9dd;
         transition: transform .2s ease;
         background-color: #eaedef;
-        width: 300px;
+        width: 250px;
         margin: 0.5em;
       }
       
@@ -109,17 +119,16 @@
   </head>
 
   <body>
-    <img alt="SUSE Logo" src="https://www.suse.com/assets/img/suse-white-logo-green.svg" height="140" />
     <section class="markdown-body">
+      <section class="markdown-head">
+      <img alt="SUSE Logo" src="https://www.suse.com/assets/img/suse-black-logo-green.svg" height="140" />
       <h1>SUSE Edge Helm Charts</h1>
 
       <h2>Usage</h2>
-      <pre lang="no-highlight"><code>
-        helm repo add suse-edge https://suse-edge.github.io/charts
-      </code></pre>
+      <pre lang="no-highlight"><code>helm repo add suse-edge https://suse-edge.github.io/charts</code></pre>
 
       <p>This is an unofficial and unsupported repository. Use it with caution.</p>
-
+      </section>      
       <h2>Charts</h2>
 
       <div class="charts">
@@ -147,9 +156,9 @@
         {{end}}
 			{{end}}
       </div>
+    Generated on: <time datetime="{{ .Generated.Format "2006-01-02T15:04:05" }}" pubdate id="generated">{{ .Generated.Format "Mon Jan 2 2006 03:04:05PM MST-07:00" }}</time>
     </section>
-		Generated on: <time datetime="{{ .Generated.Format "2006-01-02T15:04:05" }}" pubdate id="generated">{{ .Generated.Format "Mon Jan 2 2006 03:04:05PM MST-07:00" }}</time>
-
+		
     <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
     <script>new ClipboardJS('.btn');</script>
   </body>
