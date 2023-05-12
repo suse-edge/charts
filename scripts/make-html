@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+BASEDIR="$(dirname "$0")"
+
+cd $(dirname $0)
+cd ..
+
+die(){
+	echo ${1} >2&
+	exit ${2}
+}
+
+command -v helm > /dev/null 2>&1 || die "helm command not found" 2
+
+helm plugin list | grep -q repo-html || helm plugin install https://github.com/halkeye/helm-repo-html
+helm repo-html -t index.tpl
+
+# Not sure if this is needed
+#git add index.html
+#git commit -m "Update index"
+#git push
