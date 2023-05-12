@@ -109,7 +109,7 @@
   </head>
 
   <body>
-
+    <img alt="SUSE Logo" src="https://www.suse.com/assets/img/suse-white-logo-green.svg" height="140" />
     <section class="markdown-body">
       <h1>SUSE Edge Helm Charts</h1>
 
@@ -128,14 +128,14 @@
           <div class="chart">
             <a href="{{ (index (index $chartEntry 0).Urls 0) }}" title="{{ (index (index $chartEntry 0).Urls 0) }}">
               <div class="icon">
-                <img class="chart-item-logo" alt="{{ $key }}'s logo" src="{{ if (index $chartEntry 0).Icon }}{{ (index $chartEntry 0).Icon }}{{ else }}_images/placeholder.png{{end}}">
+                <img class="chart-item-logo" alt="{{ $key }}'s logo" src="{{ if (index $chartEntry 0).Icon }}{{ (index $chartEntry 0).Icon }}{{ else }}https://raw.githubusercontent.com/suse-edge/charts/main/_images/placeholder.png{{end}}">
               </div>
               <div class="body">
                 <p class="info">
                   {{ (index $chartEntry 0).Name }}
                   ({{ (index $chartEntry 0).Version }}@{{ (index $chartEntry 0).AppVersion }})
                   <a href="https://github.com/suse-edge/charts/tree/main/charts/{{ $key }}">
-                    <img src="_images/GitHub-Mark-32px.png" alt="github link" style="height: 16px; width: 16px; vertical-align: middle;" />
+                    <img src="https://raw.githubusercontent.com/suse-edge/charts/main/_images/GitHub-Mark-32px.png" alt="github link" style="height: 16px; width: 16px; vertical-align: middle;" />
                   </a>
                 </p>
                 <p class="description">
@@ -148,7 +148,7 @@
 			{{end}}
       </div>
     </section>
-		<time datetime="{{ .Generated.Format "2006-01-02T15:04:05" }}" pubdate id="generated">{{ .Generated.Format "Mon Jan 2 2006 03:04:05PM MST-07:00" }}</time>
+		Generated on: <time datetime="{{ .Generated.Format "2006-01-02T15:04:05" }}" pubdate id="generated">{{ .Generated.Format "Mon Jan 2 2006 03:04:05PM MST-07:00" }}</time>
 
     <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
     <script>new ClipboardJS('.btn');</script>
