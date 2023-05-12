@@ -10,4 +10,7 @@ $(TARGETS):
 	@./scripts/pull-scripts
 	@./bin/charts-build-scripts $@
 
+html:
+	./scripts/make-html
+
 .PHONY: $(TARGETS)
