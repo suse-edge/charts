@@ -3,7 +3,7 @@
 # SUSE Edge Helm Charts
 
 <p align="center">
-  <img alt="SUSE Logo" src="https://www.suse.com/assets/img/suse-white-logo-green.svg" height="140" />
+  <img alt="SUSE Logo" src="https://www.suse.com/assets/img/suse-black-logo-green.svg" height="140" />
   <h3 align="center">SUSE Edge Helm Charts</h3>
 </p>
 
