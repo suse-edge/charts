@@ -1,0 +1,447 @@
+# Default values for ironic.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  enable_tls: false
+  # whether to enable dnsmasq. If DHCP is already provided by the existing networking
+  # infrastructure, it is recommended to set enable_dnsmasq to 'false'.
+  enable_dnsmasq: true
+
+  # whether to enable Ironic services besides dnsmasq.
+  # NOTE: enable_dnsmasq has precedence over this option. If enable_dnsmasq is set
+  # to 'true' while enable_ironic is set to 'false', dnsmasq service will still be
+  # enabled.
+  enable_ironic: true
+
+  # whether to enable PXE boot capability
+  # NOTE: enable_dnsmasq must set to 'true' in order for this option to be effective.
+  enable_pxe_boot: true
+
+  # DNS domain that all services will either be members of, or, in the
+  # case of external-dns and pdns, manage.
+  dnsDomain: suse.baremetal
+
+  # IP address of the router associated with the specified DHCP
+  # address range
+  dnsmasqDefaultRouter: 192.168.21.254
+  
+  # IP address of the dns server to be provided with DHCP
+  # response
+  dnsmasqDNSServer: 192.168.20.5
+
+  # specify comma serparate beginning and end of the range of IP
+  # addresses the DHCP server will manage.
+  dhcpRange: 192.168.20.20,192.168.20.80
+
+  # Network interface on which provisioning network can be accessed
+  provisioningInterface: ens4
+
+  # IP Address assigned to network interface on provisioning network
+  provisioningIP: 192.168.20.5
+
+  # Database ClusterIP address
+  database_clusterIP: 10.43.255.253
+
+  # Global ingress annotations that is shared by all the ingress services.
+  # For example, use it to override extern-dns records.
+  ingress:
+    annotations: {}
+      # The IP to register with external-dns for this service
+      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
+
+  # If using pdnsIP for to set powerdns to use hostNetwork, update
+  # the nameservers to the pdnsIP address
+  dnsConfig:
+    nameservers:
+    - 10.43.255.254
+    searches:
+    - suse.baremetal
+
+  # In a multi-node kubernetes cluster, we need to "pin" the
+  # ironic containers to the given host where the
+  # provisioningIP exists. Uncomment the nodeSelector
+  # here and update the hostname accordingly.
+  #nodeSelector: 
+    #kubernetes.io/hostname: "csrancher-n1"
+
+  # Comment this out when pinning the pdns containers to a specfic host.
+  nodeSelector: {}
+
+replicaCount: 1
+
+image:
+  repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+  pullPolicy: IfNotPresent
+  tag: 21.1.1
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+service:
+  - type: httpd 
+    port: 6180
+  - type: api
+    port: 6385
+  - type: inspector
+    port: 5050  
+  - type: NodePort 
+
+ingress:
+  enabled: true 
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: "api.ironic.{{ .Values.global.dnsDomain }}"
+      paths:
+        - path: /
+          pathType: Prefix 
+          portname: api
+    - host: "inspector.ironic.{{ .Values.global.dnsDomain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          portname: inspector
+    - host: "boot.ironic.{{ .Values.global.dnsDomain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          portname: httpd
+    - host: "cache.ironic.{{ .Values.global.dnsDomain }}"
+      paths:
+        - path: /
+          pathType: Prefix
+          portname: httpd
+
+  # self,letsEncrypt,secrets       
+  tlsSource: self 
+  tls:   
+    - secretName: ironic-cacert 
+      hosts:
+        - api.ironic.{{ .Values.global.dnsDomain }}
+        - boot.ironic.{{ .Values.global.dnsDomain }}
+        - cache.ironic.{{ .Values.global.dnsDomain }}
+        - inspector.ironic.{{ .Values.global.dnsDomain }}
+  
+
+letsEncrypt:
+  # email: none@example.com
+  environment: staging 
+
+#
+# tls
+#   Where to offload the TLS/SSL encryption
+# - ingress (default)
+# - ironic 
+tls: ingress
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+tolerations: []
+
+affinity: {}
+
+volumeMounts:
+  - mountPath: /shared
+    name: ironic-data-volume
+  - mountPath: /bin/configure-coreos-ipa
+    name: ironic
+    subPath: configure-coreos-ipa
+  - mountPath: /bin/configure-httpd-ipa.sh
+    name: ironic
+    subPath: configure-httpd-ipa.sh
+  - mountPath: /bin/configure-ironic.sh
+    name: ironic
+    subPath: configure-ironic.sh  
+  - mountPath: /bin/coreos-ipa-common.sh
+    name: ironic
+    subPath: coreos-ipa-common.sh
+  - mountPath: /bin/ironic-common.sh
+    name: ironic
+    subPath: ironic-common.sh
+  - mountPath: /bin/rundnsmasq
+    name: ironic
+    subPath: rundnsmasq
+  - mountPath: /bin/runhttpd
+    name: ironic
+    subPath: runhttpd
+  - mountPath: /bin/runironic
+    name: ironic
+    subPath: runironic
+  - mountPath: /bin/runironic-api
+    name: ironic
+    subPath: runironic-api
+  - mountPath: /bin/runironic-conductor
+    name: ironic
+    subPath: runironic-conductor
+  - mountPath: /bin/runironic-exporter
+    name: ironic
+    subPath: runironic-exporter
+  - mountPath: /bin/runironic-inspector
+    name: ironic
+    subPath: runironic-inspector
+  - mountPath: /bin/runlogwatch.sh
+    name: ironic
+    subPath: runlogwatch.sh
+  - mountPath: /bin/tls-common.sh
+    name: ironic
+    subPath: tls-common.sh
+  - mountPath: /etc/dnsmasq.conf.j2
+    name: ironic
+    subPath: dnsmasq.conf.j2
+  - mountPath: /etc/httpd-ironic-api.conf.j2
+    name: ironic
+    subPath: httpd-ironic-api.conf.j2
+  - mountPath: /etc/httpd-vmedia.conf.j2
+    name: ironic
+    subPath: httpd-vmedia.conf.j2
+  - mountPath: /etc/httpd/conf.d/inspector-apache.conf.j2
+    name: ironic
+    subPath: inspector-apache.conf.j2
+  - mountPath: /etc/ironic-inspector/ironic-inspector.conf.j2
+    name: ironic
+    subPath: ironic-inspector.conf.j2
+  - mountPath: /etc/ironic/ironic.conf.j2
+    name: ironic
+    subPath: ironic.conf.j2
+  - mountPath: /tmp/inspector.ipxe.j2
+    name: ironic
+    subPath: inspector.ipxe.j2
+  - mountPath: /tmp/ironic-python-agent.ign.j2
+    name: ironic
+    subPath: ironic-python-agent.ign.j2
+  - mountPath: /usr/local/bin/mkisofs
+    name: ironic
+    subPath: mkisofs
+  - mountPath: /usr/local/bin/get-resource.sh
+    name: ironic-ipa-downloader
+    subPath: get-resource.sh
+
+certVolumeMounts:
+  - mountPath: /certs/ironic/tls.crt
+    name: ironic-certs
+    subPath: tls.crt
+  - mountPath: /certs/ironic/tls.key
+    name: ironic-certs
+    subPath: tls.key
+  - mountPath: /certs/ironic-inspector/tls.crt
+    name: ironic-insp-certs
+    subPath: tls.crt
+  - mountPath: /certs/ironic-inspector/tls.key
+    name: ironic-insp-certs
+    subPath: tls.key
+  - mountPath: /certs/ca/ironic/tls.crt
+    name: ironic-cacerts
+    subPath: tls.crt
+  - mountPath: /certs/ca/ironic-inspector/tls.crt
+    name: ironic-insp-cacerts
+    subPath: tls.crt
+
+secretVolMounts:
+  - name: ironic-certs
+    mountPath: "/certs/ironic"
+    readOnly: true
+  - name: ironic-insp-certs
+    mountPath: "/certs/ironic-inspector"
+    readOnly: true
+  - name: vmedia-certs
+    mountPath: "/certs/vmedia"
+    readOnly: true
+  - name: vmedia-ca-certs
+    mountPath: "/certs/ca/vmedia"
+    readOnly: true  
+
+cacertVolumeMounts:
+  - mountPath: /etc/pki/trust/anchors/ca.crt
+    name: ironic-trustca
+    subPath: tls.cacert
+  - mountPath: /shared/html/tstcerts/ca.crt
+    name: ironicipa-trustca
+    subPath: tls.cacert
+
+trustVolMounts:
+  - name: ironic-trustcerts
+    mountPath: "/etc/pki/trust/anchors"
+    readOnly: true
+  - name: ironicipa-trustcerts
+    mountPath: "/shared/html/tstcerts"
+    readOnly: true
+    
+volumes:
+  - name: ironic-data-volume    
+    persistentVolumeClaim:
+      claimName: ironic-shared-volume
+  - name: ironic  
+    configMapName: ironic-bin
+  - name: ironic-ipa-downloader  
+    configMapName: ironic-ipa-downloader
+   
+baremetaloperator:
+  # If no dhpHosts set, all mac addresses acknowledged
+  dhcpHosts: ""
+
+  bootServerAddress: "boot.ironic.{{ .Values.global.dnsDomain }}"
+  dnsmasqDnsServerAddress: "{{ .Values.global.dnsmasqDNSServer }}"
+  httpPort: "6180"
+
+  # The base URL to download IPA images (i.e. ironic-python-agent.tar
+  # and ironic-python-agent.tar.md5). If not set, we install the
+  # opensuse based IPA image
+  #ipaBaseUri: "https://images.rdoproject.org/centos8/master/rdo_trunk/current-tripleo"
+  ironicApiHost: "api.ironic.{{ .Values.global.dnsDomain }}"
+  ironicInspectorHost: "inspector.ironic.{{ .Values.global.dnsDomain }}"
+  ironicRamdiskSshKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGYaMrmsmLbv3O6Fj+0kg/U8iY7pcbO9HkbN88OAD+5 colstrom@headnode"
+  mariadbPassword: "changeme"   
+  cloudflareApiToken: "foo"
+  ironichostNetwork: true
+
+ironic:
+  - servname: ironic-dnsmasq
+    command: /bin/rundnsmasq
+    type: containers
+    envFrom:
+      - configMapRefname: ironic-bmo
+    image:
+      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+      pullPolicy: IfNotPresent
+      tag: 21.1.1
+    execCommand:
+      - sh
+      - -c
+      - ss -lun | grep :67 && ss -lun | grep :69
+    ports:
+      - containerPort: 67
+        name: dhcp
+        protocol: UDP
+      - containerPort: 69
+        name: tftp
+        protocol: UDP  
+    securityContext:
+      capabilities:
+        add:
+          - NET_ADMIN
+          - NET_RAW   
+  - servname: ironic
+    command: /bin/runironic
+    envFrom:
+      - configMapRefname: ironic-bmo
+    env:
+      - name: MARIADB_PASSWORD
+        secretKeyRefKey: password
+        secretKeyRefName: ironic-mariadb    
+    image:
+      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+      pullPolicy: IfNotPresent
+      tag: 21.1.1
+    execCommand:    
+      - /bin/sh
+      - -c
+      - curl -sSf http://127.0.0.1:6385 || curl -sSfk https://127.0.0.1:6385
+    ports:
+      - containerPort: 6385
+        name: api
+        protocol: TCP
+  - servname: ironic-log-watch
+    command: /bin/runlogwatch.sh
+    image:
+      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+      pullPolicy: IfNotPresent
+      tag: 21.1.1
+  - servname: ironic-inspector
+    command: /bin/runironic-inspector
+    env:
+      - name: MARIADB_PASSWORD
+        secretKeyRefKey: password
+        secretKeyRefName: ironic-mariadb    
+    envFrom:
+      - configMapRefname: ironic-bmo
+    image:
+      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+      pullPolicy: IfNotPresent
+      tag: 21.1.1
+    execCommand:
+      - sh
+      - -c
+      - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050
+    ports:
+      - containerPort: 5050
+        name: inspector
+        protocol: TCP
+  - servname: ironic-httpd
+    command: /bin/runhttpd
+    envFrom:
+      - configMapRefname: ironic-bmo
+    image:
+      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+      pullPolicy: IfNotPresent
+      tag: 21.1.1
+    execCommand:  
+      - /bin/sh
+      - -c
+      - curl -sSf http://127.0.0.1:6180/boot.ipxe || curl -sSfk https://127.0.0.1:6180/boot.ipxe
+    ports:
+      - containerPort: 6180
+        name: httpd
+        protocol: TCP      
+  - servname: ironic-ipa-downloader
+    command: /usr/local/bin/get-resource.sh
+    type: initContainers
+    envFrom:
+      - configMapRefname: ironic-ipa-downloader
+    image:
+      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic-ipa-downloader
+      pullPolicy: IfNotPresent
+      tag: ""
+    volumeMounts:
+      - mountPath: /shared
+        name: ironic-data-volume
+
+tlscerts:
+  cacert: "-----BEGIN CERTIFICATE-----\nMIIE9TCCAt2gAwIBAgIJAIEyyig4o5FDMA0GCSqGSIb3DQEBCwUAMBExDzANBgNV\nBAMMBklyb25pYzAeFw0yMzA0MTgwMTE5NTFaFw0yNDA0MDgwMTE5NTFaMBExDzAN\nBgNVBAMMBklyb25pYzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAPB4\n/IAO9XmvW09MZNaKLLu/K8t15yLqHGyUaIQeZFq7dZ+t7W3TdHiikB+9wjGJ82dm\nzxLcdNLy79s8ZGPb/j3/0cO6oCZgRtYZB1poM/cPn1l9AAEn1C1oLijcsJLcc+Rj\nE3e8AGqEiTSFpkjmooEZkFMgtjXjLmi3mIwmZS56fUh+B8acwS2+h/zeJyNe2GjN\nqhKfbBhI3Xrli7BqDVRUJe3dPS92AtdYdipLTb57RqJvwyAfw0sG8VCNczcHbm/6\nnyj9FuwU0onQzyhUJfGP32Xl/zjjGhqz2JGXMenhlfRDpp5IoRdq93z6PBzx5q3m\nt8zVL4U7N1vS89y0Wn7aNApqk6zP8H40ThhmvhNClsUNs4RMZrMOA4SAQG5a5sLF\nKPaqaA9ATzUeMRYo0m/eqxdWtcuIQhKdiG4CzaqKuVSenjcUfaTA8lvqzTR5fLYw\n7RFQXIUEstNRqO7tGQiIOcZYTaA2TcIBOjUFArt2eNR2JNqidyZgzrlJUzqJ2zMS\nejKtkily7EN+HqLfGupqJ/HKRvp8VIvvTDx2c4laSN02NDlkL8hvGEvZx02yjJex\nYrkw474WmE62cqVpiuSZx2HkoP/JHqeKIIB5NyYFkOcWuL6vLdINNKKYYo1ityjS\n/Px5Egg485oGVNhHs8Ea/PtGAuj8uLneS+1vGTx9AgMBAAGjUDBOMB0GA1UdDgQW\nBBRtUaXKw+sMrQeqzlndylAwx1ehOTAfBgNVHSMEGDAWgBRtUaXKw+sMrQeqzlnd\nylAwx1ehOTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQBe4R7WqJCg\nPdkOEnPIhoUoOqBfubCK9mfNwgTFlV7lDKHyPspfNClqi3LGe9CQwwjEEldKtoAG\nYMyDViP1Vf9a5EmL7SevEdl90DSrG/ltAhl5cKGW0JBcxtmS18D9zz9rU+FGXek/\n4+QlSQHtPd6uAUj4fqjx8q2BdrpuIkBOPikR5rgd6F2JYSr+GjFZBisvvPEjSckN\nrFTM1yHlLFCnrrhpgcx1+YTmJggT5vn4567pl+ENqqE8VAnlq7SwrTXxqFNartuv\n7rAeNQdKWvsLUhXstj0BQIEqJgz9rulL/73fgxc6OLU0LJqi1WNNdXQwZmOpIJqs\nEwolVphBzqoHn07uPERdYS10F5tmtS0NppNxa5M6sFb3Imd9lFoAF3wOqItYvsBP\ni/uOoShsXnO6J/we1VPcamH+3w+1nPx5d89XYMUXdeILBaFgwKyKhmUYswZX9o0B\nL24QCCmKHZE43uuJzvS9d3qbzFa9HtSdiYbXxg5GMpqbzk4Q/quxRQKxo3GF/OGG\n76l9TCbadXU49V2XiNYEYc2FALKu1ZkQm/uJamloUrO/wi+CgYm5D+KkuZTLd5Tf\nRGTdk2bru820T4HBxMPUzoYHyqOZrX0UpiWRbIhAE2p361hihAKc4mvNWgOFR4vm\nMBbDhPTeF/21yS78x3A12H+mL+z7J03Zgg==\n-----END CERTIFICATE-----\n-----BEGIN CERTIFICATE-----\nMIIGBDCCA+ygAwIBAgIBATANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZJcm9u\naWMwIBcNMjMwNDE4MDEzOTAyWhgPMjA1MDA5MDMwMTM5MDJaMFsxCzAJBgNVBAYT\nAlVTMQswCQYDVQQIDAJDQTERMA8GA1UEBwwIU2FuIEpvc2UxDTALBgNVBAoMBFN1\nc2UxDDAKBgNVBAsMA0RldjEPMA0GA1UEAwwGSXJvbmljMIICIjANBgkqhkiG9w0B\nAQEFAAOCAg8AMIICCgKCAgEAsL9Nud0TlZwjidAfv4D/R5RtsDenZvQoHxe+A4XH\nLAuyuAsvICWKXrTAyNSRB0KPRzpPcrGbRF28N2UtmYwAJ3aBqSI7CKNVVOuzpEy3\nQcUv20LXLmW+CW3PDCg8QBs3RVlO1RutQ+AIQfjNYI8ryxdnnANiSTgMfIABhar6\nTnyRjMlKQRfBLcsz7xWkDmcnyLZD3X4aVUSFENtACCeErdyMGBznuh6jiJDfSew9\nOECZDfz84A81h8w9eFXC3pGtLpRQX0+Ae6t3dQjhhmfiKEUpcwaU0w+PA0cXkaNk\nBcjuXFry8u16WYBaLS4Bbcdh1IaqrpNN/vkVUHB7aBENhmnxX114K78c3cs88aUy\nKMgZRpCvG8z77TMUoue70BN9XQxTE5s4fZqUkytGdtAogjQ2nkGAaCeXYD6+qbUX\nAUXP6VhiK3bXFHPVC7TYU+Z7biG1O+iJFf9pZBHxYQdN1en+f9PlpxzvX14lObFR\n5HlR0uiI1HjQ2zzkDPfB6FH5K1gYobWZHZJ604g3yNHtYRD1AIPuwamSsNzRKZI/\nzNRPUKZb0gchrWMMw3ThjZsufCiCsdCIZ1Y+xyNAl7HmRHdD2AzVDYvjUOvXAhE9\n0z/LbMBkHAUXwor0IMwOtF3rlLa5V+6wedQtm2/Xt6mScil1n52mmcX/yT94xJvL\nbZMCAwEAAaOCARkwggEVMEEGA1UdIwQ6MDiAFG1RpcrD6wytB6rOWd3KUDDHV6E5\noRWkEzARMQ8wDQYDVQQDDAZJcm9uaWOCCQCBMsooOKORQzAJBgNVHRMEAjAAMAsG\nA1UdDwQEAwIEMDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwgZgGA1Ud\nEQSBkDCBjYIfYXBpLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIlaW5zcGVj\ndG9yLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIgYm9vdC5pcm9uaWMuYmFy\nZW1ldGFsLm1hbmFnZW1lbnSCIWNhY2hlLmlyb25pYy5iYXJlbWV0YWwubWFuYWdl\nbWVudDANBgkqhkiG9w0BAQsFAAOCAgEAI/n/PVRTOoTzrANm2NwuoiIETBBCUC1m\nl+dW7oY7vWWqiMaaYAXa736eUYBjeB7OCq1pvuQ1vrmPzAR488z65nF4Aouxnwfh\n0d4NeQ3fxQrDL0tv4sgpEX6bE3OAbFeCRVPmE+BctAaBZ2DbEL66ZvyTQhCbfCZn\nrpV5jcBDeHkqy8ObpqWHbCmUjmlz2bIAf6w31loR5eLyBdX+CYTm48/cBu4fQjmA\ne4Pv2ZtQSJmFaGDSZ9ySWL7zfk1Y4xCbJWYD4IprPSGP8Gt7G0IvCooGSTtkk7uU\nPGK0OrlOe5nWyR+KhJ1gutSoKYrG2/F2x2YnfaekHHkDddG7HSxo2pHqyCKPdZ6p\nsKJS2vuRr01GKdewO76ifZM5HT9nU0CkzpNHdM1BS7nBLgSJmPOqHbB/JQ74DI/7\nm+MpaDmSkgODV3ewKO4qUYVCBQ6G73PptcR/vntBezFu6fqzJBCoxxhX0ub0q8is\nGGAnbzgjKLNv1mgALNDN32UtjyK0GhEZltchwoZy88UcLQTZmSQBVtSKK2V1W6rM\nZHOSCD7yb6rlYAhM4GvDwkQU4xjOGziR9A2gWeO2xCl6S9+e0n4tx3opUUy9YOWE\npFrVN1bQqpX5ChDReKwLVncKD/gfCpUzfVkdm8HPr8eR7qWiIzNnXOm31lpWhPnb\nE7zHS6fn5iU=\n-----END CERTIFICATE-----\n-----BEGIN CERTIFICATE-----\nMIIGBDCCA+ygAwIBAgIBATANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZJcm9u\naWMwIBcNMjMwNDE4MDE0MTQwWhgPMjA1MDA5MDMwMTQxNDBaMFsxCzAJBgNVBAYT\nAlVTMQswCQYDVQQIDAJDQTERMA8GA1UEBwwIU2FuIEpvc2UxDTALBgNVBAoMBFN1\nc2UxDDAKBgNVBAsMA0RldjEPMA0GA1UEAwwGSXJvbmljMIICIjANBgkqhkiG9w0B\nAQEFAAOCAg8AMIICCgKCAgEAwNg3biQ+OdQZlYukHzMqUo9+JyU8YVIYY3uQGERa\ncnb+0uisQUqvTaOdpxaCHuA/jaeq7KdXehy7hvoorpOfyK3FoKI4EfPBDDbZkQ4f\nGvpFHhJP5g/jTee2/pzyhCI3AOkBBulYj3eI1nOPAMKkeavJp4GcLWNMVcrCR5tB\nTZWFZMORWfNBs1prdY2iiVVFf8C7oBHj9Mz6dbjrg/JFbXtsbnwmJAYieJxh34bi\nSWOkyFYAvZMZRrSteahlXMZlJU26Yx41CAtg/bLqiUQ6+XRAmeQNIDH6pST8bDsf\nwb1cZ1gTJ6SY3ObcMVEA5STo3ICW/N33AVH03q56A1t1bYQaTfgaPxzIrFTZC2cL\nNgKn1rMBfQloWKca9njW8BUCgk7qhwPh//m+RJe4r2NIidWQb9UTWzY16iNWK2yi\nlTs2vfoIWpV87wxScEC0WtWMPuGpIi8hSivmxYHPsV/v4lIrxcMB39hFKKrHYJYt\njBVUEpXNzMB4XiVlV2dQl7wkvWIxvGNFtMe5JQ2mvqsOpZ/zcuKok6/5P/A6BpGB\nBN8e2bEPXwPWh7GpLWoQw3N1LnxhbstgJBht0ARy4XDwxagVddwxe1MkJB32lyK5\nljJX3G7FkFDiitnj6cGsv8dxjTGaVIPIKy+jtrs06cGFmZfkMQ5F5+OaM8cycnQh\nOEUCAwEAAaOCARkwggEVMEEGA1UdIwQ6MDiAFG1RpcrD6wytB6rOWd3KUDDHV6E5\noRWkEzARMQ8wDQYDVQQDDAZJcm9uaWOCCQCBMsooOKORQzAJBgNVHRMEAjAAMAsG\nA1UdDwQEAwIEMDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwgZgGA1Ud\nEQSBkDCBjYIfYXBpLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIlaW5zcGVj\ndG9yLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIgYm9vdC5pcm9uaWMuYmFy\nZW1ldGFsLm1hbmFnZW1lbnSCIWNhY2hlLmlyb25pYy5iYXJlbWV0YWwubWFuYWdl\nbWVudDANBgkqhkiG9w0BAQsFAAOCAgEA8C8dIJCxzCcLv1J40WPVVuVgH2gmRYaN\np0F7ilyE5falI42XyBqSpPueL1ePXqWLZBgXgrsb/H8b5rUa8OEr865bmiou1odz\n7DxmfHHED3+NcqQuExnb+rfQkTqa2eO/+X+sDMfvp0V2+3HFRLtoPQr3uY4i2q+3\nE2388v8JyeTw9bAW2u+JAn8XfGh3NJ0F1RL9T1GWt0VrmwsJ4RUQeOArwRhFRPpZ\nrzxYiLoaOXlCzRNUUCcBI6Nxi/ef/0qam2W4XZFrkDZrRh/YEacHucULfqL0BAwo\nmK6VvvFnvBK2gFCG7loz6H93PqxeAPmMLP8WrmU12iY0bd+zxujYZv6UZXMvhFJD\nVXZC8aUHWTPyjtXod5Snt5/jQ4K7aYaFGF5EPnuDfyFhYRS7mP7kH7APDUOGuTEw\nc2ViugJIAgojayRmA/DTtO3JLHUJaiWfRIVB0tB05qgSiBB8BmLy4mFZ6Hzyj/0a\ndijDtdM+boSXYln5kZcS3LKtcs7m/uFpcUJGwEshNwPevfZQ+hMKa1doRMYFbb1i\nIwax0NWu7dweP56FvNw2PslCNlc7rg59kUF9t0Q57IhgNI7l9RyPUO/rLp6x5Usm\n8jq+8BaAFE9K2V5fKQv9cnCuYlM8Ah4G1OcaYB6EWhqWlxF4GvriOFgjawjfZpj2\n+mr8GCzHwqo=\n-----END CERTIFICATE-----\n"
+  key: "-----BEGIN PRIVATE KEY-----\n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\nWyLF9Yv5zHefyRRI59XbXejvIFD46SuQ\n-----END PRIVATE KEY-----\n"
+  crt: "-----BEGIN CERTIFICATE-----\nMIIGBDCCA+ygAwIBAgIBATANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZJcm9u\naWMwIBcNMjMwNDE4MDEzOTAyWhgPMjA1MDA5MDMwMTM5MDJaMFsxCzAJBgNVBAYT\nAlVTMQswCQYDVQQIDAJDQTERMA8GA1UEBwwIU2FuIEpvc2UxDTALBgNVBAoMBFN1\nc2UxDDAKBgNVBAsMA0RldjEPMA0GA1UEAwwGSXJvbmljMIICIjANBgkqhkiG9w0B\nAQEFAAOCAg8AMIICCgKCAgEAsL9Nud0TlZwjidAfv4D/R5RtsDenZvQoHxe+A4XH\nLAuyuAsvICWKXrTAyNSRB0KPRzpPcrGbRF28N2UtmYwAJ3aBqSI7CKNVVOuzpEy3\nQcUv20LXLmW+CW3PDCg8QBs3RVlO1RutQ+AIQfjNYI8ryxdnnANiSTgMfIABhar6\nTnyRjMlKQRfBLcsz7xWkDmcnyLZD3X4aVUSFENtACCeErdyMGBznuh6jiJDfSew9\nOECZDfz84A81h8w9eFXC3pGtLpRQX0+Ae6t3dQjhhmfiKEUpcwaU0w+PA0cXkaNk\nBcjuXFry8u16WYBaLS4Bbcdh1IaqrpNN/vkVUHB7aBENhmnxX114K78c3cs88aUy\nKMgZRpCvG8z77TMUoue70BN9XQxTE5s4fZqUkytGdtAogjQ2nkGAaCeXYD6+qbUX\nAUXP6VhiK3bXFHPVC7TYU+Z7biG1O+iJFf9pZBHxYQdN1en+f9PlpxzvX14lObFR\n5HlR0uiI1HjQ2zzkDPfB6FH5K1gYobWZHZJ604g3yNHtYRD1AIPuwamSsNzRKZI/\nzNRPUKZb0gchrWMMw3ThjZsufCiCsdCIZ1Y+xyNAl7HmRHdD2AzVDYvjUOvXAhE9\n0z/LbMBkHAUXwor0IMwOtF3rlLa5V+6wedQtm2/Xt6mScil1n52mmcX/yT94xJvL\nbZMCAwEAAaOCARkwggEVMEEGA1UdIwQ6MDiAFG1RpcrD6wytB6rOWd3KUDDHV6E5\noRWkEzARMQ8wDQYDVQQDDAZJcm9uaWOCCQCBMsooOKORQzAJBgNVHRMEAjAAMAsG\nA1UdDwQEAwIEMDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwgZgGA1Ud\nEQSBkDCBjYIfYXBpLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIlaW5zcGVj\ndG9yLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIgYm9vdC5pcm9uaWMuYmFy\nZW1ldGFsLm1hbmFnZW1lbnSCIWNhY2hlLmlyb25pYy5iYXJlbWV0YWwubWFuYWdl\nbWVudDANBgkqhkiG9w0BAQsFAAOCAgEAI/n/PVRTOoTzrANm2NwuoiIETBBCUC1m\nl+dW7oY7vWWqiMaaYAXa736eUYBjeB7OCq1pvuQ1vrmPzAR488z65nF4Aouxnwfh\n0d4NeQ3fxQrDL0tv4sgpEX6bE3OAbFeCRVPmE+BctAaBZ2DbEL66ZvyTQhCbfCZn\nrpV5jcBDeHkqy8ObpqWHbCmUjmlz2bIAf6w31loR5eLyBdX+CYTm48/cBu4fQjmA\ne4Pv2ZtQSJmFaGDSZ9ySWL7zfk1Y4xCbJWYD4IprPSGP8Gt7G0IvCooGSTtkk7uU\nPGK0OrlOe5nWyR+KhJ1gutSoKYrG2/F2x2YnfaekHHkDddG7HSxo2pHqyCKPdZ6p\nsKJS2vuRr01GKdewO76ifZM5HT9nU0CkzpNHdM1BS7nBLgSJmPOqHbB/JQ74DI/7\nm+MpaDmSkgODV3ewKO4qUYVCBQ6G73PptcR/vntBezFu6fqzJBCoxxhX0ub0q8is\nGGAnbzgjKLNv1mgALNDN32UtjyK0GhEZltchwoZy88UcLQTZmSQBVtSKK2V1W6rM\nZHOSCD7yb6rlYAhM4GvDwkQU4xjOGziR9A2gWeO2xCl6S9+e0n4tx3opUUy9YOWE\npFrVN1bQqpX5ChDReKwLVncKD/gfCpUzfVkdm8HPr8eR7qWiIzNnXOm31lpWhPnb\nE7zHS6fn5iU=\n-----END CERTIFICATE-----\n"
+
+persistence:
+  ironic:
+    # storageClass for the ironic shared volume
+    # Ensure the storageClass is defined
+    storageClass: ""
+    # size of the ironic shared volume
+    size: "1Gi"
+    # accessMode of the ironic shared volume PVC
+    accessMode: "ReadWriteMany"
+    # flag to indicate to keep pvc upon helm uninstall
+    keep: false

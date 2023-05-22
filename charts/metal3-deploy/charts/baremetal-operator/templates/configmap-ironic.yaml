@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+{{- with .Values.baremetaloperator }}
+  CACHEURL: {{ tpl .cacheUrl $ }}
+  DEPLOY_KERNEL_URL: {{ tpl .deployKernelUrl $ }}
+  DEPLOY_RAMDISK_URL: {{ tpl .deployRamdiskUrl $ }}
+  HTTP_PORT: {{ .httpPort | quote }}
+  IRONIC_ENDPOINT: {{ tpl .ironicEndpoint $ }}
+  IRONIC_INSPECTOR_ENDPOINT: {{ tpl .ironicInspectorEndpoint $ }}
+{{- end }}
+  DHCP_RANGE: {{ .Values.global.dhcpRange }}
+  PROVISIONING_INTERFACE: {{ .Values.global.provisioningInterface }}
+  PROVISIONING_IP: {{ .Values.global.provisioningIP }}
+  IRONIC_FAST_TRACK: "true"
+  RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
+  IRONIC_INSECURE: "true"
+kind: ConfigMap
+metadata:
+  name: baremetal-operator-ironic
+  labels:
+    {{- include "baremetal-operator.labels" . | nindent 4 }}

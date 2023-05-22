@@ -1,0 +1,78 @@
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+Listen 6385
+
+{% if env.LISTEN_ALL_INTERFACES | lower == "true" %}
+ <VirtualHost *:6385>
+{% else %}
+ <VirtualHost {{ env.IRONIC_API_HOST }}:6385>
+{% endif %}
+
+    {% if env.IRONIC_REVERSE_PROXY_SETUP | lower == "true" %}
+    ProxyPass "/"  "http://127.0.0.1:{{ env.IRONIC_PRIVATE_PORT }}/"
+    ProxyPassReverse "/"  "http://127.0.0.1:{{ env.IRONIC_PRIVATE_PORT }}/"
+    {% else %}
+    WSGIDaemonProcess ironic user=ironic group=ironic threads=10 display-name=%{GROUP}
+    WSGIScriptAlias / /usr/bin/ironic-api-wsgi
+    {% endif %}
+
+    SetEnv APACHE_RUN_USER ironic
+    SetEnv APACHE_RUN_GROUP ironic
+    WSGIProcessGroup ironic
+
+    ErrorLog /dev/stderr
+    LogLevel debug
+    CustomLog /dev/stdout combined
+
+{% if env.IRONIC_TLS_SETUP == "true" %}
+    ServerName {{ env.IRONIC_API_HTTPD_SERVER_NAME }}
+    SSLEngine on
+    SSLProtocol {{ env.IRONIC_SSL_PROTOCOL }}
+    SSLCertificateFile {{ env.IRONIC_CERT_FILE }}
+    SSLCertificateKeyFile {{ env.IRONIC_KEY_FILE }}
+{% endif %}
+
+    {% if env.IRONIC_REVERSE_PROXY_SETUP | lower == "true" %}
+    <Location />
+         {% if "IRONIC_HTPASSWD" in env and env.IRONIC_HTPASSWD | length %}
+            AuthType Basic
+            AuthName "Restricted area"
+            AuthUserFile "/etc/ironic/htpasswd"
+            Require valid-user
+         {% endif %}
+    </Location>
+    {% else %}
+    <Directory /usr/bin >
+        WSGIProcessGroup ironic
+        WSGIApplicationGroup %{GLOBAL}
+        AllowOverride None
+
+        {% if "IRONIC_HTPASSWD" in env and env.IRONIC_HTPASSWD | length %}
+        AuthType Basic
+        AuthName "Restricted WSGI area"
+        AuthUserFile "/etc/ironic/htpasswd"
+        Require valid-user
+        {% else %}
+        Require all granted
+        {% endif %}
+    </Directory>
+    {% endif %}
+
+    <Location ~ "^/(v1/?)?$" >
+        Require all granted
+    </Location>
+
+    <Location ~ "^/(v1/)?(lookup|heartbeat)" >
+        Require all granted
+    </Location>
+</VirtualHost>

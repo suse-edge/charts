@@ -1,0 +1,190 @@
+# Default values for powerdns.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  # Global ingress annotations that is shared by all the ingress services.
+  # For example, use it to override extern-dns records.
+  ingress:
+    annotations: {}
+      # The IP to register with external-dns for this service
+      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
+
+  # set pdnsIP to enable hostNetwork in the pdns-recursor container
+  # and bind pdns-recursor to port 53 using the pdnsIP address
+
+  #pdnsIP: 192.168.20.5
+
+  # If running in a multi-node kubernetes cluster, "pin" the pdns containers
+  # to the given host where the pdnsIP exists. Uncomment the nodeSelector
+  # and update the hostname accordingly.
+  #nodeSelector: 
+    #kubernetes.io/hostname: "my-hostname2"
+
+  # Comment this out when pinning the pdns containers to a specfic host.
+  nodeSelector: {}
+
+image:
+  repository: registry.opensuse.org/isv/metal3/bci/powerdns/containerfile/suse/pdns
+  pullPolicy: IfNotPresent
+  tag: "4.6.1"
+
+recursor_image:
+  repository: registry.opensuse.org/isv/metal3/bci/powerdns/containerfile/suse/pdns-recursor
+  pullPolicy: IfNotPresent
+  tag: "4.6.1"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: { privileged: true}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: powerdns-api.suse.baremetal
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+tolerations: []
+
+affinity: {}
+
+# volume mounts
+volumeMounts:
+  pdns:
+    - name: pdns-additional-config-dir
+      mountPath: /etc/pdns/pdns.d
+      
+    - name: pdns-persistent-storage
+      mountPath: /var/lib/pdns
+
+    - name: pdns-data-script
+      mountPath: /script/configure.sh
+      subPath: configure.sh
+
+    - name: pdns-init-db-script
+      mountPath: /script/init-db.sh
+      subPath: init-db.sh
+  
+  pdns_recursor:
+    - name: pdns-recursor-config-dir
+      mountPath: /etc/pdns/pdns-recursor.d
+
+
+
+# volumes
+volumes:
+    - name: pdns-additional-config-dir
+      configMap:
+        name: pdns-additional-config-dir
+
+    - name: pdns-persistent-storage
+      persistentVolumeClaim:
+        claimName: powerdns
+
+    - name: pdns-data-script
+      configMap:
+        name: pdns-data-script
+        defaultMode: 0777
+
+    - name: pdns-init-db-script
+      configMap:
+        name: pdns-init-db-script
+        defaultMode: 0777
+
+    - name: pdns-recursor-config-dir
+      configMap:
+        name: pdns-recursor-config-dir
+
+
+# Environment Specific Values
+service:
+  type: ClusterIP
+  # Please provide a static ClusterIP from the range as shown by the following commands
+  # kubectl cluster-info dump | grep -m 1 service-cluster-ip-range
+  # OR
+  # SVCRANGE=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
+  # echo $SVCRANGE
+  #
+  # If the static IP is not in the range or is already used by another service, deployment will fail
+  # The reason we are using static IP is to avoid redeploying external-dns every time pdns is deployed.
+  ip: 10.43.255.254
+  port: 8081
+
+zone:
+  create: true
+  name: suse.baremetal
+  ns: ns1
+  default_soa_content: "{{ .Values.zone.ns }}.{{ .Values.zone.name }}. admin.{{ .Values.zone.name}}. 0 10800 3600 604800 3600"
+
+# powerdns auth component running on port 54 and recursor component on port 53.
+powerdns:
+  auth:
+    port: 54
+  #For more details for the configuration entries for authoritative server, please check https://doc.powerdns.com/authoritative/settings.html
+  webserver:
+    address: 0.0.0.0
+    port: 8081
+    password: changeme
+    allowfrom: 0.0.0.0/0,::/0
+  api:
+    key: 654321fedcba
+  config: { dnsupdate: yes, loglevel: 6 }
+  recursor:
+    #To resolve internal addresses, you can add to the forward-zones, example: forward-zones: "suse.baremetal=127.0.0.1:54,example.com=100.100.100.100"
+    #Please do not change the port numbers as it impacts the functionality
+    #forward_zones: "{{ .Values.zone.name }}=127.0.0.1:54"
+    forward_zones: "{{ .Values.zone.name }}={{ .Values.service.ip }}:{{ .Values.powerdns.auth.port}}"
+    port: 53
+    #For more details for the configuration entries for recursor, please check https://docs.powerdns.com/recursor/settings.html
+    config: {
+              dnssec: process-no-validate,
+              allow-from: "0.0.0.0/0,::/0",
+              max-cache-ttl: 600,
+              max-negative-ttl: 10,
+              refresh-on-ttl-perc: 95,
+              disable-packetcache: yes,
+              loglevel: 6  }
