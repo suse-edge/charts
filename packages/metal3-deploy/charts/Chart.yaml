@@ -1,0 +1,34 @@
+apiVersion: v2
+appVersion: 1.16.0
+dependencies:
+- alias: metal3-media
+  condition: global.enable_metal3_media_server
+  name: media
+  repository: ""
+  version: 0.1.0
+- alias: metal3-powerdns
+  condition: global.enable_pdns
+  name: powerdns
+  repository: ""
+  version: 0.1.0
+- alias: metal3-external-dns
+  condition: global.enable_external_dns
+  name: external-dns
+  repository: ""
+  version: 6.12.1
+- alias: metal3-baremetal-operator
+  name: baremetal-operator
+  repository: ""
+  version: 0.1.1
+- alias: metal3-ironic
+  name: ironic
+  repository: ""
+  version: 0.1.1
+- alias: metal3-mariadb
+  name: mariadb
+  repository: ""
+  version: 0.1.1
+description: A Helm chart for Kubernetes
+name: metal3-deploy
+type: application
+version: 0.1.0
