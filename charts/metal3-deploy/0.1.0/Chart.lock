@@ -6,7 +6,7 @@ dependencies:
   repository: ""
   version: 0.1.0
 - name: external-dns
-  repository: ""
+  repository: https://charts.bitnami.com/bitnami
   version: 6.12.1
 - name: baremetal-operator
   repository: ""

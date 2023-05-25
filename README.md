@@ -24,4 +24,4 @@ Visit a web friendly version at [https://suse-edge.github.io/charts/](https://su
 | Chart | Description |
 | - | - |
 | [Akri](charts/akri) | A Kubernetes Resource Interface for the Edge |
-| [Metal3-deploy](charts/metal3-deploy) | All of The Dependencies to Deploy Metal3 |
+| [Metal3](charts/metal3-deploy) | All of The Dependencies to Deploy Metal3 |

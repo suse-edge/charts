@@ -3,9 +3,9 @@ entries:
   akri:
   - apiVersion: v2
     appVersion: 0.10.4
-    created: "2023-04-19T16:01:17.304985561+02:00"
+    created: "2023-05-25T12:53:08.231203428-04:00"
     description: A Helm chart for Akri
-    digest: 413922866346be0a9f0df84c2400b137536524529b94877dfb37e557db764251
+    digest: 778bc0ab57588acf542a1ee65f009c56d32d7bcf59da1332c7321b2c74053852
     name: akri
     type: application
     urls:
@@ -14,7 +14,7 @@ entries:
   metal3-deploy:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-24T19:44:18.378536-04:00"
+    created: "2023-05-25T13:41:06.354698687-04:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -37,8 +37,8 @@ entries:
       condition: global.enable_pdns
       name: powerdns
       repository: file://./charts/powerdns
-    description: A Helm chart for Kubernetes
-    digest: 3a3164e6fe28bd30ada4322f22250c7d4017c52cc0c61901c74f3326e3e2e600
+    description: A Helm chart that installs all of the dependencies needed for Metal3
+    digest: d697088e54a2b08fb2071ae0ba91735fb108426b41f6fb302cad6f880944d2c2
     name: metal3-deploy
     type: application
     urls:
