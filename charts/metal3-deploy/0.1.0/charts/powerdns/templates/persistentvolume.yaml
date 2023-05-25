@@ -1,0 +1,16 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: powerdns
+  labels:
+    {{- include "powerdns.labels" . | nindent 4 }}
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  hostPath:
+    path: "/opt/powerdns"
+    type: DirectoryOrCreate
