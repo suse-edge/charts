@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata:
+  name: ironic-bin
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+data:
+  configure-coreos-ipa: |
+{{ include (print .Template.BasePath "/bin/_configure-coreos-ipa.tpl") . | indent 4 }}          
+  configure-ironic.sh: |
+{{ include (print .Template.BasePath "/bin/_configure-ironic.sh.tpl") . | indent 4 }}          
+  rundnsmasq: |
+{{ include (print .Template.BasePath "/bin/_rundnsmasq.sh.tpl") . | indent 4 }}          
+  configure-httpd-ipa.sh: |
+{{ include (print .Template.BasePath "/bin/_configure-httpd-ipa.sh.tpl") . | indent 4 }}
+  coreos-ipa-common.sh: |
+{{ include (print .Template.BasePath "/bin/_coreos-ipa-common.sh.tpl") . | indent 4 }}          
+  ironic-common.sh: |
+{{ include (print .Template.BasePath "/bin/_ironic-common.sh.tpl") . | indent 4 }}
+  mkisofs: |
+{{ include (print .Template.BasePath "/bin/_mkisofs.tpl") . | indent 4 }}
+  runhttpd: |
+{{ include (print .Template.BasePath "/bin/_runhttpd.tpl") . | indent 4 }}
+  runironic-api: |
+{{ include (print .Template.BasePath "/bin/_runironic-api.tpl") . | indent 4 }}
+  runironic-conductor: |
+{{ include (print .Template.BasePath "/bin/_runironic-conductor.tpl") . | indent 4 }}
+  runironic-exporter: |
+{{ include (print .Template.BasePath "/bin/_runironic-exporter.tpl") . | indent 4 }}
+  runironic-inspector: |
+{{ include (print .Template.BasePath "/bin/_runironic-inspector.tpl") . | indent 4 }}
+  runlogwatch.sh: |        
+{{ include (print .Template.BasePath "/bin/_runlogwatch.sh.tpl") . | indent 4 }} 
+  tls-common.sh: | 
+{{ include (print .Template.BasePath "/bin/_tls-common.sh.tpl") . | indent 4 }} 
+  runironic: |
+{{ include (print .Template.BasePath "/bin/_runironic.tpl") . | indent 4 }}
+{{ (.Files.Glob "ironic-config/*").AsConfig | indent 2 }}          
+
+

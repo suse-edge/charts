@@ -1,0 +1,31 @@
+{{- if and (.Values.ingress.enabled) (.Values.global.enable_ironic) -}}
+  {{- if and ($.Values.global.enable_tls) (eq .Values.ingress.tlsSource "self") -}}
+apiVersion: cert-manager.io/v1 
+kind: Certificate 
+metadata:
+  name: {{ include "ironic.fullname" . }}-tls-ca
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+spec:
+  secretName: ironic-cacert 
+  isCA: true       
+  commonName: {{ include "ironic.fullname" . }}
+  duration: 2160h # 90d
+  renewBefore: 360h
+  subject:
+    organizations:
+    - Suse
+    countries:
+    - US
+    organizationalUnits:
+    - DEV
+  issuerRef:
+    name: {{ include "ironic.fullname" . }} 
+    kind: ClusterIssuer
+  dnsNames:
+  - api.ironic.{{ .Values.global.dnsDomain }}
+  - cache.ironic.{{ .Values.global.dnsDomain }}
+  - boot.ironic.{{ .Values.global.dnsDomain }}
+  - inspector.ironic.{{ .Values.global.dnsDomain }}
+  {{- end -}}
+{{- end -}}  

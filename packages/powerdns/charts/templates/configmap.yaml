@@ -1,0 +1,92 @@
+---
+# ConfigMap pdns-additional-config-dir and pdns-recursor-config-dir ideas
+# borrowed from https://artifacthub.io/packages/helm/halkeye/powerdns
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pdns-additional-config-dir
+  labels:
+    app.kubernetes.io/name: {{ include "powerdns.name" . }}
+    helm.sh/chart: {{ include "powerdns.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  00-generic.conf: |
+    {{ range $key, $value := .Values.powerdns.config -}}
+    {{ $key }}={{ $value }}
+    {{ end }}
+    default-soa-content={{ tpl .Values.zone.default_soa_content . }}
+
+
+{{ if (.Values.powerdns.api.key) }}
+  01-api.conf: |
+    api=yes
+    api-key={{ .Values.powerdns.api.key }}
+    webserver=yes
+    # IP Address of web server to listen on
+    webserver-address={{ .Values.powerdns.webserver.address }}
+    # Port of web server to listen on
+    webserver-port={{ .Values.powerdns.webserver.port }}
+    # Web server access is only allowed from these subnets
+    webserver-allow-from={{ .Values.powerdns.webserver.allowfrom }}
+{{- end }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pdns-recursor-config-dir
+  labels:
+    app.kubernetes.io/name: {{ include "powerdns.name" . }}
+    helm.sh/chart: {{ include "powerdns.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  00-recursor.conf: |
+    {{ range $key, $value := .Values.powerdns.recursor.config -}}
+    {{ $key }}={{ $value }}
+    {{ end }}
+    forward-zones={{ tpl .Values.powerdns.recursor.forward_zones .}}
+    local-address={{ .Values.global.pdnsIP | default "0.0.0.0"}}:53
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pdns-init-db-script
+  labels:
+    app.kubernetes.io/name: {{ include "powerdns.name" . }}
+    helm.sh/chart: {{ include "powerdns.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  init-db.sh: |
+    #! /bin/bash
+    mkdir -p /var/lib/pdns
+    _sqlite3db=/var/lib/pdns/pdns.sqlite3
+    if [[ ! -e ${_sqlite3db} ]]; then
+      sqlite3 /var/lib/pdns/pdns.sqlite3 < /usr/share/doc/packages/pdns/schema.sqlite3.sql;
+    fi
+    chown -R pdns:pdns /var/lib/pdns
+    chmod -R ug+w /var/lib/pdns
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pdns-data-script
+  labels:
+    app.kubernetes.io/name: {{ include "powerdns.name" . }}
+    helm.sh/chart: {{ include "powerdns.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  configure.sh: |
+    #! /bin/bash
+    # Only creates the zone specified in values.yaml
+    pdnsutil list-zone {{ .Values.zone.name }} 1>/dev/null
+    if [[ $? -eq 0 ]]; then
+      echo "Domain/Zone already exists";
+    else
+      pdnsutil create-zone {{ .Values.zone.name }} {{ .Values.zone.ns }}.{{ .Values.zone.name }}
+    fi

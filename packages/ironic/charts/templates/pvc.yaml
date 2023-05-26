@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ironic-shared-volume
+  {{- if .Values.persistence.ironic.keep }}
+  annotations:
+    "helm.sh/resource-policy": keep
+  {{- end }}
+spec:
+  accessModes:
+  - {{ .Values.persistence.ironic.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.ironic.size }}
+  storageClassName: {{ .Values.persistence.ironic.storageClass }}
+  volumeMode: Filesystem

@@ -1,0 +1,18 @@
+{{- if .Values.global.enable_ironic -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ironic.fullname" . }}
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+spec:
+  ports:
+  {{- range .Values.service }}       
+  {{- if ne .type "NodePort" }}
+  - name: {{ .type }}
+    port: {{ .port }}
+  {{- end }}  
+  {{- end }}
+  selector:
+    {{- include "ironic.selectorLabels" . | nindent 4 }}
+{{- end -}}

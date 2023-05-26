@@ -1,0 +1,246 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ironic.fullname" . }}
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+spec:
+  minReadySeconds: 10      
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ironic.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate    
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ironic.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- $relname := .Release.Name }}      
+      {{- $imgname := .Values.image.repository }} 
+      {{- $imgtag := .Values.image.tag }}
+      {{- $imgpullpolicy := .Values.image.pullPolicy }}
+      {{- $volmounts := toYaml .Values.volumeMounts | trim | nindent 12}}
+      {{- $vol := toYaml .Values.volumes | trim | nindent 8 }}
+      {{- $certvolmounts := toYaml .Values.certVolumeMounts | trim | nindent 12}}
+      {{- $tlssource := .Values.ingress.tlsSource }}
+      {{- $secvolmounts := toYaml .Values.secretVolMounts | trim | nindent 12}}
+      {{- $cacertvolmounts := toYaml .Values.cacertVolumeMounts | trim | nindent 12}}
+      {{- $trustvolmounts := toYaml .Values.trustVolMounts | trim | nindent 12}}
+      {{- $tls := .Values.tls }}
+
+
+      {{- if .Values.baremetaloperator.ironichostNetwork }}
+      hostNetwork: {{ .Values.baremetaloperator.ironichostNetwork }}
+      {{- end }}
+
+      {{- range .Values.ironic }}
+      {{- if .type }}
+      {{ .type }}:
+      {{- end }}
+        {{- if or (and (ne .servname "ironic-dnsmasq") ($.Values.global.enable_ironic)) (and (eq .servname "ironic-dnsmasq") ($.Values.global.enable_dnsmasq)) }}
+        - name: {{ .servname }}
+          {{- if .image }}
+          {{- with .image }}
+           {{- if .tag }}
+          image: {{ .repository }}:{{ .tag }}
+           {{- else }}
+          image: {{ .repository }}
+           {{- end }}
+          imagePullPolicy: {{ .pullPolicy }} 
+          {{- end }}
+          {{- else }}
+          image: {{ $imgname }}:{{ $imgtag }}
+          imagePullPolicy: {{ $imgpullpolicy }}
+          {{- end }}
+          {{- if .securityContext }}
+          securityContext:
+            {{- toYaml .securityContext | nindent 12 }}
+          {{- end }}
+          {{- if .command }}
+          command:
+            - {{ .command }}
+          {{- end }}
+          {{- if .envFrom }}
+          envFrom:
+          {{- range .envFrom }}
+            - configMapRef:
+                name: {{ .configMapRefname }}
+          {{- end }}
+          {{- end }}
+          {{- if .env }}
+          env:
+            {{- range .env }}      
+            - name: {{ .name }}
+              valueFrom:
+                {{- if .secretKeyRefKey }}      
+                secretKeyRef:
+                  key: {{ .secretKeyRefKey }}
+                  name: {{ .secretKeyRefName }}
+                {{- end }}
+                {{- if .configMapKeyRefKey }}
+                configMapKeyRef:
+                  key: {{ .configMapKeyRefKey }}
+                  name: {{ .configMapKeyRefName }}
+                {{- end }}   
+            {{- end }}   
+          {{- end }}  
+          {{- if .execCommand }}
+          livenessProbe:
+            exec:
+              command:
+              {{- range .execCommand }}
+                - {{ . }}
+              {{- end }}  
+            failureThreshold: 10
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          {{- end }}   
+          {{- if .ports }}
+          ports:
+          {{- range .ports }}
+            - containerPort: {{ .containerPort }}
+              name: {{ .name }}
+              protocol: {{ .protocol }}
+          {{- end }}
+          {{- end }}
+          {{- if .execCommand }}
+          readinessProbe:
+            exec:
+              command:
+              {{- range .execCommand }}
+                - {{ . }}
+              {{- end }}
+            failureThreshold: 10
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          {{- end }}    
+          {{- if .volumeMounts }}
+          volumeMounts:
+          {{- range .volumeMounts }}
+            - mountPath: {{ .mountPath }}
+              name: {{ .name }}
+          {{- if .subPath }}
+              subPath: {{ .subPath }}
+          {{- end }}        
+          {{- end }}
+          {{- else }}
+          volumeMounts:
+            {{- $volmounts }}  
+          {{- end }}
+          {{- if  and ($.Values.global.enable_tls) (ne .servname "ironic-dnsmasq")  }}
+           {{- if (eq $tlssource "secrets") }}
+           {{- $cacertvolmounts }}
+           {{- else }}
+           {{- $trustvolmounts }}
+           {{- end }}
+          {{- end }}
+          {{- if and ($.Values.global.enable_tls) (eq $tls "ironic") }}
+           {{- if or (eq .servname "ironic") (eq .servname "ironic-inspector") (eq .servname "ironic-httpd") }}
+            {{- if (eq $tlssource "secrets") }}
+            {{- $certvolmounts }}
+            {{- end }}
+            {{- if or (eq $tlssource "self") (eq $tlssource "letsEncrypt") }}
+            {{- $secvolmounts }}
+            {{- end }}
+           {{- end }}
+          {{- end }}
+          {{- if and (eq .servname "ironic") ($.Values.global.enable_tls) }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - update-ca-certificates
+          {{- end }}
+      {{- end }}    
+      {{- end }}
+
+      volumes:
+      {{- range .Values.volumes }}
+      - name: {{ .name }}
+        {{- if .persistentVolumeClaim }}
+        persistentVolumeClaim:
+          claimName: {{ .persistentVolumeClaim.claimName }}
+        {{- end }}
+        {{- if .configMapName }}
+        configMap:
+          defaultMode: 493
+          name : {{ .configMapName }}
+        {{- end }}
+      {{- end -}}
+      {{- if ($.Values.global.enable_ironic) }}
+      {{- if $.Values.global.enable_tls }}
+      {{- if (eq $tlssource "secrets") }}
+      - name: ironic-trustca
+        configMap:
+          defaultMode: 493
+          name: ironic-certs
+      - name: ironicipa-trustca
+        configMap:
+          defaultMode: 493
+          name: ironic-certs    
+      {{- else }}
+      - name: ironic-trustcerts
+        secret:
+          secretName: ironic-cacert
+      - name: ironicipa-trustcerts
+        secret:
+          secretName: ironic-cacert    
+      {{- end }}
+      {{- end }}
+      {{- if and ($.Values.global.enable_tls) (eq $tlssource "secrets") (eq $tls "ironic") }}
+      - name: ironic-certs
+        configMap:
+          defaultMode: 493
+          name: ironic-certs
+      - name: ironic-insp-certs
+        configMap:
+          defaultMode: 493
+          name: ironic-certs
+      - name: ironic-cacerts
+        configMap:
+          defaultMode: 493
+          name: ironic-certs
+      - name: ironic-insp-cacerts
+        configMap:
+          defaultMode: 493
+          name: ironic-certs
+      {{- end }}
+      {{- if and ($.Values.global.enable_tls) (or (eq $tlssource "self") (eq $tlssource "letsEncrypt")) (eq $tls "ironic") }}
+      - name: ironic-certs
+        secret:
+          secretName: ironic-cacert
+      - name: ironic-insp-certs
+        secret:
+          secretName: ironic-cacert
+      - name: vmedia-certs
+        secret:
+          secretName: ironic-cacert    
+      - name: vmedia-ca-certs
+        secret:
+          secretName: ironic-cacert    
+      {{- end }}
+      {{- end }}
+      {{- with .Values.global.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.dnsPolicy }}
+      dnsPolicy:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.dnsConfig }}
+      dnsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

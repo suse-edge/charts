@@ -1,0 +1,19 @@
+{{- if and (eq .Values.ingress.tlsSource "secrets") (.Values.global.enable_ironic) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ironic-certs
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+data:
+  {{- if .Values.tlscerts.key }}
+  tls.key: {{ .Values.tlscerts.key | quote }}
+  {{- end }}
+  {{- if .Values.tlscerts.crt }}
+  tls.crt: {{ .Values.tlscerts.crt | quote}}
+  {{- end }}
+  {{- if .Values.tlscerts.cacert }}
+  tls.cacert: {{ .Values.tlscerts.cacert | quote}}
+  {{- end }}
+{{- end -}}
+

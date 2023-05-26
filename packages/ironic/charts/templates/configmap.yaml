@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata:
+  name: ironic-bmo
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+data:
+  {{- $protocol := "http" }}
+  {{- if  ( .Values.global.enable_tls ) }}
+    {{- $protocol = "https" }}
+  {{- end }}
+  {{- $dnsDomain := .Values.global.dnsDomain }}      
+  {{- with .Values.baremetaloperator }}      
+  CACHEURL: {{ $protocol }}://cache.ironic.{{ $dnsDomain }}/images
+  DEPLOY_KERNEL_URL: {{ $protocol }}://boot.ironic.{{ $dnsDomain }}/images/ironic-python-agent.kernel
+  DEPLOY_RAMDISK_URL: {{ $protocol }}://boot.ironic.{{ $dnsDomain }}/images/ironic-python-agent.initramfs
+  {{ if  .dhcpHosts }}
+  DHCP_HOSTS: {{ .dhcpHosts }}
+  {{ end }}
+  DNSMASQ_BOOT_SERVER_ADDRESS: {{ tpl .bootServerAddress $ }}
+  DNSMASQ_DNS_SERVER_ADDRESS: {{ tpl .dnsmasqDnsServerAddress $ }}
+  HTTP_PORT: {{ .httpPort | quote }}
+  {{ if .ipaBaseUri }}
+  IPA_BASEURI: {{ .ipaBaseUri }}
+  {{ end }}
+  IRONIC_API_BASE_URL: {{ $protocol }}://{{ tpl .ironicApiHost $ }}
+  IRONIC_API_HOST: {{ tpl .ironicApiHost $ }}
+  IRONIC_API_HTTPD_SERVER_NAME: {{ tpl .ironicApiHost $ }}
+  IRONIC_BOOT_BASE_URL: {{ $protocol }}://boot.ironic.{{ $dnsDomain }}
+  IRONIC_ENDPOINT: {{ $protocol }}://{{ tpl .ironicApiHost $ }}/v1/
+  IRONIC_INSPECTOR_BASE_URL: {{ $protocol }}://{{ tpl .ironicInspectorHost $ }}
+  IRONIC_INSPECTOR_ENDPOINT: {{ $protocol }}://{{ tpl .ironicInspectorHost $ }}/v1/
+  IRONIC_INSPECTOR_HOST: {{ tpl .ironicInspectorHost $ }}
+  IRONIC_INSPECTOR_HTTPD_SERVER_NAME: {{ tpl .ironicInspectorHost $ }}
+  IRONIC_RAMDISK_SSH_KEY: {{ .ironicRamdiskSshKey }}
+  IRONIC_VMEDIA_HTTPD_SERVER_NAME: {{ tpl .bootServerAddress $ }} 
+  {{- end }}
+  ENABLE_PXE_BOOT: "{{ .Values.global.enable_pxe_boot }}"
+  DHCP_RANGE: {{ .Values.global.dhcpRange }}
+  DNSMASQ_DEFAULT_ROUTER: {{ .Values.global.dnsmasqDefaultRouter }}
+  PROVISIONING_INTERFACE: {{ .Values.global.provisioningInterface }}
+  PROVISIONING_IP: {{ .Values.global.provisioningIP }}
+  IRONIC_INSPECTOR_VLAN_INTERFACES: all
+  IRONIC_ILO_USE_SWIFT: "false"
+  IRONIC_ILO_USE_WEB_SERVER_FOR_IMAGES: "true"
+  IRONIC_FAST_TRACK: "true"
+  IRONIC_REVERSE_PROXY_SETUP: "false"
+  IRONIC_USE_MARIADB: "true"
+  LISTEN_ALL_INTERFACES: "true"
+  {{- if  ( .Values.global.enable_tls ) }}
+  RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
+  IRONIC_KERNEL_PARAMS: console=ttyS0 suse.cafile={{ $protocol }}://boot.ironic.{{ $dnsDomain }}/tstcerts/ca.crt
+  IPA_INSECURE: "0"
+  {{- else }}
+  RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
+  IRONIC_KERNEL_PARAMS: console=ttyS0
+  IPA_INSECURE: "1"
+  {{- end }}
+  #DATABASE_HOST: {{ .Values.global.database_clusterIP }}
+  DATABASE_HOST: "127.0.0.1"

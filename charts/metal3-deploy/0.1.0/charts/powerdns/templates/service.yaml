@@ -1,0 +1,36 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "powerdns.fullname" . }}
+spec:
+  type: {{ .Values.service.type }}
+  clusterIP: {{ .Values.service.ip }}
+  ports:
+    - name: pdns-auth-api
+      port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.powerdns.webserver.port }}
+    
+    - name: pdns-auth-tcp
+      port: {{ .Values.powerdns.auth.port }}
+      targetPort: {{ .Values.powerdns.auth.port }}
+      protocol: TCP
+
+    - name: pdns-auth-udp
+      port: {{ .Values.powerdns.auth.port }}
+      protocol: UDP
+      targetPort: {{ .Values.powerdns.auth.port }}
+
+    - name: pdns-recursor-tcp
+      port: {{ .Values.powerdns.recursor.port }}
+      targetPort: {{ .Values.powerdns.recursor.port }}
+      protocol: TCP
+
+    - name: pdns-recursor-udp
+      port: {{ .Values.powerdns.recursor.port }}
+      protocol: UDP
+      targetPort: {{ .Values.powerdns.recursor.port }}
+
+  selector:
+    {{- include "powerdns.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,255 @@
+# The metal3-deploy chart is a parent chart that installs
+# all of the other charts that a metal3 deployment needs,
+# but doesn't actually deploy any services itself.
+
+# The reference examples below are for a single node management cluster,
+# connected to the to network where the baremental nodes (that it will
+# be managing are located) via with it's 'ens4' network interface, with
+# associated IP 192.168.20.5. The metal3 services will be automatically
+# registered as members of the 'suse.baremetal' DNS domain.
+
+# Define a global default for other charts to leverage.
+global:
+  # whether to enable external-dns
+  #
+  # NOTE: external-dns is required unless there are pre-existing methods that
+  # create DNS hostname records for the Ironic ingress resources that are used
+  # in bare metal provisioning. If using external-dns without pdns, a
+  # supported external-dns DNS integration must be configured.
+  # See for https://github.com/kubernetes-sigs/external-dns for
+  # additional details.
+  # In addition, the "dnsConfig" section must by updated with the IP and search domain
+  # of the external DNS server.
+  enable_external_dns: true
+
+  # whether to enable PowerDNS
+  # NOTE: although PowerDNS can be enabled without enabling external-dns,
+  # but it would not be very useful in the context of Metal3 deployment.
+  # Therefore, it is recommended to enable PowerDNS in conjunction with
+  # external-dns.
+  enable_pdns: true
+
+  # whether to enable media server.
+  enable_metal3_media_server: true
+
+  # whether to enable dnsmasq. If DHCP is already provided by the existing networking
+  # infrastructure, it is recommended to set enable_dnsmasq to 'false'.
+  enable_dnsmasq: true
+
+  # whether to enable PXE boot capability
+  # NOTE: enable_dnsmasq must set to 'true' in order for this option to be effective.
+  enable_pxe_boot: true
+
+  # whether to enable Ironic services besides dnsmasq.
+  # NOTE: enable_dnsmasq has precedence over this option. If enable_dnsmasq is set
+  # to 'true' while enable_ironic is set to 'false', dnsmasq service will still be
+  # enabled.
+  enable_ironic: true
+
+  # DNS domain that all services will either be members of, or, in the
+  # case of external-dns and pdns, manage.
+  dnsDomain: suse.baremetal
+
+  dnsPolicy: "None"
+
+  # set pdnsIP to enable hostNetwork in the pdns-recursor container
+  # and bind pdns-recursor to port 53 using the pdnsIP address
+  #pdnsIP: 192.168.20.5
+
+  # If using pdnsIP, update the nameservers to the pdnsIP address
+  dnsConfig:
+    nameservers:
+    - 10.43.255.254
+    searches:
+    - suse.baremetal
+
+  # IP address of the router associated with the specified DHCP
+  # address range
+  dnsmasqDefaultRouter: 192.168.21.254
+
+  # IP address of the dns server to be provided with DHCP
+  # response
+  dnsmasqDNSServer: 192.168.20.5
+
+  # specify comma serparate beginning and end of the range of IP
+  # addresses the DHCP server will manage.
+  dhcpRange: 192.168.20.20,192.168.20.80
+
+  # Network interface on which provisioning network can be accessed
+  provisioningInterface: ens4
+
+  # IP Address assigned to network interface on provisioning network
+  provisioningIP: 192.168.20.5
+
+  # Database ClusterIP address
+  database_clusterIP: 10.43.255.253
+
+  # Global ingress annotations that is shared by all the ingress services.
+  # For example, use it to override extern-dns records.
+  ingress:
+    annotations: {}
+      # The IP to register with external-dns for this service
+      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
+
+  # In a multi-node cluster use the node selector to ensure the pods
+  # all run on the same host where the dnsmasqDNSServer and provisioningIP
+  # and /opt/media exist. Uncomment the nodeSelector and update the
+  # hostname accordingly.
+  #nodeSelector:
+    #kubernetes.io/hostname: "csrancher-n1"
+
+
+#
+# media service
+#
+
+# Override any settings for the metal3 media service here
+metal3-media:
+  ingress:
+    annotations: {}
+      # The IP to register with external-dns for this service
+      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
+
+  # location where media files should be placed so that they are
+  # available to the Ironic deployment services.
+  mediaVolume:
+    hostPath: /opt/media
+
+
+#
+# powerdns service
+#
+
+# Override any settings for the metal3 powerdns service here
+metal3-powerdns:
+
+  ingress:
+    annotations: {}
+      # The IP to register with external-dns for this service
+      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
+
+  powerdns:
+
+    api:
+      # key used to authenticate PowerDNS API requests
+      key: "654321fedcba"
+
+    webserver:
+      # port that PowerDNS webserver listens for API requests on
+      port: 8081
+      password: changeme
+
+  service:
+
+    # cluster IP that powerDNS service will be accessible at
+    ip: "10.43.255.254"
+
+  zone:
+
+    # DNS domain that PowerDNS will manage
+    # *Must match the global.dnsDomain setting specified above*
+    name: suse.baremetal
+
+#
+# external-dns service
+#
+
+# Override any settings for the metal3 external-dns service here
+metal3-external-dns:
+
+  image:
+    registry: registry.opensuse.org
+    repository: isv/metal3/bci/external-dns/containerfile/suse/external-dns
+    tag: "0.13.4"
+
+  # external-dns will monitor these sources of IP address to name
+  # mappings and automatically add/remove DNS entries as needed.
+  sources:
+    - service
+    - ingress
+
+  # DNS domain(s) that external DNS will manage entries for
+  domainFilters:
+    # *Must match global.dnsDomain setting specified*
+    - suse.baremetal
+
+  # which DNS provider backend to use
+
+  # Uncomment this if using cloudflare and remove powerdns settings
+  # provider: cloudflare
+  # cloudflare:
+  #  apiToken: "foo"
+  #  proxied: false
+  
+  provider: pdns
+
+  # PowerDNS backend specific config settings
+  pdns:
+
+    # PowerDNS API request URL
+    # *Must match metal3-powerdns.service.ip*
+    apiUrl: "http://10.43.255.254"
+
+    # PowerDNS API request port
+    # *Must match metal3-powerdns.powerdns.webserver.port*
+    apiPort: "8081"
+
+    # PowerDNS API request authentication key
+    # *Must match metal3-powerdns.powerdns.webserver.port*
+    apiKey: "654321fedcba"
+
+
+  # 'sync' allows external-dns to add/remove entries; the default
+  # 'upsert-only' only allows entries to be added with PowerDNS
+  # backend.
+  policy: sync
+
+
+#
+# baremetal-operator service
+#
+
+# Override any settings for the metal3 baremetal-operator service here
+metal3-baremetal-operator:
+
+  ingress:
+    annotations:
+      # The IP to register with external-dns for this service
+      external-dns.alpha.kubernetes.io/target: 192.168.20.5
+
+#
+# ironic service
+#
+
+# Override any settings for the metal3 ironic service here
+# Ensure the storageClass is defined
+metal3-ironic:
+  ingress:
+    annotations: {}
+      # The IP to register with external-dns for this service
+      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
+
+  baremetaloperator:
+
+    # If no dhpHosts set, all mac addresses will be acknowledged
+    dhcpHosts: ""
+
+    # The base URL to download IPA images (i.e. ironic-python-agent.tar
+    # and ironic-python-agent.tar.md5). If not set, we install the
+    # opensuse based IPA image
+    #ipaBaseUri: "https://images.rdoproject.org/centos8/master/rdo_trunk/current-tripleo"
+  
+  persistence:
+    ironic:
+      # storageClass for the ironic shared volume
+      storageClass: ""
+
+#
+# Database Service
+#
+
+# Override any settings for the metal3 mariadb service here
+metal3-mariadb:
+  # storageClass for the mysql datastore
+  persistence:
+    storageClass: ""
