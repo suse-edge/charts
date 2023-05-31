@@ -1,4 +1,4 @@
-{{- if and (eq .Values.ingress.tlsSource "secrets") (.Values.global.enable_ironic) -}}
+{{- if and (or (eq .Values.ingress.tlsSource "letsEncrypt") (eq .Values.ingress.tlsSource "secrets")) (.Values.global.enable_ironic) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -14,6 +14,9 @@ data:
   {{- end }}
   {{- if .Values.tlscerts.cacert }}
   tls.cacert: {{ .Values.tlscerts.cacert | quote}}
+  {{- end }}
+  {{- if .Values.tlscerts.lecacert }}
+  tls.lecacert: {{ .Values.tlscerts.lecacert | quote}}
   {{- end }}
 {{- end -}}
 
