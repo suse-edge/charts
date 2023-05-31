@@ -11,11 +11,17 @@ dependencies:
 - name: baremetal-operator
   repository: ""
   version: 0.1.1
+- name: nfs-subdir-external-provisioner
+  repository: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+  version: 4.0.18
+- name: nfs-subdir-external-provisioner
+  repository: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+  version: 4.0.18
 - name: ironic
   repository: ""
   version: 0.1.1
 - name: mariadb
   repository: ""
   version: 0.1.1
-digest: sha256:19c3815f1e91de52f4dede64e9b872eaa5acdfa8e5ed72a706b7209fc27d7ccb
-generated: "2023-04-19T19:59:27.74288079Z"
+digest: sha256:f6d65497818296b3824dc42ca7bcd098a933da9a7aa289e6bb7c312630a72d5f
+generated: "2023-05-11T21:57:54.722820973-07:00"
