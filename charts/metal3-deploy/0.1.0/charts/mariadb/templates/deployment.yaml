@@ -71,5 +71,9 @@ spec:
           timeoutSeconds: 10
         volumeMounts:
             {{- $volmounts }}
+      {{- with .Values.global.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         {{- $volumes }}
