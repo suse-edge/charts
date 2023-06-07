@@ -104,7 +104,7 @@ global:
 #
 
 # Override any settings for the metal3 media service here
-metal3-media:
+media:
   ingress:
     annotations: {}
       # The IP to register with external-dns for this service
@@ -121,7 +121,7 @@ metal3-media:
 #
 
 # Override any settings for the metal3 powerdns service here
-metal3-powerdns:
+powerdns:
 
   ingress:
     annotations: {}
@@ -155,7 +155,7 @@ metal3-powerdns:
 #
 
 # Override any settings for the metal3 external-dns service here
-metal3-external-dns:
+external-dns:
 
   image:
     registry: registry.opensuse.org
@@ -210,7 +210,7 @@ metal3-external-dns:
 #
 
 # Override any settings for the metal3 baremetal-operator service here
-metal3-baremetal-operator:
+baremetal-operator:
 
   ingress:
     annotations:
@@ -223,7 +223,7 @@ metal3-baremetal-operator:
 
 # Override any settings for the metal3 ironic service here
 # Ensure the storageClass is defined
-metal3-ironic:
+ironic:
   ingress:
     annotations: {}
       # The IP to register with external-dns for this service
@@ -249,7 +249,7 @@ metal3-ironic:
 #
 
 # Override any settings for the metal3 mariadb service here
-metal3-mariadb:
+mariadb:
   # storageClass for the mysql datastore
   persistence:
     storageClass: ""
