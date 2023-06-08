@@ -18,6 +18,10 @@ dependencies:
   condition: global.enable_metal3_media_server
   name: media
   repository: file://./charts/media
+- alias: metal3-nfs-subdir-external-provisioner-mariadb
+  condition: global.enable_metal3_nfs_subdir_external_provisioner_for_mariadb
+  name: nfs-subdir-external-provisioner
+  repository: file://./charts/nfs-subdir-external-provisioner
 - alias: metal3-powerdns
   condition: global.enable_pdns
   name: powerdns
