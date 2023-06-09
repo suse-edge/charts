@@ -1,22 +1,18 @@
-# Default values for baremetal-operator.
+# Default values for media.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 global:
-
   # DNS domain that all services will either be members of, or, in the
   # case of external-dns and pdns, manage.
   dnsDomain: suse.baremetal
 
-  # specify comma serparate beginning and end of the range of IP
-  # addresses the DHCP server will manage.
-  dhcpRange: 192.168.20.20,192.168.20.80
-
-  # Network interface on which provisioning network can be accessed
-  provisioningInterface: ens4
-
-  # IP Address assigned to network interface on provisioning network
-  provisioningIP: 192.168.20.5
+  # Global ingress annotations that is shared by all the ingress services.
+  # For example, use it to override extern-dns records.
+  ingress:
+    annotations: {}
+      # The IP to register with external-dns for this service
+      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
 
   # If using pdnsIP for to set powerdns to use hostNetwork, update
   # the nameservers to the pdnsIP address
@@ -26,26 +22,26 @@ global:
     searches:
     - suse.baremetal
 
-  # If running in a multi-node kubernetes cluster, "pin" the baremtal container
-  # to the same host where the ironic, external-dns, pdns, and media containers
-  # arerunning. Uncomment the nodeSelector and update the hostname accordingly.
+  # If running in a multi-node kubernetes cluster, "pin" the media container
+  # to the given host where the /opt/media volume exists. Uncomment the
+  # nodeSelector and update the hostname accordingly.
   #nodeSelector: 
     #kubernetes.io/hostname: "my-hostname"
 
-  # Comment this out when pinning the baremetal-operator container to a specfic host.
+  # Comment this out when pinning the media container to a specfic host.
   nodeSelector: {}
 
 replicaCount: 1
 
 image:
-  repository: quay.io/metal3-io/baremetal-operator
+  repository: nginx
   pullPolicy: IfNotPresent 
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "capm3-v1.1.2"
+  tag: "1.22.0-alpine"
 
 imagePullSecrets: []
-nameOverride: "manger"
-fullnameOverride: "baremetal-operator"
+nameOverride: ""
+fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -54,7 +50,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "baremetal-operator-controller-manager"
+  name: ""
 
 podAnnotations: {}
 
@@ -74,16 +70,16 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: baremetal-operator.suse.baremetal
+    - host: media.{{ .Values.global.dnsDomain }}
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -112,11 +108,19 @@ tolerations: []
 
 affinity: {}
 
-baremetaloperator:
-  cacheUrl: "http://cache.ironic.{{ .Values.global.dnsDomain }}/images"
-  deployKernelUrl: "http://boot.ironic.{{ .Values.global.dnsDomain }}/images/ironic-python-agent.kernel"
-  deployRamdiskUrl: "http://boot.ironic.{{ .Values.global.dnsDomain }}/images/ironic-python-agent.initramfs"
-  httpPort: "6180"
+dnsConfig: {}
 
-  ironicEndpoint: "http://api.ironic.{{ .Values.global.dnsDomain }}/v1/"
-  ironicInspectorEndpoint: "http://inspector.ironic.{{ .Values.global.dnsDomain }}/v1/"
+# volumes
+volumes:
+  - name: assets
+    persistentVolumeClaim:
+      claimName: media
+
+# volume mounts
+volumeMounts:
+  - mountPath: /usr/share/nginx/html
+    name: assets
+
+# media volume settings
+mediaVolume:
+  hostPath: /opt/media

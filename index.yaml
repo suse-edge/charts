@@ -14,7 +14,7 @@ entries:
   metal3-deploy:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-06-08T09:57:44.497955791-04:00"
+    created: "2023-06-09T13:33:45.744836223-04:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -42,7 +42,7 @@ entries:
       name: powerdns
       repository: file://./charts/powerdns
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: fbf5e857cefe53701e0d5e3183200fdc872724f5e6f46cb7d20ecd8a1ea47c6a
+    digest: 18e26b500704b7e127f03fbb91a421450ade6256ccdc9e7c294dfdec6c772fd5
     name: metal3-deploy
     type: application
     urls:

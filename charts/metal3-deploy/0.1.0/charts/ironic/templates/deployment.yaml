@@ -176,7 +176,7 @@ spec:
       volumes:
       {{- range .Values.volumes }}
       - name: {{ .name }}
-        {{- if .persistentVolumeClaim }}
+        {{- if and (.persistentVolumeClaim) ($.Values.global.enable_ironic) }}
         persistentVolumeClaim:
           claimName: {{ .persistentVolumeClaim.claimName }}
         {{- end }}
