@@ -14,9 +14,9 @@ entries:
   kubevirt:
   - apiVersion: v2
     appVersion: 0.58.0
-    created: "2023-06-13T17:59:30.077052+03:00"
+    created: "2023-06-13T18:12:33.043802+03:00"
     description: A Helm chart for KubeVirt
-    digest: 1025e1ba3c6cb7e031fec4a07069d61225315efe4cec7ff923fe165cc6aa427e
+    digest: 14cb83bb19a621511c6e882377cfab7f767534f6857938e7d555b5be571c3b7b
     name: kubevirt
     type: application
     urls:
