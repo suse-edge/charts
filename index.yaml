@@ -11,6 +11,17 @@ entries:
     urls:
     - assets/akri/akri-0.10.4.tgz
     version: 0.10.4
+  kubevirt:
+  - apiVersion: v2
+    appVersion: 0.58.0
+    created: "2023-06-13T17:59:30.077052+03:00"
+    description: A Helm chart for KubeVirt
+    digest: 1025e1ba3c6cb7e031fec4a07069d61225315efe4cec7ff923fe165cc6aa427e
+    name: kubevirt
+    type: application
+    urls:
+    - assets/kubevirt/kubevirt-0.58.0.tgz
+    version: 0.58.0
   metal3-deploy:
   - apiVersion: v2
     appVersion: 1.16.0

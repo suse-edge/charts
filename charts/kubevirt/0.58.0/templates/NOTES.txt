@@ -1,0 +1,4 @@
+1. Check all KubeVirt components:
+  kubectl get all -n kubevirt
+2. Check all CDI components (if enabled):
+  kubectl get all -n cdi
