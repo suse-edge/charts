@@ -14,14 +14,14 @@ entries:
   kubevirt:
   - apiVersion: v2
     appVersion: 0.58.0
-    created: "2023-06-13T18:12:33.043802+03:00"
+    created: "2023-06-14T12:03:42.961573+03:00"
     description: A Helm chart for KubeVirt
-    digest: 14cb83bb19a621511c6e882377cfab7f767534f6857938e7d555b5be571c3b7b
+    digest: c83bfc57e1d4fa72ba5cdb97a84255e25104e8e572b576905a8c188504f34fe7
     name: kubevirt
     type: application
     urls:
-    - assets/kubevirt/kubevirt-0.58.0.tgz
-    version: 0.58.0
+    - assets/kubevirt/kubevirt-0.1.0.tgz
+    version: 0.1.0
   metal3-deploy:
   - apiVersion: v2
     appVersion: 1.16.0
