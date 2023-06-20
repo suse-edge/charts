@@ -1,4 +1,3 @@
-{{- if .Values.cdi.enabled -}}
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: CDI
 metadata:
@@ -14,4 +13,3 @@ spec:
   workload:
     nodeSelector:
       kubernetes.io/os: linux
-{{- end }}

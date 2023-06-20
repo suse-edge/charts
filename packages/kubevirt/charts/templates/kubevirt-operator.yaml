@@ -1,4 +1,3 @@
-{{- if .Values.kubevirt.enabled -}}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -1204,4 +1203,3 @@ spec:
           secretName: kubevirt-operator-certs
       - emptyDir: {}
         name: profile-data
-{{- end }}

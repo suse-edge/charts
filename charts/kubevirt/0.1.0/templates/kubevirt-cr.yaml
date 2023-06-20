@@ -1,4 +1,3 @@
-{{- if .Values.kubevirt.enabled -}}
 apiVersion: kubevirt.io/v1
 kind: KubeVirt
 metadata:
@@ -12,4 +11,3 @@ spec:
   customizeComponents: {}
   imagePullPolicy: {{ .Values.kubevirt.pullPolicy }}
   workloadUpdateStrategy: {}
-{{- end }}

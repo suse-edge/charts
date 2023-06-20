@@ -1,4 +1,3 @@
-{{- if .Values.cdi.enabled -}}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -448,4 +447,3 @@ metadata:
     operator.cdi.kubevirt.io: ""
   name: cdi-operator-leader-election-helper
   namespace: cdi
-{{- end }}
