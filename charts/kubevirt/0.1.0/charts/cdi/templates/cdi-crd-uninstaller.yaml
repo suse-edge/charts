@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: default
+  name: cdi-crd-uninstaller
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "1"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cdi-crd-uninstaller
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "1"
+rules:
+  - apiGroups: [ "apiextensions.k8s.io" ]
+    resources: [ "customresourcedefinitions" ]
+    resourceNames:
+      - "cdis.cdi.kubevirt.io"
+    verbs: [ "delete" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cdi-crd-uninstaller
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "2"
+subjects:
+  - kind: ServiceAccount
+    namespace: default
+    name: cdi-crd-uninstaller
+roleRef:
+  kind: ClusterRole
+  name: cdi-crd-uninstaller
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: default
+  name: cdi-crd-uninstaller
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "3"
+spec:
+  template:
+    metadata:
+      name: cdi-crd-uninstaller
+    spec:
+      serviceAccountName: cdi-crd-uninstaller
+      restartPolicy: OnFailure
+      containers:
+        - name: cdi-crd-uninstaller
+          image: {{ .Values.uninstaller.image }}
+          command:
+            - /bin/sh
+            - -c
+            - >
+              kubectl delete customresourcedefinitions cdis.cdi.kubevirt.io;
