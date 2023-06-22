@@ -56,5 +56,5 @@ data:
   IRONIC_KERNEL_PARAMS: console=ttyS0
   IPA_INSECURE: "1"
   {{- end }}
-  #DATABASE_HOST: {{ .Values.global.database_clusterIP }}
-  DATABASE_HOST: "127.0.0.1"
+  DATABASE_HOST: {{ .Values.global.database_clusterIP }}
+  #DATABASE_HOST: "127.0.0.1"

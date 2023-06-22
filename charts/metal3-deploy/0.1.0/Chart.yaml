@@ -4,24 +4,40 @@ dependencies:
 - alias: metal3-baremetal-operator
   name: baremetal-operator
   repository: file://./charts/baremetal-operator
+  version: 0.1.1
 - alias: metal3-external-dns
   condition: global.enable_external_dns
   name: external-dns
   repository: file://./charts/external-dns
+  version: 6.12.1
 - alias: metal3-ironic
   name: ironic
   repository: file://./charts/ironic
+  version: 0.1.1
 - alias: metal3-mariadb
   name: mariadb
   repository: file://./charts/mariadb
+  version: 0.1.1
 - alias: metal3-media
   condition: global.enable_metal3_media_server
   name: media
   repository: file://./charts/media
+  version: 0.1.0
+- alias: metal3-nfs-subdir-external-provisioner-mariadb
+  condition: global.enable_metal3_nfs_subdir_external_provisioner_for_mariadb
+  name: nfs-subdir-external-provisioner
+  repository: file://./charts/nfs-subdir-external-provisioner
+  version: 4.0.18
+- alias: metal3-nfs-subdir-external-provisioner-ironic
+  condition: global.enable_metal3_nfs_subdir_external_provisioner_for_ironic
+  name: nfs-subdir-external-provisioner
+  repository: file://./charts/nfs-subdir-external-provisioner
+  version: 4.0.18
 - alias: metal3-powerdns
   condition: global.enable_pdns
   name: powerdns
   repository: file://./charts/powerdns
+  version: 0.1.0
 description: A Helm chart that installs all of the dependencies needed for Metal3
 name: metal3-deploy
 type: application

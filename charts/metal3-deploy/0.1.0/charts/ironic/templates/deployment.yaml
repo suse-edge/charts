@@ -34,6 +34,7 @@ spec:
       {{- $secvolmounts := toYaml .Values.secretVolMounts | trim | nindent 12}}
       {{- $cacertvolmounts := toYaml .Values.cacertVolumeMounts | trim | nindent 12}}
       {{- $trustvolmounts := toYaml .Values.trustVolMounts | trim | nindent 12}}
+      {{- $levolmounts := toYaml .Values.letsEncryptVolMounts | trim | nindent 12}}
       {{- $tls := .Values.tls }}
 
 
@@ -142,8 +143,14 @@ spec:
           {{- if  and ($.Values.global.enable_tls) (ne .servname "ironic-dnsmasq")  }}
            {{- if (eq $tlssource "secrets") }}
            {{- $cacertvolmounts }}
-           {{- else }}
+           {{- end }}
+           {{- if (eq $tlssource "self") }}
            {{- $trustvolmounts }}
+           {{- end }}
+           {{- if or (eq .servname "ironic") (eq .servname "ironic-inspector") (eq .servname "ironic-httpd") }}
+           {{- if (eq $tlssource "letsEncrypt") }}
+           {{- $levolmounts }}
+           {{- end }}
            {{- end }}
           {{- end }}
           {{- if and ($.Values.global.enable_tls) (eq $tls "ironic") }}
@@ -169,7 +176,7 @@ spec:
       volumes:
       {{- range .Values.volumes }}
       - name: {{ .name }}
-        {{- if .persistentVolumeClaim }}
+        {{- if and (.persistentVolumeClaim) ($.Values.global.enable_ironic) }}
         persistentVolumeClaim:
           claimName: {{ .persistentVolumeClaim.claimName }}
         {{- end }}
@@ -190,7 +197,8 @@ spec:
         configMap:
           defaultMode: 493
           name: ironic-certs    
-      {{- else }}
+      {{- end }}
+      {{- if (eq $tlssource "self") }}
       - name: ironic-trustcerts
         secret:
           secretName: ironic-cacert
@@ -198,6 +206,16 @@ spec:
         secret:
           secretName: ironic-cacert    
       {{- end }}
+      {{- if (eq $tlssource "letsEncrypt") }}
+      - name: ironic-le-trustca
+        configMap:
+          defaultMode: 493
+          name: ironic-certs
+      - name: ironicipa-le-trustca
+        configMap:
+          defaultMode: 493
+          name: ironic-certs
+      {{- end }}    
       {{- end }}
       {{- if and ($.Values.global.enable_tls) (eq $tlssource "secrets") (eq $tls "ironic") }}
       - name: ironic-certs

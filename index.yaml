@@ -14,7 +14,7 @@ entries:
   metal3-deploy:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-26T10:43:50.271461961-04:00"
+    created: "2023-06-22T12:04:38.525242566-04:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -33,12 +33,16 @@ entries:
       condition: global.enable_metal3_media_server
       name: media
       repository: file://./charts/media
+    - alias: metal3-nfs-subdir-external-provisioner-mariadb
+      condition: global.enable_metal3_nfs_subdir_external_provisioner_for_mariadb
+      name: nfs-subdir-external-provisioner
+      repository: file://./charts/nfs-subdir-external-provisioner
     - alias: metal3-powerdns
       condition: global.enable_pdns
       name: powerdns
       repository: file://./charts/powerdns
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 5ae67b9716e9f8558251cf88e788c5903e16712bc5a9dc9000c4c6b7ff10b274
+    digest: 05a2e53e92f376c7d8ce1364c8012be63ea24988636733ced91a6e003a2ff69e
     name: metal3-deploy
     type: application
     urls:

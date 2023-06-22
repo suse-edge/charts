@@ -29,6 +29,18 @@ global:
   # external-dns.
   enable_pdns: true
 
+  # whether to use NFS provisioner to create the storage for Ironic
+  #
+  # NOTE: the NFS export directory for Ironic are expected to be configured
+  # out of band and it must exist prior to using this chart.
+  enable_metal3_nfs_subdir_external_provisioner_for_ironic: false
+
+  # whether to use NFS provisioner to create the storage for MariaDB
+  #
+  # NOTE: the NFS export directory for MariaDB are expected to be configured
+  # out of band and it must exist prior to using this chart.
+  enable_metal3_nfs_subdir_external_provisioner_for_mariadb: false
+
   # whether to enable media server.
   enable_metal3_media_server: true
 
@@ -98,6 +110,34 @@ global:
   #nodeSelector:
     #kubernetes.io/hostname: "csrancher-n1"
 
+
+#
+# NFS subdir provisioner for Ironic
+#
+
+# Override any settings for the metal3 NFS subdir provisioner for Ironic here
+metal3-nfs-subdir-external-provisioner-ironic:
+  nfs:
+    server: 192.168.20.5
+    path: /nfs/share
+  storageClass:
+    name: dynamic
+    defaultClass: true
+    provisionerName: nfs-provisioner-01
+
+#
+# NFS subdir provisioner for MariaDB
+#
+
+# Override any settings for the metal3 NFS subdir provisioner for MariaDB here
+metal3-nfs-subdir-external-provisioner-mariadb:
+  nfs:
+    server: 192.168.20.5
+    path: /var/lib/mysql
+  storageClass:
+    name: mysql
+    defaultClass: false
+    provisionerName: nfs-provisioner-02
 
 #
 # media service
