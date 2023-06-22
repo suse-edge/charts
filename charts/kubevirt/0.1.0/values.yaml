@@ -4,3 +4,6 @@ kubevirt:
 
 cdi:
   enabled: false
+
+uninstaller:
+  image: bitnami/kubectl:1.27.3
