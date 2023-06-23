@@ -60,7 +60,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: kubevirt-cr-uninstaller
-          image: {{ .Values.uninstaller.image }}
+          image: {{ .Values.kubecli.image }}
           command:
             - /bin/sh
             - -c
