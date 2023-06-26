@@ -14,14 +14,14 @@ entries:
   kubevirt:
   - apiVersion: v2
     appVersion: 0.58.0
-    created: "2023-06-22T19:30:26.34485+03:00"
+    created: "2023-06-26T10:50:51.900944+03:00"
     dependencies:
     - alias: cdi
       condition: cdi.enabled
       name: cdi
       repository: file://./charts/cdi
     description: A Helm chart for KubeVirt
-    digest: 89405fe447381dbeb707c383eb5ded2cc9173573e9ef70140668e8a454b1d92e
+    digest: 3809133b7cbc6287c273dfc202d00a91d0a35a789221d01eadce6016ef5d887b
     name: kubevirt
     type: application
     urls:

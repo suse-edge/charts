@@ -58,7 +58,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: cdi-cr-uninstaller
-          image: {{ .Values.uninstaller.image }}
+          image: {{ .Values.kubecli.image }}
           command:
             - /bin/sh
             - -c

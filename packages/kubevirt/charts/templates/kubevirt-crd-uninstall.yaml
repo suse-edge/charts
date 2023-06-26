@@ -1,69 +1,66 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  namespace: kubevirt
-  name: kubevirt-cr-uninstaller
+  namespace: default
+  name: kubevirt-crd-uninstaller
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
     "helm.sh/hook-weight": "1"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
-  namespace: kubevirt
-  name: kubevirt-cr-uninstaller
+  name: kubevirt-crd-uninstaller
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
     "helm.sh/hook-weight": "1"
 rules:
-  - apiGroups: [ "kubevirt.io" ]
-    resources: [ "kubevirts" ]
+  - apiGroups: [ "apiextensions.k8s.io" ]
+    resources: [ "customresourcedefinitions" ]
     resourceNames:
-      - "kubevirt"
+      - "kubevirts.kubevirt.io"
     verbs: [ "delete" ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  namespace: kubevirt
-  name: kubevirt-cr-uninstaller
+  name: kubevirt-crd-uninstaller
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
     "helm.sh/hook-weight": "2"
 subjects:
   - kind: ServiceAccount
-    namespace: kubevirt
-    name: kubevirt-cr-uninstaller
+    namespace: default
+    name: kubevirt-crd-uninstaller
 roleRef:
-  kind: Role
-  name: kubevirt-cr-uninstaller
+  kind: ClusterRole
+  name: kubevirt-crd-uninstaller
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  namespace: kubevirt
-  name: kubevirt-cr-uninstaller
+  namespace: default
+  name: kubevirt-crd-uninstaller
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
     "helm.sh/hook-weight": "3"
 spec:
   template:
     metadata:
-      name: kubevirt-cr-uninstaller
+      name: kubevirt-crd-uninstaller
     spec:
-      serviceAccountName: kubevirt-cr-uninstaller
+      serviceAccountName: kubevirt-crd-uninstaller
       restartPolicy: OnFailure
       containers:
-        - name: kubevirt-cr-uninstaller
-          image: {{ .Values.uninstaller.image }}
+        - name: kubevirt-crd-uninstaller
+          image: {{ .Values.kubecli.image }}
           command:
             - /bin/sh
             - -c
             - >
-              kubectl delete kubevirt kubevirt;
-              sleep 45; # wait for the operator to clean up
+              kubectl delete customresourcedefinitions kubevirts.kubevirt.io;

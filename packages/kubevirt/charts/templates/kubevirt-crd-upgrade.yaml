@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  name: kubevirt-crd-manifest
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "1"
+data:
+  crd: |-
+    {{ $.Files.Get "crds/kubevirt.yaml" | nindent 4 }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: default
+  name: kubevirt-crd-upgrader
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "2"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubevirt-crd-upgrader
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "2"
+rules:
+  - apiGroups: [ "" ]
+    resources: [ "configmaps" ]
+    resourceNames:
+      - "kubevirt-crd-manifest"
+    verbs: [ "get" ]
+  - apiGroups: [ "apiextensions.k8s.io" ]
+    resources: [ "customresourcedefinitions" ]
+    resourceNames:
+      - "kubevirts.kubevirt.io"
+    verbs: [ "get", "patch" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubevirt-crd-upgrader
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "3"
+subjects:
+  - kind: ServiceAccount
+    namespace: default
+    name: kubevirt-crd-upgrader
+roleRef:
+  kind: ClusterRole
+  name: kubevirt-crd-upgrader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: default
+  name: kubevirt-crd-upgrader
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-weight": "4"
+spec:
+  template:
+    metadata:
+      name: kubevirt-crd-upgrader
+    spec:
+      serviceAccountName: kubevirt-crd-upgrader
+      restartPolicy: OnFailure
+      containers:
+        - name: kubevirt-crd-upgrader
+          image: {{ .Values.kubecli.image }}
+          command:
+            - /bin/sh
+            - -c
+            - >
+              kubectl get configmap kubevirt-crd-manifest -o "jsonpath={.data['crd']}" | kubectl apply -f -;
+              sleep 10; # wait for the operator to handle the update
