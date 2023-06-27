@@ -11,6 +11,7 @@ entries:
     urls:
     - assets/akri/akri-0.10.4.tgz
     version: 0.10.4
+    icon: https://raw.githubusercontent.com/project-akri/akri-docs/main/art/icon/akri-icon-light.svg
   kubevirt:
   - apiVersion: v2
     appVersion: 0.58.0
@@ -27,6 +28,7 @@ entries:
     urls:
     - assets/kubevirt/kubevirt-0.1.0.tgz
     version: 0.1.0
+    icon: https://cncf-branding.netlify.app/img/projects/kubevirt/icon/color/kubevirt-icon-color.svg
   metal3-deploy:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -64,4 +66,5 @@ entries:
     urls:
     - assets/metal3-deploy/metal3-deploy-0.1.0.tgz
     version: 0.1.0
+    icon: https://cncf-branding.netlify.app/img/projects/metal3/icon/color/metal3-icon-color.svg
 generated: "2023-04-12T15:13:36.541891171+02:00"

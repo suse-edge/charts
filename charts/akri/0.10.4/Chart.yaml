@@ -4,3 +4,4 @@ description: A Helm chart for Akri
 name: akri
 type: application
 version: 0.10.4
+icon: https://raw.githubusercontent.com/project-akri/akri-docs/main/art/icon/akri-icon-light.svg
