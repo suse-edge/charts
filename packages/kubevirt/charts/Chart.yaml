@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: 0.58.0
+dependencies:
+- alias: cdi
+  condition: cdi.enabled
+  name: cdi
+  repository: file://./charts/cdi
+description: A Helm chart for KubeVirt
+name: kubevirt
+type: application
+version: 0.1.0
