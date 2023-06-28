@@ -6,6 +6,7 @@ dependencies:
   name: cdi
   repository: file://./charts/cdi
 description: A Helm chart for KubeVirt
+icon: https://cncf-branding.netlify.app/img/projects/kubevirt/icon/color/kubevirt-icon-color.svg
 name: kubevirt
 type: application
 version: 0.1.0

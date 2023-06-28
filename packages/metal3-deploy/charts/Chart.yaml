@@ -30,3 +30,4 @@ description: A Helm chart that installs all of the dependencies needed for Metal
 name: metal3-deploy
 type: application
 version: 0.1.0
+icon: https://cncf-branding.netlify.app/img/projects/metal3/icon/color/metal3-icon-color.svg

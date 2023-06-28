@@ -14,14 +14,15 @@ entries:
   kubevirt:
   - apiVersion: v2
     appVersion: 0.58.0
-    created: "2023-06-26T10:50:51.900944+03:00"
+    created: "2023-06-27T15:24:41.591728+03:00"
     dependencies:
     - alias: cdi
       condition: cdi.enabled
       name: cdi
       repository: file://./charts/cdi
     description: A Helm chart for KubeVirt
-    digest: 3809133b7cbc6287c273dfc202d00a91d0a35a789221d01eadce6016ef5d887b
+    digest: 5f5c18b172501fd05ef2d637998119a5b23f2ed2cb96ba62280614ce7a69a270
+    icon: https://cncf-branding.netlify.app/img/projects/kubevirt/icon/color/kubevirt-icon-color.svg
     name: kubevirt
     type: application
     urls:
@@ -59,6 +60,7 @@ entries:
       repository: file://./charts/powerdns
     description: A Helm chart that installs all of the dependencies needed for Metal3
     digest: 05a2e53e92f376c7d8ce1364c8012be63ea24988636733ced91a6e003a2ff69e
+    icon: https://cncf-branding.netlify.app/img/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3-deploy
     type: application
     urls:
