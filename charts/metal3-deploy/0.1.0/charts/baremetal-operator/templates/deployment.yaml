@@ -86,6 +86,10 @@ spec:
         secret:
           defaultMode: 420
           secretName: bmo-webhook-server-cert
+      {{- with .Values.global.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.global.dnsPolicy }}
       dnsPolicy:
         {{- toYaml . | nindent 8 }}
