@@ -8,7 +8,13 @@ metadata:
   {{- end }}
 spec:
   accessModes:
+  {{- if .Values.persistence.accessMode }}
   - {{ .Values.persistence.accessMode }}
+  {{- else if eq (int .Values.replicaCount) 1 }}
+  - ReadWriteOnce
+  {{- else }}
+  - ReadWriteMany
+  {{- end }}
   resources:
     requests:
       storage: {{ .Values.persistence.size }}
