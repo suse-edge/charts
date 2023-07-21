@@ -38,10 +38,10 @@ global:
 replicaCount: 1
 
 image:
-  repository: quay.io/metal3-io/baremetal-operator
+  repository: registry.opensuse.org/isv/metal3/bci/baremetal-operator/containerfile/suse/baremetal-operator
   pullPolicy: IfNotPresent 
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "capm3-v1.1.2"
+  tag: "0.3.1"
 
 imagePullSecrets: []
 nameOverride: "manger"
