@@ -451,6 +451,7 @@ persistence:
     # size of the ironic shared volume
     size: "1Gi"
     # accessMode of the ironic shared volume PVC
-    accessMode: "ReadWriteMany"
+    # If empty defaults to ReadWriteOnce when replicaCount=1 otherwise ReadWriteMany
+    accessMode: ""
     # flag to indicate to keep pvc upon helm uninstall
     keep: false
