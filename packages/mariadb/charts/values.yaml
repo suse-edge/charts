@@ -46,7 +46,8 @@ persistence:
   # size of the mariadb data volume
   size: "1Gi"
   # accessMode of the mariadb data volume PVC
-  accessMode: "ReadWriteMany"
+  # If empty defaults to ReadWriteOnce when replicaCount=1 otherwise ReadWriteMany
+  accessMode: ""
   # flag to indicate to keep pvc upon helm uninstall
   keep: false
 
