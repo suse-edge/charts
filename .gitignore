@@ -1,4 +1,4 @@
 bin/
 *.DS_Store
 .idea
-.charts-build-scripts
+charts-build-scripts
