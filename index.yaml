@@ -66,4 +66,26 @@ entries:
     urls:
     - assets/metal3-deploy/metal3-deploy-0.1.0.tgz
     version: 0.1.0
+  kubevirt-dashboard-extension:
+  - annotations:
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/kube-version: '>= 1.16.0-0 < 1.28.0-0'
+      catalog.cattle.io/namespace: cattle-ui-plugin-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/permits-os: linux, windows
+      catalog.cattle.io/rancher-version: '>= 2.7.0-0 < 2.8.0-0'
+      catalog.cattle.io/scope: management
+      catalog.cattle.io/ui-component: plugins
+      catalog.cattle.io/display-name: KubeVirt
+    apiVersion: v2
+    appVersion: 0.1.1
+    created: "2023-08-07T09:29:08.784618+02:00"
+    description: 'SUSE Edge: KubeVirt extension for Rancher Dashboard'
+    digest: b5938b356ced8613539c1b2acd5750f5a524c1c8aba05678c0d6bd818ce3bac9
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/kubevirt/icon/color/kubevirt-icon-color.svg
+    name: kubevirt-dashboard-extension
+    type: application
+    urls:
+    - assets/kubevirt-dashboard-extension/kubevirt-dashboard-extension-0.1.1.tgz
+    version: 0.1.1
 generated: "2023-04-12T15:13:36.541891171+02:00"
