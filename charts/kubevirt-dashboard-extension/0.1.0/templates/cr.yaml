@@ -8,5 +8,5 @@ spec:
   plugin:
     name: {{ include "extension-server.fullname" . }}
     version: {{ (semver (default .Chart.AppVersion .Values.plugin.versionOverride)).Original }}
-    endpoint: https://raw.githubusercontent.com/suse-edge/dashboard-extensions/gh-pages/extensions/kubevirt/0.1.1
+    endpoint: https://raw.githubusercontent.com/suse-edge/dashboard-extensions/gh-pages/extensions/kubevirt-dashboard-extension/0.1.0
     noCache: {{ .Values.plugin.noCache }}
