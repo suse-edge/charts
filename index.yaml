@@ -66,6 +66,28 @@ entries:
     urls:
     - assets/metal3-deploy/metal3-deploy-0.1.0.tgz
     version: 0.1.0
+  metallb:
+  - apiVersion: v2
+    appVersion: v0.13.10
+    created: "2023-08-10T13:47:07.109173+03:00"
+    dependencies:
+    - condition: crds.enabled
+      name: crds
+      repository: ""
+      version: 0.13.10
+    description: A network load-balancer implementation for Kubernetes using standard
+      routing protocols
+    digest: 98066de601d7f6feb44707c6e0d57156d2fe90611a2014dc79f33435a9abb740
+    home: https://metallb.universe.tf
+    icon: https://raw.githubusercontent.com/metallb/metallb/main/website/static/images/logo/metallb-blue-with-name.svg
+    kubeVersion: '>= 1.19.0-0'
+    name: metallb
+    sources:
+    - https://github.com/metallb/metallb
+    type: application
+    urls:
+    - assets/metallb/metallb-0.13.10.tgz
+    version: 0.13.10
   kubevirt-dashboard-extension:
   - annotations:
       catalog.cattle.io/certified: rancher
