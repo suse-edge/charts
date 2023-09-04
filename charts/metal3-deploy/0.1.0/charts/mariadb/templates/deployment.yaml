@@ -25,7 +25,6 @@ spec:
       serviceAccountName: {{ include "mariadb.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      hostNetwork: true
       containers:
       - name: mariadb
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
