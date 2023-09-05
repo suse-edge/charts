@@ -332,7 +332,6 @@ baremetaloperator:
   ironicApiHost: "api.ironic.{{ .Values.global.dnsDomain }}"
   ironicInspectorHost: "inspector.ironic.{{ .Values.global.dnsDomain }}"
   ironicRamdiskSshKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGYaMrmsmLbv3O6Fj+0kg/U8iY7pcbO9HkbN88OAD+5 colstrom@headnode"
-  mariadbPassword: "changeme"   
   cloudflareApiToken: "foo"
   ironichostNetwork: true
 

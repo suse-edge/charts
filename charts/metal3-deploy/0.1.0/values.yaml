@@ -177,7 +177,7 @@ metal3-powerdns:
     webserver:
       # port that PowerDNS webserver listens for API requests on
       port: 8081
-      password: changeme
+      password: ""
 
   service:
 
