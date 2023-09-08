@@ -76,12 +76,12 @@ spec:
                 name: {{ .configMapRefname }}
           {{- end }}
           {{- end }}
-          {{- if .env }}
+          {{- if or .env (and .requireProvisioningIP (eq $.Values.global.provisioningIP "")) }}
           env:
-            {{- range .env }}      
+            {{- range .env }}
             - name: {{ .name }}
               valueFrom:
-                {{- if .secretKeyRefKey }}      
+                {{- if .secretKeyRefKey }}
                 secretKeyRef:
                   key: {{ .secretKeyRefKey }}
                   name: {{ .secretKeyRefName }}
@@ -90,9 +90,15 @@ spec:
                 configMapKeyRef:
                   key: {{ .configMapKeyRefKey }}
                   name: {{ .configMapKeyRefName }}
-                {{- end }}   
-            {{- end }}   
-          {{- end }}  
+                {{- end }}
+            {{- end }}
+            {{- if and .requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
+            - name: PROVISIONING_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            {{- end }}
+          {{- end }}
           {{- if .execCommand }}
           livenessProbe:
             exec:
