@@ -369,6 +369,7 @@ ironic:
       - name: MARIADB_PASSWORD
         secretKeyRefKey: password
         secretKeyRefName: ironic-mariadb    
+    requireProvisioningIP: true
     image:
       repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
       pullPolicy: IfNotPresent
@@ -395,6 +396,7 @@ ironic:
         secretKeyRefName: ironic-mariadb    
     envFrom:
       - configMapRefname: ironic-bmo
+    requireProvisioningIP: true
     image:
       repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
       pullPolicy: IfNotPresent
@@ -411,6 +413,7 @@ ironic:
     command: /bin/runhttpd
     envFrom:
       - configMapRefname: ironic-bmo
+    requireProvisioningIP: true
     image:
       repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
       pullPolicy: IfNotPresent
@@ -450,6 +453,7 @@ persistence:
     # size of the ironic shared volume
     size: "1Gi"
     # accessMode of the ironic shared volume PVC
-    accessMode: "ReadWriteMany"
+    # If empty defaults to ReadWriteOnce when replicaCount=1 otherwise ReadWriteMany
+    accessMode: ""
     # flag to indicate to keep pvc upon helm uninstall
     keep: false
