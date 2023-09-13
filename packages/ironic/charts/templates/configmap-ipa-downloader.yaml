@@ -10,5 +10,3 @@ data:
   IPA_BASEURI: {{ .ipaBaseUri }}
   {{ end }}
   {{ end }}
-  get-resource.sh: |
-{{ include (print .Template.BasePath "/bin/_get-resource.sh.tpl") . | indent 4 }}

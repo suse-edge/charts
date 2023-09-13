@@ -177,78 +177,6 @@ affinity: {}
 volumeMounts:
   - mountPath: /shared
     name: ironic-data-volume
-  - mountPath: /bin/configure-coreos-ipa
-    name: ironic
-    subPath: configure-coreos-ipa
-  - mountPath: /bin/configure-httpd-ipa.sh
-    name: ironic
-    subPath: configure-httpd-ipa.sh
-  - mountPath: /bin/configure-ironic.sh
-    name: ironic
-    subPath: configure-ironic.sh  
-  - mountPath: /bin/coreos-ipa-common.sh
-    name: ironic
-    subPath: coreos-ipa-common.sh
-  - mountPath: /bin/ironic-common.sh
-    name: ironic
-    subPath: ironic-common.sh
-  - mountPath: /bin/rundnsmasq
-    name: ironic
-    subPath: rundnsmasq
-  - mountPath: /bin/runhttpd
-    name: ironic
-    subPath: runhttpd
-  - mountPath: /bin/runironic
-    name: ironic
-    subPath: runironic
-  - mountPath: /bin/runironic-api
-    name: ironic
-    subPath: runironic-api
-  - mountPath: /bin/runironic-conductor
-    name: ironic
-    subPath: runironic-conductor
-  - mountPath: /bin/runironic-exporter
-    name: ironic
-    subPath: runironic-exporter
-  - mountPath: /bin/runironic-inspector
-    name: ironic
-    subPath: runironic-inspector
-  - mountPath: /bin/runlogwatch.sh
-    name: ironic
-    subPath: runlogwatch.sh
-  - mountPath: /bin/tls-common.sh
-    name: ironic
-    subPath: tls-common.sh
-  - mountPath: /etc/dnsmasq.conf.j2
-    name: ironic
-    subPath: dnsmasq.conf.j2
-  - mountPath: /etc/httpd-ironic-api.conf.j2
-    name: ironic
-    subPath: httpd-ironic-api.conf.j2
-  - mountPath: /etc/httpd-vmedia.conf.j2
-    name: ironic
-    subPath: httpd-vmedia.conf.j2
-  - mountPath: /etc/httpd/conf.d/inspector-apache.conf.j2
-    name: ironic
-    subPath: inspector-apache.conf.j2
-  - mountPath: /etc/ironic-inspector/ironic-inspector.conf.j2
-    name: ironic
-    subPath: ironic-inspector.conf.j2
-  - mountPath: /etc/ironic/ironic.conf.j2
-    name: ironic
-    subPath: ironic.conf.j2
-  - mountPath: /tmp/inspector.ipxe.j2
-    name: ironic
-    subPath: inspector.ipxe.j2
-  - mountPath: /tmp/ironic-python-agent.ign.j2
-    name: ironic
-    subPath: ironic-python-agent.ign.j2
-  - mountPath: /usr/local/bin/mkisofs
-    name: ironic
-    subPath: mkisofs
-  - mountPath: /usr/local/bin/get-resource.sh
-    name: ironic-ipa-downloader
-    subPath: get-resource.sh
 
 certVolumeMounts:
   - mountPath: /certs/ironic/tls.crt
@@ -312,10 +240,6 @@ volumes:
   - name: ironic-data-volume    
     persistentVolumeClaim:
       claimName: ironic-shared-volume
-  - name: ironic  
-    configMapName: ironic-bin
-  - name: ironic-ipa-downloader  
-    configMapName: ironic-ipa-downloader
    
 baremetaloperator:
   # If no dhpHosts set, all mac addresses acknowledged
