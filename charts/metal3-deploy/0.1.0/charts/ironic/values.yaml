@@ -70,10 +70,15 @@ global:
 
 replicaCount: 1
 
-image:
-  repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
-  pullPolicy: IfNotPresent
-  tag: 21.1.1
+images:
+  ironic:
+    repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+    pullPolicy: IfNotPresent
+    tag: 21.1.1
+  ironicIPADownloader:
+    repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic-ipa-downloader
+    pullPolicy: IfNotPresent
+    tag: latest
 
 nameOverride: ""
 fullnameOverride: ""
@@ -265,10 +270,6 @@ ironic:
     type: containers
     envFrom:
       - configMapRefname: ironic-bmo
-    image:
-      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
-      pullPolicy: IfNotPresent
-      tag: 21.1.1
     execCommand:
       - sh
       - -c
@@ -294,11 +295,7 @@ ironic:
         secretKeyRefKey: password
         secretKeyRefName: ironic-mariadb    
     requireProvisioningIP: true
-    image:
-      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
-      pullPolicy: IfNotPresent
-      tag: 21.1.1
-    execCommand:    
+    execCommand:
       - /bin/sh
       - -c
       - curl -sSf http://127.0.0.1:6385 || curl -sSfk https://127.0.0.1:6385
@@ -308,10 +305,6 @@ ironic:
         protocol: TCP
   - servname: ironic-log-watch
     command: /bin/runlogwatch.sh
-    image:
-      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
-      pullPolicy: IfNotPresent
-      tag: 21.1.1
   - servname: ironic-inspector
     command: /bin/runironic-inspector
     env:
@@ -321,10 +314,6 @@ ironic:
     envFrom:
       - configMapRefname: ironic-bmo
     requireProvisioningIP: true
-    image:
-      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
-      pullPolicy: IfNotPresent
-      tag: 21.1.1
     execCommand:
       - sh
       - -c
@@ -338,27 +327,19 @@ ironic:
     envFrom:
       - configMapRefname: ironic-bmo
     requireProvisioningIP: true
-    image:
-      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
-      pullPolicy: IfNotPresent
-      tag: 21.1.1
-    execCommand:  
+    execCommand:
       - /bin/sh
       - -c
       - curl -sSf http://127.0.0.1:6180/boot.ipxe || curl -sSfk https://127.0.0.1:6180/boot.ipxe
     ports:
       - containerPort: 6180
         name: httpd
-        protocol: TCP      
+        protocol: TCP
   - servname: ironic-ipa-downloader
     command: /usr/local/bin/get-resource.sh
     type: initContainers
     envFrom:
       - configMapRefname: ironic-ipa-downloader
-    image:
-      repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic-ipa-downloader
-      pullPolicy: IfNotPresent
-      tag: ""
     volumeMounts:
       - mountPath: /shared
         name: ironic-data-volume
