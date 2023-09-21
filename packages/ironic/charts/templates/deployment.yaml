@@ -23,10 +23,9 @@ spec:
       labels:
         {{- include "ironic.selectorLabels" . | nindent 8 }}
     spec:
-      {{- $relname := .Release.Name }}      
-      {{- $imgname := .Values.image.repository }} 
-      {{- $imgtag := .Values.image.tag }}
-      {{- $imgpullpolicy := .Values.image.pullPolicy }}
+      {{- $imgname := "" }}
+      {{- $imgtag := "" }}
+      {{- $imgpullpolicy := "" }}
       {{- $volmounts := toYaml .Values.volumeMounts | trim | nindent 12}}
       {{- $vol := toYaml .Values.volumes | trim | nindent 8 }}
       {{- $certvolmounts := toYaml .Values.certVolumeMounts | trim | nindent 12}}
@@ -47,20 +46,18 @@ spec:
       {{ .type }}:
       {{- end }}
         {{- if or (and (ne .servname "ironic-dnsmasq") ($.Values.global.enable_ironic)) (and (eq .servname "ironic-dnsmasq") ($.Values.global.enable_dnsmasq)) }}
+        {{- if eq .servname "ironic-ipa-downloader" }}
+          {{- $imgname = $.Values.images.ironicIPADownloader.repository }}
+          {{- $imgtag = $.Values.images.ironicIPADownloader.tag }}
+          {{- $imgpullpolicy = $.Values.images.ironicIPADownloader.pullPolicy }}
+        {{- else }}
+          {{- $imgname = $.Values.images.ironic.repository }}
+          {{- $imgtag = $.Values.images.ironic.tag }}
+          {{- $imgpullpolicy = $.Values.images.ironic.pullPolicy }}
+        {{- end }}
         - name: {{ .servname }}
-          {{- if .image }}
-          {{- with .image }}
-           {{- if .tag }}
-          image: {{ .repository }}:{{ .tag }}
-           {{- else }}
-          image: {{ .repository }}
-           {{- end }}
-          imagePullPolicy: {{ .pullPolicy }} 
-          {{- end }}
-          {{- else }}
           image: {{ $imgname }}:{{ $imgtag }}
           imagePullPolicy: {{ $imgpullpolicy }}
-          {{- end }}
           {{- if .securityContext }}
           securityContext:
             {{- toYaml .securityContext | nindent 12 }}
