@@ -1,13 +1,22 @@
+{{- $ironicApiHost := .Values.global.ironicApiHost }}
+{{- $ironicBootHost := .Values.global.ironicBootHost }}
+{{- $ironicInspectorHost := .Values.global.ironicInspectorHost }}
+{{- $ironicCacheHost := .Values.global.ironicCacheHost }}
+
+{{- if .Values.global.ironicIP }}
+{{- $ironicApiHost = print .Values.global.ironicIP ":6385" }}
+{{- $ironicBootHost = print .Values.global.ironicIP ":6180" }}
+{{- $ironicInspectorHost = print .Values.global.ironicIP ":5050" }}
+{{- $ironicCacheHost = print .Values.global.ironicIP ":6180" }}
+{{- end }}
 apiVersion: v1
 data:
-{{- with .Values.baremetaloperator }}
-  CACHEURL: {{ tpl .cacheUrl $ }}
-  DEPLOY_KERNEL_URL: {{ tpl .deployKernelUrl $ }}
-  DEPLOY_RAMDISK_URL: {{ tpl .deployRamdiskUrl $ }}
+  CACHEURL: "http://{{ $ironicCacheHost }}/images"
+  DEPLOY_KERNEL_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.kernel"
+  DEPLOY_RAMDISK_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs"
   HTTP_PORT: {{ .httpPort | quote }}
-  IRONIC_ENDPOINT: {{ tpl .ironicEndpoint $ }}
-  IRONIC_INSPECTOR_ENDPOINT: {{ tpl .ironicInspectorEndpoint $ }}
-{{- end }}
+  IRONIC_ENDPOINT: "http://{{ $ironicApiHost }}/v1/"
+  IRONIC_INSPECTOR_ENDPOINT: "http://{{ $ironicInspectorHost }}/v1/"
   DHCP_RANGE: {{ .Values.global.dhcpRange }}
   PROVISIONING_INTERFACE: {{ .Values.global.provisioningInterface }}
   PROVISIONING_IP: {{ .Values.global.provisioningIP }}

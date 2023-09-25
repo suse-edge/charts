@@ -18,10 +18,6 @@ global:
   # NOTE: enable_dnsmasq must set to 'true' in order for this option to be effective.
   enable_pxe_boot: true
 
-  # DNS domain that all services will either be members of, or, in the
-  # case of external-dns and pdns, manage.
-  dnsDomain: suse.baremetal
-
   # IP address of the router associated with the specified DHCP
   # address range
   dnsmasqDefaultRouter: 192.168.21.254
@@ -98,13 +94,14 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 service:
-  - type: httpd 
+  type: NodePort
+  ports:
+  - name: httpd 
     port: 6180
-  - type: api
+  - name: api
     port: 6385
-  - type: inspector
+  - name: inspector
     port: 5050  
-  - type: NodePort 
 
 ingress:
   enabled: true 
@@ -113,22 +110,22 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: "api.ironic.{{ .Values.global.dnsDomain }}"
+    - host: "{{ .Values.global.ironicApiHost }}"
       paths:
         - path: /
           pathType: Prefix 
           portname: api
-    - host: "inspector.ironic.{{ .Values.global.dnsDomain }}"
+    - host: "{{ .Values.global.ironicInspectorHost }}"
       paths:
         - path: /
           pathType: Prefix
           portname: inspector
-    - host: "boot.ironic.{{ .Values.global.dnsDomain }}"
+    - host: "{{ .Values.global.ironicBootHost }}"
       paths:
         - path: /
           pathType: Prefix
           portname: httpd
-    - host: "cache.ironic.{{ .Values.global.dnsDomain }}"
+    - host: "{{ .Values.global.ironicCacheHost }}"
       paths:
         - path: /
           pathType: Prefix
@@ -139,10 +136,10 @@ ingress:
   tls:   
     - secretName: ironic-cacert 
       hosts:
-        - api.ironic.{{ .Values.global.dnsDomain }}
-        - boot.ironic.{{ .Values.global.dnsDomain }}
-        - cache.ironic.{{ .Values.global.dnsDomain }}
-        - inspector.ironic.{{ .Values.global.dnsDomain }}
+        - "{{ .Values.global.ironicApiHost }}"
+        - "{{ .Values.global.ironicBootHost }}"
+        - "{{ .Values.global.ironicCacheHost }}"
+        - "{{ .Values.global.ironicInspectorHost }}"
   
 
 letsEncrypt:
@@ -250,7 +247,6 @@ baremetaloperator:
   # If no dhpHosts set, all mac addresses acknowledged
   dhcpHosts: ""
 
-  bootServerAddress: "boot.ironic.{{ .Values.global.dnsDomain }}"
   dnsmasqDnsServerAddress: "{{ .Values.global.dnsmasqDNSServer }}"
   httpPort: "6180"
 
@@ -258,8 +254,6 @@ baremetaloperator:
   # and ironic-python-agent.tar.md5). If not set, we install the
   # opensuse based IPA image
   #ipaBaseUri: "https://images.rdoproject.org/centos8/master/rdo_trunk/current-tripleo"
-  ironicApiHost: "api.ironic.{{ .Values.global.dnsDomain }}"
-  ironicInspectorHost: "inspector.ironic.{{ .Values.global.dnsDomain }}"
   ironicRamdiskSshKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGYaMrmsmLbv3O6Fj+0kg/U8iY7pcbO9HkbN88OAD+5 colstrom@headnode"
   cloudflareApiToken: "foo"
   ironichostNetwork: true

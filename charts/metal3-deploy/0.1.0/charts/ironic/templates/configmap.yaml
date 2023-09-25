@@ -6,34 +6,45 @@ metadata:
     {{- include "ironic.labels" . | nindent 4 }}
 data:
   {{- $protocol := "http" }}
+  {{- $ironicApiHost := .Values.global.ironicApiHost }}
+  {{- $ironicBootHost := .Values.global.ironicBootHost }}
+  {{- $ironicInspectorHost := .Values.global.ironicInspectorHost }}
+  {{- $ironicCacheHost := .Values.global.ironicCacheHost }}
+
+  {{- if .Values.global.ironicIP }}
+  {{- $ironicApiHost = print .Values.global.ironicIP ":6385" }}
+  {{- $ironicBootHost = print .Values.global.ironicIP ":6180" }}
+  {{- $ironicInspectorHost = print .Values.global.ironicIP ":5050" }}
+  {{- $ironicCacheHost = print .Values.global.ironicIP ":6180" }}
+  {{- end }}
+
   {{- if  ( .Values.global.enable_tls ) }}
     {{- $protocol = "https" }}
   {{- end }}
-  {{- $dnsDomain := .Values.global.dnsDomain }}      
   {{- with .Values.baremetaloperator }}      
-  CACHEURL: {{ $protocol }}://cache.ironic.{{ $dnsDomain }}/images
-  DEPLOY_KERNEL_URL: {{ $protocol }}://boot.ironic.{{ $dnsDomain }}/images/ironic-python-agent.kernel
-  DEPLOY_RAMDISK_URL: {{ $protocol }}://boot.ironic.{{ $dnsDomain }}/images/ironic-python-agent.initramfs
+  CACHEURL: {{ $protocol }}://{{ $ironicCacheHost }}/images
+  DEPLOY_KERNEL_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel
+  DEPLOY_RAMDISK_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs
   {{ if  .dhcpHosts }}
   DHCP_HOSTS: {{ .dhcpHosts }}
   {{ end }}
-  DNSMASQ_BOOT_SERVER_ADDRESS: {{ tpl .bootServerAddress $ }}
+  DNSMASQ_BOOT_SERVER_ADDRESS: {{ $ironicBootHost }}
   DNSMASQ_DNS_SERVER_ADDRESS: {{ tpl .dnsmasqDnsServerAddress $ }}
   HTTP_PORT: {{ .httpPort | quote }}
   {{ if .ipaBaseUri }}
   IPA_BASEURI: {{ .ipaBaseUri }}
   {{ end }}
-  IRONIC_API_BASE_URL: {{ $protocol }}://{{ tpl .ironicApiHost $ }}
-  IRONIC_API_HOST: {{ tpl .ironicApiHost $ }}
-  IRONIC_API_HTTPD_SERVER_NAME: {{ tpl .ironicApiHost $ }}
-  IRONIC_BOOT_BASE_URL: {{ $protocol }}://boot.ironic.{{ $dnsDomain }}
-  IRONIC_ENDPOINT: {{ $protocol }}://{{ tpl .ironicApiHost $ }}/v1/
-  IRONIC_INSPECTOR_BASE_URL: {{ $protocol }}://{{ tpl .ironicInspectorHost $ }}
-  IRONIC_INSPECTOR_ENDPOINT: {{ $protocol }}://{{ tpl .ironicInspectorHost $ }}/v1/
-  IRONIC_INSPECTOR_HOST: {{ tpl .ironicInspectorHost $ }}
-  IRONIC_INSPECTOR_HTTPD_SERVER_NAME: {{ tpl .ironicInspectorHost $ }}
+  IRONIC_API_BASE_URL: {{ $protocol }}://{{ $ironicApiHost }}
+  IRONIC_API_HOST: {{ $ironicApiHost }}
+  IRONIC_API_HTTPD_SERVER_NAME: {{ $ironicApiHost }}
+  IRONIC_BOOT_BASE_URL: {{ $protocol }}://{{ $ironicBootHost }}
+  IRONIC_ENDPOINT: {{ $protocol }}://{{ $ironicApiHost }}/v1/
+  IRONIC_INSPECTOR_BASE_URL: {{ $protocol }}://{{ $ironicInspectorHost }}
+  IRONIC_INSPECTOR_ENDPOINT: {{ $protocol }}://{{ $ironicInspectorHost }}/v1/
+  IRONIC_INSPECTOR_HOST: {{ $ironicInspectorHost }}
+  IRONIC_INSPECTOR_HTTPD_SERVER_NAME: {{ $ironicInspectorHost }}
   IRONIC_RAMDISK_SSH_KEY: {{ .ironicRamdiskSshKey }}
-  IRONIC_VMEDIA_HTTPD_SERVER_NAME: {{ tpl .bootServerAddress $ }} 
+  IRONIC_VMEDIA_HTTPD_SERVER_NAME: {{ $ironicBootHost }}
   {{- end }}
   ENABLE_PXE_BOOT: "{{ .Values.global.enable_pxe_boot }}"
   DHCP_RANGE: {{ .Values.global.dhcpRange }}
@@ -49,7 +60,7 @@ data:
   LISTEN_ALL_INTERFACES: "true"
   {{- if  ( .Values.global.enable_tls ) }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
-  IRONIC_KERNEL_PARAMS: console=ttyS0 suse.cafile={{ $protocol }}://boot.ironic.{{ $dnsDomain }}/tstcerts/ca.crt
+  IRONIC_KERNEL_PARAMS: console=ttyS0 suse.cafile={{ $protocol }}://{{ $ironicBootHost }}/tstcerts/ca.crt
   IPA_INSECURE: "0"
   {{- else }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"

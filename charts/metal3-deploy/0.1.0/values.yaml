@@ -29,6 +29,15 @@ global:
   # external-dns.
   enable_pdns: true
 
+  # whether to enable MetalLB
+  # NOTE: In case the MetalLB is enabled, PowerDNS and external-dns will not be needed and should be disabled.
+  enable_metallb: false
+
+  # IP on which the Ironic services will be exposed
+  # If the ironicIP is set, then it will be used instead of the dnsDomain
+  # Set it when enable_metallb is true
+  ironicIP: ""
+
   # whether to use NFS provisioner to create the storage for Ironic
   #
   # NOTE: the NFS export directory for Ironic are expected to be configured
@@ -61,6 +70,15 @@ global:
   # DNS domain that all services will either be members of, or, in the
   # case of external-dns and pdns, manage.
   dnsDomain: suse.baremetal
+
+  # Host of the Ironic API
+  ironicApiHost: "api.ironic.suse.baremetal"
+  # Host of the Ironic Inspector
+  ironicInspectorHost: "inspector.ironic.suse.baremetal"
+  # Host of the Ironic Boot
+  ironicBootHost: "boot.ironic.suse.baremetal"
+  # Host of the Ironic Cache
+  ironicCacheHost: "cache.ironic.suse.baremetal"
 
   dnsPolicy: "None"
 
@@ -264,7 +282,10 @@ metal3-baremetal-operator:
 # Override any settings for the metal3 ironic service here
 # Ensure the storageClass is defined
 metal3-ironic:
+  # service:
+  #   type: LoadBalancer
   ingress:
+    # enabled: false
     annotations: {}
       # The IP to register with external-dns for this service
       #external-dns.alpha.kubernetes.io/target: 192.168.20.5
