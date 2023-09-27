@@ -38,6 +38,8 @@ helm install \
 4. Provide the IP pool configuration with:
 
 ```bash
+export STATIC_IRONIC_IP=<STATIC_IRONIC_IP>
+
 cat <<-EOF | kubectl apply -f -
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
@@ -46,7 +48,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - <STATIC_IRONIC_IP>/32
+  - ${STATIC_IRONIC_IP}/32
   serviceAllocation:
     priority: 100
     serviceSelectors:
@@ -66,26 +68,39 @@ spec:
 EOF
 ```
 
-5. Change the following values in the `metal3-deploy/0.1.0/values.yaml` file:
+5. Create new values.yaml file that will override some of the default properties:
 
-```
+```bash
+TMP_DIR=$(mktemp -d)
+
+cat > ${TMP_DIR}/values.yaml << EOF
 global:
+  enable_dnsmasq: false
+  enable_pxe_boot: false
+  provisioningInterface: ""
+  provisioningIP: ""
+  enable_metal3_media_server: false
   enable_external_dns: false
   enable_pdns: false
   enable_metallb: true
-  ironicIP: "<STATIC_IRONIC_IP>"
-  ingress:
-    enabled: false
+  ironicIP: "${STATIC_IRONIC_IP}"
 
 metal3-ironic:
+  ingress:
+    enabled: false
   service:
-    type: LoadBalancer 
+    type: LoadBalancer
+EOF
 ```
 
 # Install
 
 ```bash
-helm install metal3 . -n metal3-system --create-namespace
+helm install \
+  metal3 suse-edge/metal3-deploy \
+  --namespace metal3-system \
+  --create-namespace
+  -f ${TMP_DIR}/values.yaml
 ```
 
 # How to upgrade the chart

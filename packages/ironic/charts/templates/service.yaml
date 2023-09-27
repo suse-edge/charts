@@ -6,12 +6,11 @@ metadata:
   labels:
     {{- include "ironic.labels" . | nindent 4 }}
 spec:
+  type: {{ .Values.service.type }}
   ports:
-  {{- range .Values.service }}       
-  {{- if ne .type "NodePort" }}
-  - name: {{ .type }}
+  {{- range .Values.service.ports }}       
+  - name: {{ .name }}
     port: {{ .port }}
-  {{- end }}  
   {{- end }}
   selector:
     {{- include "ironic.selectorLabels" . | nindent 4 }}
