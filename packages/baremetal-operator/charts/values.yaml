@@ -3,11 +3,6 @@
 # Declare variables to be passed into your templates.
 
 global:
-
-  # DNS domain that all services will either be members of, or, in the
-  # case of external-dns and pdns, manage.
-  dnsDomain: suse.baremetal
-
   # specify comma serparate beginning and end of the range of IP
   # addresses the DHCP server will manage.
   dhcpRange: 192.168.20.20,192.168.20.80
@@ -38,10 +33,10 @@ global:
 replicaCount: 1
 
 image:
-  repository: quay.io/metal3-io/baremetal-operator
+  repository: registry.opensuse.org/isv/metal3/bci/baremetal-operator/containerfile/suse/baremetal-operator
   pullPolicy: IfNotPresent 
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "capm3-v1.1.2"
+  tag: "0.3.1"
 
 imagePullSecrets: []
 nameOverride: "manger"
@@ -113,10 +108,4 @@ tolerations: []
 affinity: {}
 
 baremetaloperator:
-  cacheUrl: "http://cache.ironic.{{ .Values.global.dnsDomain }}/images"
-  deployKernelUrl: "http://boot.ironic.{{ .Values.global.dnsDomain }}/images/ironic-python-agent.kernel"
-  deployRamdiskUrl: "http://boot.ironic.{{ .Values.global.dnsDomain }}/images/ironic-python-agent.initramfs"
   httpPort: "6180"
-
-  ironicEndpoint: "http://api.ironic.{{ .Values.global.dnsDomain }}/v1/"
-  ironicInspectorEndpoint: "http://inspector.ironic.{{ .Values.global.dnsDomain }}/v1/"
