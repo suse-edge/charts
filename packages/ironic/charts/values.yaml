@@ -110,22 +110,22 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: "{{ .Values.global.ironicApiHost }}"
+    - host: '{{ .Values.global.ironicApiHost | default (printf "api.ironic.%s" .Values.global.dnsDomain) }}'
       paths:
         - path: /
           pathType: Prefix 
           portname: api
-    - host: "{{ .Values.global.ironicInspectorHost }}"
+    - host: '{{ .Values.global.ironicInspectorHost | default (printf "inspector.ironic.%s" .Values.global.dnsDomain) }}'
       paths:
         - path: /
           pathType: Prefix
           portname: inspector
-    - host: "{{ .Values.global.ironicBootHost }}"
+    - host: '{{ .Values.global.ironicBootHost | default (printf "boot.ironic.%s" .Values.global.dnsDomain) }}'
       paths:
         - path: /
           pathType: Prefix
           portname: httpd
-    - host: "{{ .Values.global.ironicCacheHost }}"
+    - host: '{{ .Values.global.ironicCacheHost | default (printf "cache.ironic.%s" .Values.global.dnsDomain) }}'
       paths:
         - path: /
           pathType: Prefix
@@ -136,10 +136,10 @@ ingress:
   tls:   
     - secretName: ironic-cacert 
       hosts:
-        - "{{ .Values.global.ironicApiHost }}"
-        - "{{ .Values.global.ironicBootHost }}"
-        - "{{ .Values.global.ironicCacheHost }}"
-        - "{{ .Values.global.ironicInspectorHost }}"
+        - '{{ .Values.global.ironicApiHost | default (printf "api.ironic.%s" .Values.global.dnsDomain) }}'
+        - '{{ .Values.global.ironicInspectorHost | default (printf "inspector.ironic.%s" .Values.global.dnsDomain) }}'
+        - '{{ .Values.global.ironicBootHost | default (printf "boot.ironic.%s" .Values.global.dnsDomain) }}'
+        - '{{ .Values.global.ironicCacheHost | default (printf "cache.ironic.%s" .Values.global.dnsDomain) }}'
   
 
 letsEncrypt:

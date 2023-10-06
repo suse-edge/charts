@@ -6,10 +6,10 @@ metadata:
     {{- include "ironic.labels" . | nindent 4 }}
 data:
   {{- $protocol := "http" }}
-  {{- $ironicApiHost := .Values.global.ironicApiHost }}
-  {{- $ironicBootHost := .Values.global.ironicBootHost }}
-  {{- $ironicInspectorHost := .Values.global.ironicInspectorHost }}
-  {{- $ironicCacheHost := .Values.global.ironicCacheHost }}
+  {{- $ironicApiHost := default (printf "api.ironic.%s" .Values.global.dnsDomain) .Values.global.ironicApiHost }}
+  {{- $ironicBootHost := default (printf "boot.ironic.%s" .Values.global.dnsDomain) .Values.global.ironicBootHost }}
+  {{- $ironicInspectorHost := default (printf "inspector.ironic.%s" .Values.global.dnsDomain) .Values.global.ironicInspectorHost }}
+  {{- $ironicCacheHost := default (printf "cache.ironic.%s" .Values.global.dnsDomain) .Values.global.ironicCacheHost }}
 
   {{- if .Values.global.ironicIP }}
   {{- $ironicApiHost = print .Values.global.ironicIP ":6385" }}
