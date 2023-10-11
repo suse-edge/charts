@@ -21,7 +21,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 ```
 
 ## MetalLB (Optional)
-To configure Ironic to use static IP instead of PowerDNS and External DNS, the following things should be done:
+Ironic currently requires a staticIP address and MetalLB is one option to achieve that.
 
 1. If K3s is used as Kubernetes distribution, then it should be started with `--disable=servicelb` flag. Ref https://metallb.universe.tf/configuration/k3s/
 2. Find 1 free IP address in the network.
@@ -38,6 +38,8 @@ helm install \
 4. Provide the IP pool configuration with:
 
 ```bash
+export STATIC_IRONIC_IP=<STATIC_IRONIC_IP>
+
 cat <<-EOF | kubectl apply -f -
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
@@ -46,7 +48,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - <STATIC_IRONIC_IP>/32
+  - ${STATIC_IRONIC_IP}/32
   serviceAllocation:
     priority: 100
     serviceSelectors:
@@ -66,26 +68,24 @@ spec:
 EOF
 ```
 
-5. Change the following values in the `metal3-deploy/0.1.0/values.yaml` file:
+5. Create new values.yaml file that will override some of the default properties:
 
-```
+```bash
+TMP_DIR=$(mktemp -d)
+cat > ${TMP_DIR}/values.yaml << EOF
 global:
-  enable_external_dns: false
-  enable_pdns: false
-  enable_metallb: true
   ironicIP: "<STATIC_IRONIC_IP>"
-  ingress:
-    enabled: false
-
-metal3-ironic:
-  service:
-    type: LoadBalancer 
+EOF
 ```
 
 # Install
 
 ```bash
-helm install metal3 . -n metal3-system --create-namespace
+helm install \
+  metal3 suse-edge/metal3-deploy \
+  --namespace metal3-system \
+  --create-namespace
+  -f ${TMP_DIR}/values.yaml
 ```
 
 # How to upgrade the chart
@@ -93,8 +93,6 @@ helm install metal3 . -n metal3-system --create-namespace
 
 2. Identify the appropriate subchart values settings and create an appropriate override values YAML file.
    * Ensure that the relevant ironic and baremetal-operator settings match.
-   * Ensure that the relevant powerdns and external-dns settings match.
-   * Ensure that the same DNS domain is configured for all relevant services.
 
 3. Install the chart using a command like the following:
 

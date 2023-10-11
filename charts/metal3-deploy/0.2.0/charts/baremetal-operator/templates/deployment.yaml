@@ -88,12 +88,3 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.global.dnsPolicy }}
-      dnsPolicy:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.global.dnsConfig }}
-      dnsConfig:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-
