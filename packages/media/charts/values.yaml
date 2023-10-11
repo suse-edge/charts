@@ -10,14 +10,6 @@ global:
       # The IP to register with external-dns for this service
       #external-dns.alpha.kubernetes.io/target: 192.168.20.5
 
-  # If using pdnsIP for to set powerdns to use hostNetwork, update
-  # the nameservers to the pdnsIP address
-  dnsConfig:
-    nameservers:
-    - 10.43.255.254
-    searches:
-    - suse.baremetal
-
   # If running in a multi-node kubernetes cluster, "pin" the media container
   # to the given host where the /opt/media volume exists. Uncomment the
   # nodeSelector and update the hostname accordingly.
@@ -103,8 +95,6 @@ autoscaling:
 tolerations: []
 
 affinity: {}
-
-dnsConfig: {}
 
 # volumes
 volumes:

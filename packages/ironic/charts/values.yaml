@@ -46,14 +46,6 @@ global:
       # The IP to register with external-dns for this service
       #external-dns.alpha.kubernetes.io/target: 192.168.20.5
 
-  # If using pdnsIP for to set powerdns to use hostNetwork, update
-  # the nameservers to the pdnsIP address
-  dnsConfig:
-    nameservers:
-    - 10.43.255.254
-    searches:
-    - suse.baremetal
-
   # In a multi-node kubernetes cluster, we need to "pin" the
   # ironic containers to the given host where the
   # provisioningIP exists. Uncomment the nodeSelector

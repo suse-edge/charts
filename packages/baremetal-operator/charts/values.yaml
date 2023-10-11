@@ -13,16 +13,8 @@ global:
   # IP Address assigned to network interface on provisioning network
   provisioningIP: 192.168.20.5
 
-  # If using pdnsIP for to set powerdns to use hostNetwork, update
-  # the nameservers to the pdnsIP address
-  dnsConfig:
-    nameservers:
-    - 10.43.255.254
-    searches:
-    - suse.baremetal
-
   # If running in a multi-node kubernetes cluster, "pin" the baremtal container
-  # to the same host where the ironic, external-dns, pdns, and media containers
+  # to the same host where the ironic and media containers
   # arerunning. Uncomment the nodeSelector and update the hostname accordingly.
   #nodeSelector: 
     #kubernetes.io/hostname: "my-hostname"
