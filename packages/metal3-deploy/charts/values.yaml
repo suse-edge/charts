@@ -62,7 +62,6 @@ global:
   # Global ingress annotations that is shared by all the ingress services.
   # For example, use it to override extern-dns records.
   ingress:
-    enabled: false
     annotations: {}
       # The IP to register with external-dns for this service
       #external-dns.alpha.kubernetes.io/target: 192.168.20.5
@@ -113,7 +112,7 @@ metal3-ironic:
   service:
     type: LoadBalancer
   ingress:
-    # enabled: false
+    enabled: false
     annotations: {}
       # The IP to register with external-dns for this service
       #external-dns.alpha.kubernetes.io/target: 192.168.20.5

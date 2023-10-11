@@ -55,7 +55,7 @@ entries:
   metal3-deploy:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-10-11T10:27:02.275147+03:00"
+    created: "2023-10-11T14:45:01.222956+03:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -71,7 +71,7 @@ entries:
       name: media
       repository: file://./charts/media
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 620f7bb77f7c51bb5b45a23bbf3a6073c9a82b812242be2305f75b593843243b
+    digest: 50dc45841ed2dca1247093db376989a1f54556e46500a2807491620e0078d33f
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3-deploy
     type: application
