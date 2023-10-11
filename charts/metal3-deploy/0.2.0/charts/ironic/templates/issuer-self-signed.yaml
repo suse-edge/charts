@@ -1,0 +1,12 @@
+{{- if and (.Values.ingress.enabled) (.Values.global.enable_ironic) -}}
+  {{- if and ($.Values.global.enable_tls) (eq .Values.ingress.tlsSource "self") -}}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ include "ironic.fullname" . }}
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+  {{- end -}}
+{{- end -}}
