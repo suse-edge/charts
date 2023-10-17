@@ -97,7 +97,7 @@ EOF
 
 ```bash
 helm install \
-  metal3 suse-edge/metal3-deploy \
+  metal3 suse-edge/metal3 \
   --namespace metal3-system \
   --create-namespace
   -f ${TMP_DIR}/values.yaml

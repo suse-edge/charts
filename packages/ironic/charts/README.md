@@ -17,23 +17,6 @@ Additional options if
 
 ### Pre-requistes
 
-* Valid Domain registered in CloudFlare
-* Valid CloudFlare API token available
-
-metal3-demo environment extra_vars.yaml should have following uncommented
-```
-dns_provider: cloudflare
-cloudflare:
-  apiToken: "foo"
-  proxied: false
-```
-
-Ironic helm-chart values.yaml or overrides file
-```
-global.dnsDomain: baremetal.management (Valid Domain Name registered in CloudFlare)
-baremetaloperator.cloudflareApiToken: "foo" (Valid CloudFlare API Token for the domain registered)
-```
-
 - tlsSource secrets
 
 Ironic helm-chart values.yaml or overrides file

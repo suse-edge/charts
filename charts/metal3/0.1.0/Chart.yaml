@@ -39,7 +39,7 @@ dependencies:
   repository: file://./charts/powerdns
   version: 0.1.0
 description: A Helm chart that installs all of the dependencies needed for Metal3
-name: metal3-deploy
+name: metal3
 type: application
 version: 0.1.0
 icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg

@@ -4,18 +4,21 @@ dependencies:
 - alias: metal3-baremetal-operator
   name: baremetal-operator
   repository: file://./charts/baremetal-operator
-- alias: metal3-ironic
+  version: 0.1.1
+- condition: ironic.enabled
   name: ironic
   repository: file://./charts/ironic
-- alias: metal3-mariadb
+  version: 0.1.1
+- condition: mariadb.enabled
   name: mariadb
   repository: file://./charts/mariadb
-- alias: metal3-media
-  condition: global.enable_metal3_media_server
+  version: 0.1.1
+- condition: media.enabled
   name: media
   repository: file://./charts/media
+  version: 0.1.0
 description: A Helm chart that installs all of the dependencies needed for Metal3
 icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
-name: metal3-deploy
+name: metal3
 type: application
 version: 0.2.0

@@ -5,7 +5,7 @@ entries:
       catalog.cattle.io/display-name: Akri
     apiVersion: v2
     appVersion: 0.10.4
-    created: "2023-10-03T10:54:49.333871+02:00"
+    created: "2023-10-17T12:11:17.567764+03:00"
     description: A Helm chart for Akri
     digest: 9fe62e9e460526afbae804231d735eece837c5543bf5832a5b6553e6164b63ae
     name: akri
@@ -16,7 +16,7 @@ entries:
   kubevirt:
   - apiVersion: v2
     appVersion: 0.58.0
-    created: "2023-10-11T10:16:56.314787+03:00"
+    created: "2023-10-17T12:11:17.570453+03:00"
     dependencies:
     - alias: cdi
       condition: cdi.enabled
@@ -43,7 +43,7 @@ entries:
       catalog.cattle.io/ui-component: plugins
     apiVersion: v2
     appVersion: 0.1.0
-    created: "2023-08-08T11:41:22.16767+02:00"
+    created: "2023-10-17T12:11:17.570666+03:00"
     description: 'SUSE Edge: KubeVirt extension for Rancher Dashboard'
     digest: bdb5d8d8943e159d5687a51fc4cbd5dac29a780737e4a9daf0d8863ffc1f7e7c
     icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/kubevirt/icon/color/kubevirt-icon-color.svg
@@ -52,35 +52,38 @@ entries:
     urls:
     - assets/kubevirt-dashboard-extension/kubevirt-dashboard-extension-0.1.0.tgz
     version: 0.1.0
-  metal3-deploy:
+  metal3:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-10-11T14:45:01.222956+03:00"
+    created: "2023-10-17T12:18:02.556285+03:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
       repository: file://./charts/baremetal-operator
-    - alias: metal3-ironic
+      version: 0.1.1
+    - condition: ironic.enabled
       name: ironic
       repository: file://./charts/ironic
-    - alias: metal3-mariadb
+      version: 0.1.1
+    - condition: mariadb.enabled
       name: mariadb
       repository: file://./charts/mariadb
-    - alias: metal3-media
-      condition: global.enable_metal3_media_server
+      version: 0.1.1
+    - condition: media.enabled
       name: media
       repository: file://./charts/media
+      version: 0.1.0
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 50dc45841ed2dca1247093db376989a1f54556e46500a2807491620e0078d33f
+    digest: 52e3f4a57f92dc5848c1e6cbe15bc54e4f0cafe57c26cb6ed4cfa7e1bd73555c
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
-    name: metal3-deploy
+    name: metal3
     type: application
     urls:
-    - assets/metal3-deploy/metal3-deploy-0.2.0.tgz
+    - assets/metal3/metal3-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-10-11T10:16:56.27353+03:00"
+    created: "2023-10-17T12:18:02.553438+03:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -120,17 +123,17 @@ entries:
       repository: file://./charts/powerdns
       version: 0.1.0
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: ddd14e15bc2cae1d0e110e3e3e9d325609c1627ca95c7dccdc59470c75377706
+    digest: 2795a01e9f4a943eebd692ae6ea580620b023ffbf1591a261dd257f6fe7983e6
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
-    name: metal3-deploy
+    name: metal3
     type: application
     urls:
-    - assets/metal3-deploy/metal3-deploy-0.1.0.tgz
+    - assets/metal3/metal3-0.1.0.tgz
     version: 0.1.0
   metallb:
   - apiVersion: v2
     appVersion: v0.13.10
-    created: "2023-10-11T10:16:56.274851+03:00"
+    created: "2023-10-17T12:11:17.582747+03:00"
     dependencies:
     - condition: crds.enabled
       name: crds
@@ -149,4 +152,4 @@ entries:
     urls:
     - assets/metallb/metallb-0.13.10.tgz
     version: 0.13.10
-generated: "2023-09-05T10:38:25.867512+03:00"
+generated: "2023-10-17T12:11:15.900212+03:00"
