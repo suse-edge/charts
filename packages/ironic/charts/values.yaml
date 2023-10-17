@@ -18,6 +18,9 @@ global:
   # NOTE: enable_dnsmasq must set to 'true' in order for this option to be effective.
   enable_pxe_boot: true
 
+  # DNS Policy of the Ironic pod
+  dnsPolicy: "ClusterFirstWithHostNet"
+
   # IP address of the router associated with the specified DHCP
   # address range
   dnsmasqDefaultRouter: 192.168.21.254
