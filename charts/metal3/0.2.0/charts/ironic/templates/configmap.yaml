@@ -1,5 +1,5 @@
 apiVersion: v1
-kind: ConfigMap 
+kind: ConfigMap
 metadata:
   name: ironic-bmo
   labels:
@@ -21,19 +21,23 @@ data:
   {{- if  ( .Values.global.enable_tls ) }}
     {{- $protocol = "https" }}
   {{- end }}
-  {{- with .Values.baremetaloperator }}      
+  {{- if  ( .Values.global.enable_dnsmasq ) }}
+  DNSMASQ_BOOT_SERVER_ADDRESS: {{ $ironicBootHost }}
+  DNSMASQ_DNS_SERVER_ADDRESS: {{ tpl .dnsmasqDnsServerAddress $ }}
+  DNSMASQ_DEFAULT_ROUTER: {{ .Values.global.dnsmasqDefaultRouter }}
+  DHCP_RANGE: {{ .Values.global.dhcpRange }}
+  {{- end }}
+  {{- with .Values.baremetaloperator }}
   CACHEURL: {{ $protocol }}://{{ $ironicCacheHost }}/images
   DEPLOY_KERNEL_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel
   DEPLOY_RAMDISK_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs
-  {{ if  .dhcpHosts }}
+  {{- if  .dhcpHosts }}
   DHCP_HOSTS: {{ .dhcpHosts }}
-  {{ end }}
-  DNSMASQ_BOOT_SERVER_ADDRESS: {{ $ironicBootHost }}
-  DNSMASQ_DNS_SERVER_ADDRESS: {{ tpl .dnsmasqDnsServerAddress $ }}
+  {{- end }}
   HTTP_PORT: {{ .httpPort | quote }}
-  {{ if .ipaBaseUri }}
+  {{- if .ipaBaseUri }}
   IPA_BASEURI: {{ .ipaBaseUri }}
-  {{ end }}
+  {{- end }}
   IRONIC_API_BASE_URL: {{ $protocol }}://{{ $ironicApiHost }}
   IRONIC_API_HOST: {{ $ironicApiHost }}
   IRONIC_API_HTTPD_SERVER_NAME: {{ $ironicApiHost }}
@@ -47,10 +51,12 @@ data:
   IRONIC_VMEDIA_HTTPD_SERVER_NAME: {{ $ironicBootHost }}
   {{- end }}
   ENABLE_PXE_BOOT: "{{ .Values.global.enable_pxe_boot }}"
-  DHCP_RANGE: {{ .Values.global.dhcpRange }}
-  DNSMASQ_DEFAULT_ROUTER: {{ .Values.global.dnsmasqDefaultRouter }}
+  {{- if .Values.global.provisioningInterface }}
   PROVISIONING_INTERFACE: {{ .Values.global.provisioningInterface }}
+  {{- end }}
+  {{- if .Values.global.provisioningIP }}
   PROVISIONING_IP: {{ .Values.global.provisioningIP }}
+  {{- end }}
   IRONIC_INSPECTOR_VLAN_INTERFACES: all
   IRONIC_ILO_USE_SWIFT: "false"
   IRONIC_ILO_USE_WEB_SERVER_FOR_IMAGES: "true"
@@ -68,4 +74,3 @@ data:
   IPA_INSECURE: "1"
   {{- end }}
   DATABASE_HOST: {{ .Values.global.database_clusterIP }}
-  #DATABASE_HOST: "127.0.0.1"
