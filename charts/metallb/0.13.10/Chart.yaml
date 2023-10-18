@@ -2,8 +2,8 @@ apiVersion: v2
 appVersion: v0.13.10
 dependencies:
 - condition: crds.enabled
-  name: crds
-  repository: ""
+  name: metallb-crds
+  repository: file://./charts/metallb-crds
   version: 0.13.10
 description: A network load-balancer implementation for Kubernetes using standard
   routing protocols
