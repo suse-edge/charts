@@ -1,0 +1,127 @@
+name: Test Metal3 Helm Chart
+
+on:
+  pull_request:
+    paths:
+      - '**/assets/metal3/**'  # Adjust the path based on your Helm chart structure
+
+jobs:
+  test-metal3-helm-chart:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v39
+        
+    - name: Verify and copy metal3 assets 
+      run: |
+        metal3_archive=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | tr -s " " "\012" | grep assets/metal3/)
+        
+        # Count the number of files in the array
+        num_files=$(echo "${metal3_archive}" | wc -l)
+        # Check if there is only one file
+        if [ "${num_files}" -gt 1 ]; then
+          echo "Multiple archives modified - please modify only a single chart release per PR:"
+          for file in "$metal3_archive"; do
+            echo "${file}"
+          done
+          exit 1  # Fail the workflow
+        fi
+        
+        mkdir helm-metal3-charts
+        tar xvzf "${metal3_archive}" -C helm-metal3-charts/
+
+    - name: Install K3s
+      run: |
+        curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode=644 --disable=servicelb" K3S_TOKEN=foobar sh -
+
+    - name: Install Helm
+      run: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        chmod +x get_helm.sh
+        ./get_helm.sh
+
+    - name: Install CertManager
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        helm repo add jetstack https://charts.jetstack.io
+        helm repo update
+        helm install cert-manager jetstack/cert-manager \
+          --namespace cert-manager \
+          --create-namespace \
+          --set installCRDs=true \
+          --version v1.11.1 
+
+    - name: Disable provisioning network
+      run: |
+        echo "global:" > disable_provnet.yaml
+        echo "  enable_dnsmasq: false" >> disable_provnet.yaml
+        echo "  enable_pxe_boot: false" >> disable_provnet.yaml
+        echo "  provisioningInterface: \"\"" >> disable_provnet.yaml
+        echo "  provisioningIP: \"\"" >> disable_provnet.yaml
+        echo "  enable_metal3_media_server: false" >> disable_provnet.yaml
+        
+    - name: Deploy Metal3 Helm Chart
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        helm install metal3 helm-metal3-charts/metal3 --values disable_provnet.yaml
+        
+    - name: Wait for all Metal3 pods to become ready
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        
+        # Set a timeout of 5 minutes
+        timeout=$((SECONDS + 300))
+        
+        while [ $SECONDS -lt $timeout ]; do
+            # Run the kubectl command to get pod information
+            kubectl_output=$(kubectl -n default get po | tail -n +2)
+        
+            # Flag to track whether all pods are ready
+            all_pods_ready=true
+        
+            # Iterate over each line in the kubectl output
+            while IFS= read -r line; do
+                # Extract the pod name and the readiness status
+                pod_name=$(echo "$line" | awk '{print $1}')
+                readiness_status=$(echo "$line" | awk '{print $2}')
+        
+                # Extract the desired and running replicas from the readiness status
+                desired_replicas=$(echo "$readiness_status" | awk -F'/' '{print $1}')
+                running_replicas=$(echo "$readiness_status" | awk -F'/' '{print $2}')
+        
+                # Check if the digit before / is the same as the one after /
+                if [ "$desired_replicas" -eq "$running_replicas" ]; then
+                    echo "$pod_name is ready"
+                else
+                    echo "$pod_name is not ready"
+                    all_pods_ready=false
+                fi
+            done <<< "$kubectl_output"
+        
+            # Check if all pods are ready
+            if [ "$all_pods_ready" = true ]; then
+                echo "All pods are ready"
+                exit 0
+            fi
+        
+            # Wait for a moment before checking again
+            sleep 5
+        done
+        
+        # If the loop completes, it means the timeout occurred
+        echo "Timeout: Not all pods are ready in 5 minutes."
+        exit 1
+
+    - name: Uninstall Helm Chart
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        helm uninstall metal3
+
+    - name: Uninstall K3s
+      run: |
+        /usr/local/bin/k3s-uninstall.sh
