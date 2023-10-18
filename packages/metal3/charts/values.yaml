@@ -15,13 +15,12 @@ global:
   # whether to enable media server.
   enable_metal3_media_server: true
 
-  # whether to enable dnsmasq. If DHCP is already provided by the existing networking
-  # infrastructure, it is recommended to set enable_dnsmasq to 'false'.
-  enable_dnsmasq: true
+  # whether to enable dnsmasq on the provisioning network (for PXE boot)
+  enable_dnsmasq: false
 
   # whether to enable PXE boot capability
   # NOTE: enable_dnsmasq must set to 'true' in order for this option to be effective.
-  enable_pxe_boot: true
+  enable_pxe_boot: false
 
   # whether to enable Ironic services besides dnsmasq.
   # NOTE: enable_dnsmasq has precedence over this option. If enable_dnsmasq is set
@@ -40,21 +39,21 @@ global:
 
   # IP address of the router associated with the specified DHCP
   # address range
-  dnsmasqDefaultRouter: 192.168.21.254
+  dnsmasqDefaultRouter: ""
 
   # IP address of the dns server to be provided with DHCP
   # response
-  dnsmasqDNSServer: 192.168.20.5
+  dnsmasqDNSServer: ""
 
-  # specify comma serparate beginning and end of the range of IP
-  # addresses the DHCP server will manage.
-  dhcpRange: 192.168.20.20,192.168.20.80
+  # specify comma-delimited range of IP addresses the DHCP server will manage.
+  # e.g 192.168.20.20,192.168.20.80
+  dhcpRange: ""
 
   # Network interface on which provisioning network can be accessed
-  provisioningInterface: ens4
+  provisioningInterface: ""
 
   # IP Address assigned to network interface on provisioning network
-  provisioningIP: 192.168.20.5
+  provisioningIP: ""
 
   # Database ClusterIP address
   database_clusterIP: 10.43.255.253
