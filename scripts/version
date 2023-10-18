@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-CHARTS_BUILD_SCRIPTS_REPO=https://github.com/rancher/charts-build-scripts.git
-CHARTS_BUILD_SCRIPT_VERSION=v0.4.2
+CHARTS_BUILD_SCRIPTS_REPO=https://github.com/suse-edge/charts-build-scripts.git
+CHARTS_BUILD_SCRIPT_VERSION=v0.5.1-edge1

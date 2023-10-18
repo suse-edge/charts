@@ -1,1 +1,0 @@
-The metal3-deploy chart is a parent chart that installs all of the other charts that a metal3 deployment needs, but doesn't actually deploy any services itself.

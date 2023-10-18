@@ -1,0 +1,61 @@
+global:
+  # Please provide a static ClusterIP from the range as shown by the following commands
+  # kubectl cluster-info dump | grep -m 1 service-cluster-ip-range
+  # OR
+  # SVCRANGE=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
+  # echo $SVCRANGE
+  #
+  # If the static IP is not in the range or is already used by another service, deployment will fail
+  database_service_type: ClusterIP
+  database_clusterIP: 10.43.255.253
+  database_port: 3306
+  nodeSelector: {}
+
+replicaCount: 1
+
+image:
+  repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/mariadb
+  pullPolicy: Always
+  tag: 10.6.7
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+
+# Password for the mariadb ironic user
+password: ""
+
+persistence:
+  # storageClass for the mariadb data volume
+  storageClass: ""
+  # size of the mariadb data volume
+  size: "1Gi"
+  # accessMode of the mariadb data volume PVC
+  # If empty defaults to ReadWriteOnce when replicaCount=1 otherwise ReadWriteMany
+  accessMode: ""
+  # flag to indicate to keep pvc upon helm uninstall
+  keep: false
+
+volumeMounts:
+  - name: mariadb-data-volume
+    mountPath: /var/lib/mysql
+
+volumes:
+  - name: mariadb-data-volume
+    persistentVolumeClaim:
+      claimName: mariadb-volume-claim

@@ -1,0 +1,20 @@
+{{- if and (.Values.ingress.enabled) (.Values.global.enable_ironic) -}}
+  {{- if and ($.Values.global.enable_tls) (eq .Values.ingress.tlsSource "letsEncrypt") -}}
+apiVersion: cert-manager.io/v1 
+kind: Certificate 
+metadata:
+  name: {{ include "ironic.fullname" . }}-tls-ca
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+spec:
+  secretName: ironic-cacert 
+  issuerRef:
+    name: {{ include "ironic.fullname" . }} 
+    kind: Issuer
+  dnsNames:
+  - api.ironic.{{ .Values.global.dnsDomain }}
+  - inspector.ironic.{{ .Values.global.dnsDomain }}
+  - boot.ironic.{{ .Values.global.dnsDomain }}
+  - cache.ironic.{{ .Values.global.dnsDomain }}
+  {{- end -}}
+{{- end -}}  
