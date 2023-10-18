@@ -3,7 +3,7 @@ appVersion: v0.13.10
 description: MetalLB CRDs
 home: https://metallb.universe.tf
 icon: https://metallb.universe.tf/images/logo/metallb-white.png
-name: crds
+name: metallb-crds
 sources:
 - https://github.com/metallb/metallb
 type: application
