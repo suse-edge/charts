@@ -38,6 +38,8 @@ spec:
             name: {{ include "baremetal-operator.fullname" . }}-ironic
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
         livenessProbe:
           failureThreshold: 10
           httpGet:
@@ -61,8 +63,6 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 2
-        securityContext:
-          allowPrivilegeEscalation: false
         volumeMounts:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
