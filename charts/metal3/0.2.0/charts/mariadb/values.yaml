@@ -1,17 +1,15 @@
 global:
-  # Please provide a static ClusterIP from the range as shown by the following commands
-  # kubectl cluster-info dump | grep -m 1 service-cluster-ip-range
-  # OR
-  # SVCRANGE=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
-  # echo $SVCRANGE
-  #
-  # If the static IP is not in the range or is already used by another service, deployment will fail
-  database_service_type: ClusterIP
-  database_clusterIP: 10.43.255.253
-  database_port: 3306
+  databaseServiceName: "metal3-mariadb"
   nodeSelector: {}
 
 replicaCount: 1
+
+service:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
 
 image:
   repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/mariadb

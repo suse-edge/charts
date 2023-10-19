@@ -39,8 +39,7 @@ global:
   # IP Address assigned to network interface on provisioning network
   provisioningIP: ""
 
-  # Database ClusterIP address
-  database_clusterIP: 10.43.255.253
+  databaseServiceName: "metal3-mariadb"
 
   # Global ingress annotations that is shared by all the ingress services.
   # For example, use it to override extern-dns records.
@@ -89,6 +88,11 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 requireProvisioningIP: true
+
+# Host on which ironic can reach its database.
+# If left empty, host will be resolved to the FQDN
+# of the service with name provided under the 'global.databaseServiceName' property
+databaseHost: ""
 
 service:
   type: NodePort
