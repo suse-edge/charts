@@ -88,15 +88,25 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
+requireProvisioningIP: true
+
 service:
   type: NodePort
+  annotations: {}
+  externalIPs: []
   ports:
-  - name: httpd 
+  - name: httpd
     port: 6180
+    protocol: TCP
+    targetPort: 6180
+  - name: inspector
+    port: 5050
+    protocol: TCP
+    targetPort: 5050
   - name: api
     port: 6385
-  - name: inspector
-    port: 5050  
+    protocol: TCP
+    targetPort: 6385  
 
 ingress:
   enabled: true 
@@ -171,73 +181,6 @@ tolerations: []
 
 affinity: {}
 
-volumeMounts:
-  - mountPath: /shared
-    name: ironic-data-volume
-
-certVolumeMounts:
-  - mountPath: /certs/ironic/tls.crt
-    name: ironic-certs
-    subPath: tls.crt
-  - mountPath: /certs/ironic/tls.key
-    name: ironic-certs
-    subPath: tls.key
-  - mountPath: /certs/ironic-inspector/tls.crt
-    name: ironic-insp-certs
-    subPath: tls.crt
-  - mountPath: /certs/ironic-inspector/tls.key
-    name: ironic-insp-certs
-    subPath: tls.key
-  - mountPath: /certs/ca/ironic/tls.crt
-    name: ironic-cacerts
-    subPath: tls.crt
-  - mountPath: /certs/ca/ironic-inspector/tls.crt
-    name: ironic-insp-cacerts
-    subPath: tls.crt
-
-secretVolMounts:
-  - name: ironic-certs
-    mountPath: "/certs/ironic"
-    readOnly: true
-  - name: ironic-insp-certs
-    mountPath: "/certs/ironic-inspector"
-    readOnly: true
-  - name: vmedia-certs
-    mountPath: "/certs/vmedia"
-    readOnly: true
-  - name: vmedia-ca-certs
-    mountPath: "/certs/ca/vmedia"
-    readOnly: true  
-
-cacertVolumeMounts:
-  - mountPath: /etc/pki/trust/anchors/ca.crt
-    name: ironic-trustca
-    subPath: tls.cacert
-  - mountPath: /shared/html/tstcerts/ca.crt
-    name: ironicipa-trustca
-    subPath: tls.cacert
-
-trustVolMounts:
-  - name: ironic-trustcerts
-    mountPath: "/etc/pki/trust/anchors"
-    readOnly: true
-  - name: ironicipa-trustcerts
-    mountPath: "/shared/html/tstcerts"
-    readOnly: true
-
-letsEncryptVolMounts:
-  - mountPath: /etc/pki/trust/anchors/ca.crt
-    name: ironic-le-trustca
-    subPath: tls.lecacert
-  - mountPath: /shared/html/tstcerts/ca.crt
-    name: ironicipa-le-trustca
-    subPath: tls.lecacert
-
-volumes:
-  - name: ironic-data-volume    
-    persistentVolumeClaim:
-      claimName: ironic-shared-volume
-   
 baremetaloperator:
   # If no dhpHosts set, all mac addresses acknowledged
   dhcpHosts: ""
@@ -252,86 +195,6 @@ baremetaloperator:
   ironicRamdiskSshKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGYaMrmsmLbv3O6Fj+0kg/U8iY7pcbO9HkbN88OAD+5 colstrom@headnode"
   cloudflareApiToken: "foo"
   ironichostNetwork: true
-
-ironic:
-  - servname: ironic-dnsmasq
-    command: /bin/rundnsmasq
-    type: containers
-    envFrom:
-      - configMapRefname: ironic-bmo
-    execCommand:
-      - sh
-      - -c
-      - ss -lun | grep :67 && ss -lun | grep :69
-    ports:
-      - containerPort: 67
-        name: dhcp
-        protocol: UDP
-      - containerPort: 69
-        name: tftp
-        protocol: UDP  
-    securityContext:
-      capabilities:
-        add:
-          - NET_ADMIN
-          - NET_RAW   
-  - servname: ironic
-    command: /bin/runironic
-    envFrom:
-      - configMapRefname: ironic-bmo
-    env:
-      - name: MARIADB_PASSWORD
-        secretKeyRefKey: password
-        secretKeyRefName: ironic-mariadb    
-    requireProvisioningIP: true
-    execCommand:
-      - /bin/sh
-      - -c
-      - curl -sSf http://127.0.0.1:6385 || curl -sSfk https://127.0.0.1:6385
-    ports:
-      - containerPort: 6385
-        name: api
-        protocol: TCP
-  - servname: ironic-log-watch
-    command: /bin/runlogwatch.sh
-  - servname: ironic-inspector
-    command: /bin/runironic-inspector
-    env:
-      - name: MARIADB_PASSWORD
-        secretKeyRefKey: password
-        secretKeyRefName: ironic-mariadb    
-    envFrom:
-      - configMapRefname: ironic-bmo
-    requireProvisioningIP: true
-    execCommand:
-      - sh
-      - -c
-      - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050
-    ports:
-      - containerPort: 5050
-        name: inspector
-        protocol: TCP
-  - servname: ironic-httpd
-    command: /bin/runhttpd
-    envFrom:
-      - configMapRefname: ironic-bmo
-    requireProvisioningIP: true
-    execCommand:
-      - /bin/sh
-      - -c
-      - curl -sSf http://127.0.0.1:6180/boot.ipxe || curl -sSfk https://127.0.0.1:6180/boot.ipxe
-    ports:
-      - containerPort: 6180
-        name: httpd
-        protocol: TCP
-  - servname: ironic-ipa-downloader
-    command: /usr/local/bin/get-resource.sh
-    type: initContainers
-    envFrom:
-      - configMapRefname: ironic-ipa-downloader
-    volumeMounts:
-      - mountPath: /shared
-        name: ironic-data-volume
 
 tlscerts:
   cacert: "-----BEGIN CERTIFICATE-----\nMIIE9TCCAt2gAwIBAgIJAIEyyig4o5FDMA0GCSqGSIb3DQEBCwUAMBExDzANBgNV\nBAMMBklyb25pYzAeFw0yMzA0MTgwMTE5NTFaFw0yNDA0MDgwMTE5NTFaMBExDzAN\nBgNVBAMMBklyb25pYzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAPB4\n/IAO9XmvW09MZNaKLLu/K8t15yLqHGyUaIQeZFq7dZ+t7W3TdHiikB+9wjGJ82dm\nzxLcdNLy79s8ZGPb/j3/0cO6oCZgRtYZB1poM/cPn1l9AAEn1C1oLijcsJLcc+Rj\nE3e8AGqEiTSFpkjmooEZkFMgtjXjLmi3mIwmZS56fUh+B8acwS2+h/zeJyNe2GjN\nqhKfbBhI3Xrli7BqDVRUJe3dPS92AtdYdipLTb57RqJvwyAfw0sG8VCNczcHbm/6\nnyj9FuwU0onQzyhUJfGP32Xl/zjjGhqz2JGXMenhlfRDpp5IoRdq93z6PBzx5q3m\nt8zVL4U7N1vS89y0Wn7aNApqk6zP8H40ThhmvhNClsUNs4RMZrMOA4SAQG5a5sLF\nKPaqaA9ATzUeMRYo0m/eqxdWtcuIQhKdiG4CzaqKuVSenjcUfaTA8lvqzTR5fLYw\n7RFQXIUEstNRqO7tGQiIOcZYTaA2TcIBOjUFArt2eNR2JNqidyZgzrlJUzqJ2zMS\nejKtkily7EN+HqLfGupqJ/HKRvp8VIvvTDx2c4laSN02NDlkL8hvGEvZx02yjJex\nYrkw474WmE62cqVpiuSZx2HkoP/JHqeKIIB5NyYFkOcWuL6vLdINNKKYYo1ityjS\n/Px5Egg485oGVNhHs8Ea/PtGAuj8uLneS+1vGTx9AgMBAAGjUDBOMB0GA1UdDgQW\nBBRtUaXKw+sMrQeqzlndylAwx1ehOTAfBgNVHSMEGDAWgBRtUaXKw+sMrQeqzlnd\nylAwx1ehOTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQBe4R7WqJCg\nPdkOEnPIhoUoOqBfubCK9mfNwgTFlV7lDKHyPspfNClqi3LGe9CQwwjEEldKtoAG\nYMyDViP1Vf9a5EmL7SevEdl90DSrG/ltAhl5cKGW0JBcxtmS18D9zz9rU+FGXek/\n4+QlSQHtPd6uAUj4fqjx8q2BdrpuIkBOPikR5rgd6F2JYSr+GjFZBisvvPEjSckN\nrFTM1yHlLFCnrrhpgcx1+YTmJggT5vn4567pl+ENqqE8VAnlq7SwrTXxqFNartuv\n7rAeNQdKWvsLUhXstj0BQIEqJgz9rulL/73fgxc6OLU0LJqi1WNNdXQwZmOpIJqs\nEwolVphBzqoHn07uPERdYS10F5tmtS0NppNxa5M6sFb3Imd9lFoAF3wOqItYvsBP\ni/uOoShsXnO6J/we1VPcamH+3w+1nPx5d89XYMUXdeILBaFgwKyKhmUYswZX9o0B\nL24QCCmKHZE43uuJzvS9d3qbzFa9HtSdiYbXxg5GMpqbzk4Q/quxRQKxo3GF/OGG\n76l9TCbadXU49V2XiNYEYc2FALKu1ZkQm/uJamloUrO/wi+CgYm5D+KkuZTLd5Tf\nRGTdk2bru820T4HBxMPUzoYHyqOZrX0UpiWRbIhAE2p361hihAKc4mvNWgOFR4vm\nMBbDhPTeF/21yS78x3A12H+mL+z7J03Zgg==\n-----END CERTIFICATE-----\n-----BEGIN CERTIFICATE-----\nMIIGBDCCA+ygAwIBAgIBATANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZJcm9u\naWMwIBcNMjMwNDE4MDEzOTAyWhgPMjA1MDA5MDMwMTM5MDJaMFsxCzAJBgNVBAYT\nAlVTMQswCQYDVQQIDAJDQTERMA8GA1UEBwwIU2FuIEpvc2UxDTALBgNVBAoMBFN1\nc2UxDDAKBgNVBAsMA0RldjEPMA0GA1UEAwwGSXJvbmljMIICIjANBgkqhkiG9w0B\nAQEFAAOCAg8AMIICCgKCAgEAsL9Nud0TlZwjidAfv4D/R5RtsDenZvQoHxe+A4XH\nLAuyuAsvICWKXrTAyNSRB0KPRzpPcrGbRF28N2UtmYwAJ3aBqSI7CKNVVOuzpEy3\nQcUv20LXLmW+CW3PDCg8QBs3RVlO1RutQ+AIQfjNYI8ryxdnnANiSTgMfIABhar6\nTnyRjMlKQRfBLcsz7xWkDmcnyLZD3X4aVUSFENtACCeErdyMGBznuh6jiJDfSew9\nOECZDfz84A81h8w9eFXC3pGtLpRQX0+Ae6t3dQjhhmfiKEUpcwaU0w+PA0cXkaNk\nBcjuXFry8u16WYBaLS4Bbcdh1IaqrpNN/vkVUHB7aBENhmnxX114K78c3cs88aUy\nKMgZRpCvG8z77TMUoue70BN9XQxTE5s4fZqUkytGdtAogjQ2nkGAaCeXYD6+qbUX\nAUXP6VhiK3bXFHPVC7TYU+Z7biG1O+iJFf9pZBHxYQdN1en+f9PlpxzvX14lObFR\n5HlR0uiI1HjQ2zzkDPfB6FH5K1gYobWZHZJ604g3yNHtYRD1AIPuwamSsNzRKZI/\nzNRPUKZb0gchrWMMw3ThjZsufCiCsdCIZ1Y+xyNAl7HmRHdD2AzVDYvjUOvXAhE9\n0z/LbMBkHAUXwor0IMwOtF3rlLa5V+6wedQtm2/Xt6mScil1n52mmcX/yT94xJvL\nbZMCAwEAAaOCARkwggEVMEEGA1UdIwQ6MDiAFG1RpcrD6wytB6rOWd3KUDDHV6E5\noRWkEzARMQ8wDQYDVQQDDAZJcm9uaWOCCQCBMsooOKORQzAJBgNVHRMEAjAAMAsG\nA1UdDwQEAwIEMDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwgZgGA1Ud\nEQSBkDCBjYIfYXBpLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIlaW5zcGVj\ndG9yLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIgYm9vdC5pcm9uaWMuYmFy\nZW1ldGFsLm1hbmFnZW1lbnSCIWNhY2hlLmlyb25pYy5iYXJlbWV0YWwubWFuYWdl\nbWVudDANBgkqhkiG9w0BAQsFAAOCAgEAI/n/PVRTOoTzrANm2NwuoiIETBBCUC1m\nl+dW7oY7vWWqiMaaYAXa736eUYBjeB7OCq1pvuQ1vrmPzAR488z65nF4Aouxnwfh\n0d4NeQ3fxQrDL0tv4sgpEX6bE3OAbFeCRVPmE+BctAaBZ2DbEL66ZvyTQhCbfCZn\nrpV5jcBDeHkqy8ObpqWHbCmUjmlz2bIAf6w31loR5eLyBdX+CYTm48/cBu4fQjmA\ne4Pv2ZtQSJmFaGDSZ9ySWL7zfk1Y4xCbJWYD4IprPSGP8Gt7G0IvCooGSTtkk7uU\nPGK0OrlOe5nWyR+KhJ1gutSoKYrG2/F2x2YnfaekHHkDddG7HSxo2pHqyCKPdZ6p\nsKJS2vuRr01GKdewO76ifZM5HT9nU0CkzpNHdM1BS7nBLgSJmPOqHbB/JQ74DI/7\nm+MpaDmSkgODV3ewKO4qUYVCBQ6G73PptcR/vntBezFu6fqzJBCoxxhX0ub0q8is\nGGAnbzgjKLNv1mgALNDN32UtjyK0GhEZltchwoZy88UcLQTZmSQBVtSKK2V1W6rM\nZHOSCD7yb6rlYAhM4GvDwkQU4xjOGziR9A2gWeO2xCl6S9+e0n4tx3opUUy9YOWE\npFrVN1bQqpX5ChDReKwLVncKD/gfCpUzfVkdm8HPr8eR7qWiIzNnXOm31lpWhPnb\nE7zHS6fn5iU=\n-----END CERTIFICATE-----\n-----BEGIN CERTIFICATE-----\nMIIGBDCCA+ygAwIBAgIBATANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZJcm9u\naWMwIBcNMjMwNDE4MDE0MTQwWhgPMjA1MDA5MDMwMTQxNDBaMFsxCzAJBgNVBAYT\nAlVTMQswCQYDVQQIDAJDQTERMA8GA1UEBwwIU2FuIEpvc2UxDTALBgNVBAoMBFN1\nc2UxDDAKBgNVBAsMA0RldjEPMA0GA1UEAwwGSXJvbmljMIICIjANBgkqhkiG9w0B\nAQEFAAOCAg8AMIICCgKCAgEAwNg3biQ+OdQZlYukHzMqUo9+JyU8YVIYY3uQGERa\ncnb+0uisQUqvTaOdpxaCHuA/jaeq7KdXehy7hvoorpOfyK3FoKI4EfPBDDbZkQ4f\nGvpFHhJP5g/jTee2/pzyhCI3AOkBBulYj3eI1nOPAMKkeavJp4GcLWNMVcrCR5tB\nTZWFZMORWfNBs1prdY2iiVVFf8C7oBHj9Mz6dbjrg/JFbXtsbnwmJAYieJxh34bi\nSWOkyFYAvZMZRrSteahlXMZlJU26Yx41CAtg/bLqiUQ6+XRAmeQNIDH6pST8bDsf\nwb1cZ1gTJ6SY3ObcMVEA5STo3ICW/N33AVH03q56A1t1bYQaTfgaPxzIrFTZC2cL\nNgKn1rMBfQloWKca9njW8BUCgk7qhwPh//m+RJe4r2NIidWQb9UTWzY16iNWK2yi\nlTs2vfoIWpV87wxScEC0WtWMPuGpIi8hSivmxYHPsV/v4lIrxcMB39hFKKrHYJYt\njBVUEpXNzMB4XiVlV2dQl7wkvWIxvGNFtMe5JQ2mvqsOpZ/zcuKok6/5P/A6BpGB\nBN8e2bEPXwPWh7GpLWoQw3N1LnxhbstgJBht0ARy4XDwxagVddwxe1MkJB32lyK5\nljJX3G7FkFDiitnj6cGsv8dxjTGaVIPIKy+jtrs06cGFmZfkMQ5F5+OaM8cycnQh\nOEUCAwEAAaOCARkwggEVMEEGA1UdIwQ6MDiAFG1RpcrD6wytB6rOWd3KUDDHV6E5\noRWkEzARMQ8wDQYDVQQDDAZJcm9uaWOCCQCBMsooOKORQzAJBgNVHRMEAjAAMAsG\nA1UdDwQEAwIEMDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwgZgGA1Ud\nEQSBkDCBjYIfYXBpLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIlaW5zcGVj\ndG9yLmlyb25pYy5iYXJlbWV0YWwubWFuYWdlbWVudIIgYm9vdC5pcm9uaWMuYmFy\nZW1ldGFsLm1hbmFnZW1lbnSCIWNhY2hlLmlyb25pYy5iYXJlbWV0YWwubWFuYWdl\nbWVudDANBgkqhkiG9w0BAQsFAAOCAgEA8C8dIJCxzCcLv1J40WPVVuVgH2gmRYaN\np0F7ilyE5falI42XyBqSpPueL1ePXqWLZBgXgrsb/H8b5rUa8OEr865bmiou1odz\n7DxmfHHED3+NcqQuExnb+rfQkTqa2eO/+X+sDMfvp0V2+3HFRLtoPQr3uY4i2q+3\nE2388v8JyeTw9bAW2u+JAn8XfGh3NJ0F1RL9T1GWt0VrmwsJ4RUQeOArwRhFRPpZ\nrzxYiLoaOXlCzRNUUCcBI6Nxi/ef/0qam2W4XZFrkDZrRh/YEacHucULfqL0BAwo\nmK6VvvFnvBK2gFCG7loz6H93PqxeAPmMLP8WrmU12iY0bd+zxujYZv6UZXMvhFJD\nVXZC8aUHWTPyjtXod5Snt5/jQ4K7aYaFGF5EPnuDfyFhYRS7mP7kH7APDUOGuTEw\nc2ViugJIAgojayRmA/DTtO3JLHUJaiWfRIVB0tB05qgSiBB8BmLy4mFZ6Hzyj/0a\ndijDtdM+boSXYln5kZcS3LKtcs7m/uFpcUJGwEshNwPevfZQ+hMKa1doRMYFbb1i\nIwax0NWu7dweP56FvNw2PslCNlc7rg59kUF9t0Q57IhgNI7l9RyPUO/rLp6x5Usm\n8jq+8BaAFE9K2V5fKQv9cnCuYlM8Ah4G1OcaYB6EWhqWlxF4GvriOFgjawjfZpj2\n+mr8GCzHwqo=\n-----END CERTIFICATE-----\n"

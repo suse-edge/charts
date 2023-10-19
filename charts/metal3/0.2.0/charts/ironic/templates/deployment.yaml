@@ -23,236 +23,248 @@ spec:
       labels:
         {{- include "ironic.selectorLabels" . | nindent 8 }}
     spec:
-      {{- $imgname := "" }}
-      {{- $imgtag := "" }}
-      {{- $imgpullpolicy := "" }}
-      {{- $volmounts := toYaml .Values.volumeMounts | trim | nindent 12}}
-      {{- $vol := toYaml .Values.volumes | trim | nindent 8 }}
-      {{- $certvolmounts := toYaml .Values.certVolumeMounts | trim | nindent 12}}
       {{- $tlssource := .Values.ingress.tlsSource }}
-      {{- $secvolmounts := toYaml .Values.secretVolMounts | trim | nindent 12}}
-      {{- $cacertvolmounts := toYaml .Values.cacertVolumeMounts | trim | nindent 12}}
-      {{- $trustvolmounts := toYaml .Values.trustVolMounts | trim | nindent 12}}
-      {{- $levolmounts := toYaml .Values.letsEncryptVolMounts | trim | nindent 12}}
-      {{- $tls := .Values.tls }}
-
-
+      {{- if .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
       {{- if .Values.baremetaloperator.ironichostNetwork }}
       hostNetwork: {{ .Values.baremetaloperator.ironichostNetwork }}
       {{- end }}
-
-      {{- range .Values.ironic }}
-      {{- if .type }}
-      {{ .type }}:
-      {{- end }}
-        {{- if or (and (ne .servname "ironic-dnsmasq") ($.Values.global.enable_ironic)) (and (eq .servname "ironic-dnsmasq") ($.Values.global.enable_dnsmasq)) }}
-        {{- if eq .servname "ironic-ipa-downloader" }}
-          {{- $imgname = $.Values.images.ironicIPADownloader.repository }}
-          {{- $imgtag = $.Values.images.ironicIPADownloader.tag }}
-          {{- $imgpullpolicy = $.Values.images.ironicIPADownloader.pullPolicy }}
-        {{- else }}
-          {{- $imgname = $.Values.images.ironic.repository }}
-          {{- $imgtag = $.Values.images.ironic.tag }}
-          {{- $imgpullpolicy = $.Values.images.ironic.pullPolicy }}
+      containers:
+      {{- if .Values.global.enable_ironic }}
+      - name: ironic-httpd
+        image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
+        imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        command:
+        - /bin/runhttpd
+        envFrom:
+        - configMapRef:
+            name: ironic-bmo
+        {{- if and .Values.requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
+        env:
+        - name: PROVISIONING_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
         {{- end }}
-        - name: {{ .servname }}
-          image: {{ $imgname }}:{{ $imgtag }}
-          imagePullPolicy: {{ $imgpullpolicy }}
-          {{- if .securityContext }}
-          securityContext:
-            {{- toYaml .securityContext | nindent 12 }}
-          {{- end }}
-          {{- if .command }}
-          command:
-            - {{ .command }}
-          {{- end }}
-          {{- if .envFrom }}
-          envFrom:
-          {{- range .envFrom }}
-            - configMapRef:
-                name: {{ .configMapRefname }}
-          {{- end }}
-          {{- end }}
-          {{- if or .env (and .requireProvisioningIP (eq $.Values.global.provisioningIP "")) }}
-          env:
-            {{- range .env }}
-            - name: {{ .name }}
-              valueFrom:
-                {{- if .secretKeyRefKey }}
-                secretKeyRef:
-                  key: {{ .secretKeyRefKey }}
-                  name: {{ .secretKeyRefName }}
-                {{- end }}
-                {{- if .configMapKeyRefKey }}
-                configMapKeyRef:
-                  key: {{ .configMapKeyRefKey }}
-                  name: {{ .configMapKeyRefName }}
-                {{- end }}
-            {{- end }}
-            {{- if and .requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
-            - name: PROVISIONING_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
-            {{- end }}
-          {{- end }}
-          {{- if .execCommand }}
-          livenessProbe:
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - curl -sSf http://127.0.0.1:6180/boot.ipxe || curl -sSfk https://127.0.0.1:6180/boot.ipxe
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        ports:
+        - containerPort: 6180
+          name: httpd
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - curl -sSf http://127.0.0.1:6180/boot.ipxe || curl -sSfk https://127.0.0.1:6180/boot.ipxe
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        volumeMounts:
+          {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+        {{- if .Values.global.enable_tls }}
+          {{- include "ironic.tlsVolumeMounts" . | nindent 10 }}
+        {{- end }}
+      - name: ironic-inspector
+        image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
+        imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        command:
+        - /bin/runironic-inspector
+        envFrom:
+        - configMapRef:
+            name: ironic-bmo
+        env:
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: ironic-mariadb
+        {{- if and .Values.requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
+        - name: PROVISIONING_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        {{- end }}
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050  
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        ports:
+        - containerPort: 5050
+          name: inspector
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050 
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        volumeMounts:
+          {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+        {{- if .Values.global.enable_tls }}
+          {{- include "ironic.tlsVolumeMounts" . | nindent 10 }}
+        {{- end }}
+      - name: ironic-log-watch
+        image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
+        imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        command:
+        - /bin/runlogwatch.sh
+        volumeMounts:
+          {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+      - name: ironic
+        image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
+        imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        command:
+        - /bin/runironic
+        envFrom:
+        - configMapRef:
+            name: ironic-bmo
+        env:
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: ironic-mariadb
+        {{- if and .Values.requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
+        - name: PROVISIONING_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        {{- end }}
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - curl -sSf http://127.0.0.1:6385 || curl -sSfk https://127.0.0.1:6385
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10 
+        ports:
+        - containerPort: 6385
+          name: api
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - curl -sSf http://127.0.0.1:6385 || curl -sSfk https://127.0.0.1:6385
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        volumeMounts:
+          {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+        {{- if .Values.global.enable_tls }}
+          {{- include "ironic.tlsVolumeMounts" . | nindent 10 }}
+        {{- end }}
+        {{- if .Values.global.enable_tls }}
+        lifecycle:
+          postStart:
             exec:
               command:
-              {{- range .execCommand }}
-                - {{ . }}
-              {{- end }}  
-            failureThreshold: 10
-            initialDelaySeconds: 30
-            periodSeconds: 30
-            successThreshold: 1
-            timeoutSeconds: 10
-          {{- end }}   
-          {{- if .ports }}
-          ports:
-          {{- range .ports }}
-            - containerPort: {{ .containerPort }}
-              name: {{ .name }}
-              protocol: {{ .protocol }}
-          {{- end }}
-          {{- end }}
-          {{- if .execCommand }}
-          readinessProbe:
-            exec:
-              command:
-              {{- range .execCommand }}
-                - {{ . }}
-              {{- end }}
-            failureThreshold: 10
-            initialDelaySeconds: 30
-            periodSeconds: 30
-            successThreshold: 1
-            timeoutSeconds: 10
-          {{- end }}    
-          {{- if .volumeMounts }}
-          volumeMounts:
-          {{- range .volumeMounts }}
-            - mountPath: {{ .mountPath }}
-              name: {{ .name }}
-          {{- if .subPath }}
-              subPath: {{ .subPath }}
-          {{- end }}        
-          {{- end }}
-          {{- else }}
-          volumeMounts:
-            {{- $volmounts }}  
-          {{- end }}
-          {{- if  and ($.Values.global.enable_tls) (ne .servname "ironic-dnsmasq")  }}
-           {{- if (eq $tlssource "secrets") }}
-           {{- $cacertvolmounts }}
-           {{- end }}
-           {{- if (eq $tlssource "self") }}
-           {{- $trustvolmounts }}
-           {{- end }}
-           {{- if or (eq .servname "ironic") (eq .servname "ironic-inspector") (eq .servname "ironic-httpd") }}
-           {{- if (eq $tlssource "letsEncrypt") }}
-           {{- $levolmounts }}
-           {{- end }}
-           {{- end }}
-          {{- end }}
-          {{- if and ($.Values.global.enable_tls) (eq $tls "ironic") }}
-           {{- if or (eq .servname "ironic") (eq .servname "ironic-inspector") (eq .servname "ironic-httpd") }}
-            {{- if (eq $tlssource "secrets") }}
-            {{- $certvolmounts }}
-            {{- end }}
-            {{- if or (eq $tlssource "self") (eq $tlssource "letsEncrypt") }}
-            {{- $secvolmounts }}
-            {{- end }}
-           {{- end }}
-          {{- end }}
-          {{- if and (eq .servname "ironic") ($.Values.global.enable_tls) }}
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - update-ca-certificates
-          {{- end }}
-      {{- end }}    
+                - update-ca-certificates
+        {{- end }}
       {{- end }}
-
+      {{- if .Values.global.enable_dnsmasq }}
+      - name: ironic-dnsmasq
+        image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
+        imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            - NET_RAW
+        command:
+        - /bin/rundnsmasq
+        envFrom:
+        - configMapRef:
+            name: ironic-bmo
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - ss -lun | grep :67 && ss -lun | grep :69
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        ports:
+        - containerPort: 67
+          name: dhcp
+          protocol: UDP
+        - containerPort: 69
+          name: tftp
+          protocol: UDP
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - ss -lun | grep :67 && ss -lun | grep :69
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        volumeMounts:
+          {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+      {{- end }}
+      {{- if .Values.global.enable_ironic }}
+      initContainers:
+      - name: ironic-ipa-downloader
+        image: {{ .Values.images.ironicIPADownloader.repository }}:{{ .Values.images.ironicIPADownloader.tag }}
+        imagePullPolicy: {{ .Values.images.ironicIPADownloader.pullPolicy }}
+        command:
+          - /usr/local/bin/get-resource.sh
+        envFrom:
+        - configMapRef:
+            name: ironic-ipa-downloader
+        volumeMounts:
+          {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+        {{- if .Values.global.enable_tls }}
+        {{- if (eq $tlssource "secrets") }}
+          {{- include "ironic.cacertVolumeMounts" . | nindent 10 }}
+        {{- end }}
+        {{- if (eq $tlssource "self") }}
+          {{- include "ironic.trustVolMounts" . | nindent 10 }}
+        {{- end }}
+        {{- end }}
+      {{- end }}
       volumes:
-      {{- range .Values.volumes }}
-      - name: {{ .name }}
-        {{- if and (.persistentVolumeClaim) ($.Values.global.enable_ironic) }}
-        persistentVolumeClaim:
-          claimName: {{ .persistentVolumeClaim.claimName }}
-        {{- end }}
-        {{- if .configMapName }}
-        configMap:
-          defaultMode: 493
-          name : {{ .configMapName }}
-        {{- end }}
-      {{- end -}}
-      {{- if ($.Values.global.enable_ironic) }}
-      {{- if $.Values.global.enable_tls }}
-      {{- if (eq $tlssource "secrets") }}
-      - name: ironic-trustca
-        configMap:
-          defaultMode: 493
-          name: ironic-certs
-      - name: ironicipa-trustca
-        configMap:
-          defaultMode: 493
-          name: ironic-certs    
-      {{- end }}
-      {{- if (eq $tlssource "self") }}
-      - name: ironic-trustcerts
-        secret:
-          secretName: ironic-cacert
-      - name: ironicipa-trustcerts
-        secret:
-          secretName: ironic-cacert    
-      {{- end }}
-      {{- if (eq $tlssource "letsEncrypt") }}
-      - name: ironic-le-trustca
-        configMap:
-          defaultMode: 493
-          name: ironic-certs
-      - name: ironicipa-le-trustca
-        configMap:
-          defaultMode: 493
-          name: ironic-certs
-      {{- end }}    
-      {{- end }}
-      {{- if and ($.Values.global.enable_tls) (eq $tlssource "secrets") (eq $tls "ironic") }}
-      - name: ironic-certs
-        configMap:
-          defaultMode: 493
-          name: ironic-certs
-      - name: ironic-insp-certs
-        configMap:
-          defaultMode: 493
-          name: ironic-certs
-      - name: ironic-cacerts
-        configMap:
-          defaultMode: 493
-          name: ironic-certs
-      - name: ironic-insp-cacerts
-        configMap:
-          defaultMode: 493
-          name: ironic-certs
-      {{- end }}
-      {{- if and ($.Values.global.enable_tls) (or (eq $tlssource "self") (eq $tlssource "letsEncrypt")) (eq $tls "ironic") }}
-      - name: ironic-certs
-        secret:
-          secretName: ironic-cacert
-      - name: ironic-insp-certs
-        secret:
-          secretName: ironic-cacert
-      - name: vmedia-certs
-        secret:
-          secretName: ironic-cacert    
-      - name: vmedia-ca-certs
-        secret:
-          secretName: ironic-cacert    
-      {{- end }}
-      {{- end }}
+        {{- include "ironic.volumes" . | nindent 8 }}
       {{- with .Values.global.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -261,3 +273,12 @@ spec:
       dnsPolicy:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
