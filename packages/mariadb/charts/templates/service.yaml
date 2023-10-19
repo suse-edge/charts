@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "mariadb.fullname" . }}
+  name: {{ .Values.global.databaseServiceName }}
   labels:
     {{- include "mariadb.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.global.database_service_type }}
-  clusterIP: {{ .Values.global.database_clusterIP }}
+  type: {{ .Values.service.type }}
   selector:
     {{- include "mariadb.selectorLabels" . | nindent 4 }}
   ports:
-    - protocol: TCP
-      port: {{ .Values.global.database_port }}
-      targetPort: {{ .Values.global.database_port }}
+  {{- with .Values.service.ports }}
+    {{- toYaml . | nindent 2 }}
+  {{- end }}
