@@ -14,15 +14,9 @@ data:
   CACHEURL: "http://{{ $ironicCacheHost }}/images"
   DEPLOY_KERNEL_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.kernel"
   DEPLOY_RAMDISK_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs"
-  HTTP_PORT: {{ .httpPort | quote }}
   IRONIC_ENDPOINT: "http://{{ $ironicApiHost }}/v1/"
   IRONIC_INSPECTOR_ENDPOINT: "http://{{ $ironicInspectorHost }}/v1/"
-  DHCP_RANGE: {{ .Values.global.dhcpRange }}
-  PROVISIONING_INTERFACE: {{ .Values.global.provisioningInterface }}
-  PROVISIONING_IP: {{ .Values.global.provisioningIP }}
-  IRONIC_FAST_TRACK: "true"
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
-  IRONIC_INSECURE: "true"
 kind: ConfigMap
 metadata:
   name: baremetal-operator-ironic
