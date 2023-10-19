@@ -27,8 +27,7 @@ replicaCount: 1
 image:
   repository: registry.opensuse.org/isv/metal3/bci/baremetal-operator/containerfile/suse/baremetal-operator
   pullPolicy: IfNotPresent 
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.3.1"
+  tag: "0.4.0"
 
 imagePullSecrets: []
 nameOverride: "manger"
