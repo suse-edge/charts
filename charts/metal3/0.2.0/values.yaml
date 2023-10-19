@@ -55,8 +55,8 @@ global:
   # IP Address assigned to network interface on provisioning network
   provisioningIP: ""
 
-  # Database ClusterIP address
-  database_clusterIP: 10.43.255.253
+  # Name for the MariaDB service  
+  databaseServiceName: metal3-mariadb
 
   # Global ingress annotations that is shared by all the ingress services.
   # For example, use it to override extern-dns records.
