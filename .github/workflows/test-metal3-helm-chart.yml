@@ -55,20 +55,11 @@ jobs:
           --create-namespace \
           --set installCRDs=true \
           --version v1.11.1 
-
-    - name: Disable provisioning network
-      run: |
-        echo "global:" > disable_provnet.yaml
-        echo "  enable_dnsmasq: false" >> disable_provnet.yaml
-        echo "  enable_pxe_boot: false" >> disable_provnet.yaml
-        echo "  provisioningInterface: \"\"" >> disable_provnet.yaml
-        echo "  provisioningIP: \"\"" >> disable_provnet.yaml
-        echo "  enable_metal3_media_server: false" >> disable_provnet.yaml
         
     - name: Deploy Metal3 Helm Chart
       run: |
         export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-        helm install metal3 helm-metal3-charts/metal3 --values disable_provnet.yaml
+        helm install metal3 helm-metal3-charts/metal3
         
     - name: Wait for all Metal3 pods to become ready
       run: |
