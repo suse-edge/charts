@@ -5,13 +5,20 @@ metadata:
   name: {{ include "ironic.fullname" . }}
   labels:
     {{- include "ironic.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
-  ports:
-  {{- range .Values.service.ports }}       
-  - name: {{ .name }}
-    port: {{ .port }}
+  {{- with .Values.service.ports }}
+  ports: 
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   selector:
     {{- include "ironic.selectorLabels" . | nindent 4 }}
+  {{- if or (eq .Values.service.type "LoadBalancer") (eq .Values.service.type "NodePort") }}
+  externalIPs:
+    {{- toYaml .Values.service.externalIPs | nindent 4 }}
+  {{- end }}
 {{- end -}}
