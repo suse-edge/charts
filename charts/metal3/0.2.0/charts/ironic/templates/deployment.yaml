@@ -41,7 +41,7 @@ spec:
         envFrom:
         - configMapRef:
             name: ironic-bmo
-        {{- if and .Values.requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
+        {{- if and (eq $.Values.global.provisioningInterface "") (eq $.Values.global.provisioningIP "") }}
         env:
         - name: PROVISIONING_IP
           valueFrom:
@@ -93,7 +93,7 @@ spec:
             secretKeyRef:
               key: password
               name: ironic-mariadb
-        {{- if and .Values.requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
+        {{- if and (eq $.Values.global.provisioningInterface "") (eq $.Values.global.provisioningIP "") }}
         - name: PROVISIONING_IP
           valueFrom:
             fieldRef:
@@ -151,7 +151,7 @@ spec:
             secretKeyRef:
               key: password
               name: ironic-mariadb
-        {{- if and .Values.requireProvisioningIP (eq $.Values.global.provisioningIP "") }}
+        {{- if and (eq $.Values.global.provisioningInterface "") (eq $.Values.global.provisioningIP "") }}
         - name: PROVISIONING_IP
           valueFrom:
             fieldRef:

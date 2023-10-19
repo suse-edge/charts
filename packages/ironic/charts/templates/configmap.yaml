@@ -73,8 +73,4 @@ data:
   IRONIC_KERNEL_PARAMS: console=ttyS0
   IPA_INSECURE: "1"
   {{- end }}
-  {{- if .Values.databaseHost }}
-  DATABASE_HOST: {{ .Values.databaseHost }}
-  {{- else }}
   DATABASE_HOST: {{ .Values.global.databaseServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
-  {{- end }}
