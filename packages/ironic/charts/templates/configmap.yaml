@@ -30,11 +30,10 @@ data:
   {{- if  .Values.debug.ironicRamdiskSshKey }}
   IRONIC_RAMDISK_SSH_KEY: {{ .Values.debug.ironicRamdiskSshKey }}
   {{- end }}
-  {{- with .Values.baremetaloperator }}
+  HTTP_PORT: "6180"
   CACHEURL: {{ $protocol }}://{{ $ironicCacheHost }}/images
   DEPLOY_KERNEL_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel
   DEPLOY_RAMDISK_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs
-  HTTP_PORT: {{ .httpPort | quote }}
   IRONIC_API_BASE_URL: {{ $protocol }}://{{ $ironicApiHost }}
   IRONIC_API_HOST: {{ $ironicApiHost }}
   IRONIC_API_HTTPD_SERVER_NAME: {{ $ironicApiHost }}
@@ -45,7 +44,6 @@ data:
   IRONIC_INSPECTOR_HOST: {{ $ironicInspectorHost }}
   IRONIC_INSPECTOR_HTTPD_SERVER_NAME: {{ $ironicInspectorHost }}
   IRONIC_VMEDIA_HTTPD_SERVER_NAME: {{ $ironicBootHost }}
-  {{- end }}
   ENABLE_PXE_BOOT: "{{ .Values.global.enable_pxe_boot }}"
   {{- if .Values.global.provisioningInterface }}
   PROVISIONING_INTERFACE: {{ .Values.global.provisioningInterface }}

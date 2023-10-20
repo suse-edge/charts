@@ -172,8 +172,6 @@ tolerations: []
 affinity: {}
 
 baremetaloperator:
-  httpPort: "6180"
-
   cloudflareApiToken: "foo"
   ironichostNetwork: true
 
