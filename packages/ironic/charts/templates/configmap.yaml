@@ -23,7 +23,7 @@ data:
   {{- end }}
   {{- if  ( .Values.global.enable_dnsmasq ) }}
   DNSMASQ_BOOT_SERVER_ADDRESS: {{ $ironicBootHost }}
-  DNSMASQ_DNS_SERVER_ADDRESS: {{ tpl .dnsmasqDnsServerAddress $ }}
+  DNSMASQ_DNS_SERVER_ADDRESS: {{ .Values.global.dnsmasqDNSServer }}
   DNSMASQ_DEFAULT_ROUTER: {{ .Values.global.dnsmasqDefaultRouter }}
   DHCP_RANGE: {{ .Values.global.dhcpRange }}
   {{- end }}
