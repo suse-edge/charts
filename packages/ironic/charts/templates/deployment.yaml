@@ -6,9 +6,7 @@ metadata:
     {{- include "ironic.labels" . | nindent 4 }}
 spec:
   minReadySeconds: 10
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "ironic.selectorLabels" . | nindent 6 }}
