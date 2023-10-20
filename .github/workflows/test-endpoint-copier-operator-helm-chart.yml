@@ -1,0 +1,153 @@
+name: Test Endpoint Copier Operator Helm Chart
+
+on:
+  pull_request:
+    paths:
+      - '**/assets/endpoint-copier-operator/**'  # Adjust the path based on your Helm chart structure
+
+jobs:
+  test-endpoint-copier-operator-helm-chart:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v39
+        
+    - name: Verify and copy endpoint-copier-operator assets 
+      run: |
+        archive=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | tr -s " " "\012" | grep assets/endpoint-copier-operator/)
+        
+        # Count the number of files in the array
+        num_files=$(echo "${archive}" | wc -l)
+        # Check if there is only one file
+        if [ "${num_files}" -gt 1 ]; then
+          echo "Multiple archives modified - please modify only a single chart release per PR:"
+          for file in "$archive"; do
+            echo "${file}"
+          done
+          exit 1  # Fail the workflow
+        fi
+        
+        mkdir helm-charts
+        tar xvzf "${archive}" -C helm-charts/
+
+    - name: Install K3s
+      run: |
+        curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode=644" K3S_TOKEN=foobar sh -
+
+    - name: Install Helm
+      run: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        chmod +x get_helm.sh
+        ./get_helm.sh
+        
+    - name: Deploy endpoint-copier-operator Helm chart
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        helm install endpoint-copier-operator helm-charts/endpoint-copier-operator
+        
+    - name: Wait for all endpoint-copier-operator pods to become ready
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        
+        # Set a timeout of 5 minutes
+        timeout=$((SECONDS + 300))
+        
+        while [ $SECONDS -lt $timeout ]; do
+            # Run the kubectl command to get pod information
+            kubectl_output=$(kubectl -n default get po | tail -n +2)
+        
+            # Flag to track whether all pods are ready
+            all_pods_ready=true
+        
+            # Iterate over each line in the kubectl output
+            while IFS= read -r line; do
+                # Extract the pod name and the readiness status
+                pod_name=$(echo "$line" | awk '{print $1}')
+                readiness_status=$(echo "$line" | awk '{print $2}')
+        
+                # Extract the desired and running replicas from the readiness status
+                desired_replicas=$(echo "$readiness_status" | awk -F'/' '{print $1}')
+                running_replicas=$(echo "$readiness_status" | awk -F'/' '{print $2}')
+        
+                # Check if the digit before / is the same as the one after /
+                if [ "$desired_replicas" -eq "$running_replicas" ]; then
+                    echo "$pod_name is ready"
+                else
+                    echo "$pod_name is not ready"
+                    all_pods_ready=false
+                fi
+            done <<< "$kubectl_output"
+        
+            # Check if all pods are ready
+            if [ "$all_pods_ready" = true ]; then
+                echo "All pods are ready"
+                exit 0
+            fi
+        
+            # Wait for a moment before checking again
+            sleep 5
+        done
+        
+        # If the loop completes, it means the timeout occurred
+        echo "Timeout: Not all pods are ready in 5 minutes."
+        exit 1
+
+    - name: Define Kubernetes VIP service
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+        cat <<-EOF | kubectl apply -f -
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: kubernetes-vip
+          namespace: default
+          labels:
+            servicetype: kubernetes-vip
+        spec:
+          ports:
+          - name: port1
+            port: 9345
+            protocol: TCP
+            targetPort: 9345
+          - name: port2
+            port: 6443
+            protocol: TCP
+            targetPort: 6443
+          sessionAffinity: None
+          type: LoadBalancer
+        EOF
+
+    - name: Verify endpoints
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        # Sleep for 5 seconds in order to give enough time to the operator
+        sleep 5
+
+        kubernetes_ip=$(kubectl get endpoints kubernetes -o jsonpath='{.subsets[0].addresses[0].ip}')
+        kubernetes_vip_ip=$(kubectl get endpoints kubernetes-vip -o jsonpath='{.subsets[0].addresses[0].ip}')
+        
+        expected_ports="9345 6443"
+        kubernetes_vip_ports=$(kubectl get endpoints kubernetes-vip -o yaml -o jsonpath='{.subsets[0].ports[*].port}')
+
+        if [ "$kubernetes_ip" != "$kubernetes_vip_ip" ]; then
+          echo "Error: The IP addresses do not match. kubernetes: $kubernetes_ip, kubernetes-vip: $kubernetes_vip_ip"
+          exit 1
+        elif [ "$expected_ports" != "$kubernetes_vip_ports" ]; then
+          echo "Error: The ports do not match. expected_ports: $expected_ports, kubernetes_vip_ports: $kubernetes_vip_ports"
+          exit 1
+        fi
+
+    - name: Uninstall Helm chart
+      run: |
+        export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+        helm uninstall endpoint-copier-operator
+
+    - name: Uninstall K3s
+      run: |
+        /usr/local/bin/k3s-uninstall.sh
