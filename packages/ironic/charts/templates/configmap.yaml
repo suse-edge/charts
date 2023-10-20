@@ -35,9 +35,6 @@ data:
   DHCP_HOSTS: {{ .dhcpHosts }}
   {{- end }}
   HTTP_PORT: {{ .httpPort | quote }}
-  {{- if .ipaBaseUri }}
-  IPA_BASEURI: {{ .ipaBaseUri }}
-  {{- end }}
   IRONIC_API_BASE_URL: {{ $protocol }}://{{ $ironicApiHost }}
   IRONIC_API_HOST: {{ $ironicApiHost }}
   IRONIC_API_HTTPD_SERVER_NAME: {{ $ironicApiHost }}
