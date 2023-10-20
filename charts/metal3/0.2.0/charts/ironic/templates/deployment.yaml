@@ -5,15 +5,13 @@ metadata:
   labels:
     {{- include "ironic.labels" . | nindent 4 }}
 spec:
-  minReadySeconds: 10      
-  {{- if not .Values.autoscaling.enabled }}
+  minReadySeconds: 10
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "ironic.selectorLabels" . | nindent 6 }}
   strategy:
-    type: Recreate    
+    type: Recreate
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -104,7 +102,7 @@ spec:
             command:
             - sh
             - -c
-            - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050  
+            - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050
           failureThreshold: 10
           initialDelaySeconds: 30
           periodSeconds: 30
@@ -119,7 +117,7 @@ spec:
             command:
             - sh
             - -c
-            - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050 
+            - curl -sSf http://127.0.0.1:5050 || curl -sSf -k https://127.0.0.1:5050
           failureThreshold: 10
           initialDelaySeconds: 30
           periodSeconds: 30
@@ -167,7 +165,7 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 30
           successThreshold: 1
-          timeoutSeconds: 10 
+          timeoutSeconds: 10
         ports:
         - containerPort: 6385
           name: api
