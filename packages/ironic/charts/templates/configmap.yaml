@@ -27,6 +27,9 @@ data:
   DNSMASQ_DEFAULT_ROUTER: {{ .Values.global.dnsmasqDefaultRouter }}
   DHCP_RANGE: {{ .Values.global.dhcpRange }}
   {{- end }}
+  {{- if  .Values.debug.ironicRamdiskSshKey }}
+  IRONIC_RAMDISK_SSH_KEY: {{ .Values.debug.ironicRamdiskSshKey }}
+  {{- end }}
   {{- with .Values.baremetaloperator }}
   CACHEURL: {{ $protocol }}://{{ $ironicCacheHost }}/images
   DEPLOY_KERNEL_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel
@@ -41,7 +44,6 @@ data:
   IRONIC_INSPECTOR_ENDPOINT: {{ $protocol }}://{{ $ironicInspectorHost }}/v1/
   IRONIC_INSPECTOR_HOST: {{ $ironicInspectorHost }}
   IRONIC_INSPECTOR_HTTPD_SERVER_NAME: {{ $ironicInspectorHost }}
-  IRONIC_RAMDISK_SSH_KEY: {{ .ironicRamdiskSshKey }}
   IRONIC_VMEDIA_HTTPD_SERVER_NAME: {{ $ironicBootHost }}
   {{- end }}
   ENABLE_PXE_BOOT: "{{ .Values.global.enable_pxe_boot }}"
