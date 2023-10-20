@@ -52,7 +52,7 @@ global:
   # ironic containers to the given host where the
   # provisioningIP exists. Uncomment the nodeSelector
   # here and update the hostname accordingly.
-  #nodeSelector: 
+  #nodeSelector:
     #kubernetes.io/hostname: "csrancher-n1"
 
   # Comment this out when pinning the pdns containers to a specfic host.
@@ -103,10 +103,10 @@ service:
   - name: api
     port: 6385
     protocol: TCP
-    targetPort: 6385  
+    targetPort: 6385
 
 ingress:
-  enabled: true 
+  enabled: true
   className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
@@ -115,7 +115,7 @@ ingress:
     - host: "{{ .Values.global.ironicApiHost }}"
       paths:
         - path: /
-          pathType: Prefix 
+          pathType: Prefix
           portname: api
     - host: "{{ .Values.global.ironicInspectorHost }}"
       paths:
@@ -133,26 +133,26 @@ ingress:
           pathType: Prefix
           portname: httpd
 
-  # self,letsEncrypt,secrets       
-  tlsSource: self 
-  tls:   
-    - secretName: ironic-cacert 
+  # self,letsEncrypt,secrets
+  tlsSource: self
+  tls:
+    - secretName: ironic-cacert
       hosts:
         - "{{ .Values.global.ironicApiHost }}"
         - "{{ .Values.global.ironicBootHost }}"
         - "{{ .Values.global.ironicCacheHost }}"
         - "{{ .Values.global.ironicInspectorHost }}"
-  
+
 
 letsEncrypt:
   # email: none@example.com
-  environment: staging 
+  environment: staging
 
 #
 # tls
 #   Where to offload the TLS/SSL encryption
 # - ingress (default)
-# - ironic 
+# - ironic
 tls: ingress
 
 resources: {}
