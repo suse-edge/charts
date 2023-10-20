@@ -24,5 +24,8 @@ Visit a web friendly version at [https://suse-edge.github.io/charts/](https://su
 | Chart | Description |
 | - | - |
 | [Akri](charts/akri) | A Kubernetes Resource Interface for the Edge |
-| [Metal3](charts/metal3) | All of The Dependencies to Deploy Metal3 |
+| [Endpoint Copier Operator](charts/endpoint-copier-operator) | A Kubernetes operator that copies an Endpoint resource and keeps it synced with the source Endpoint |
 | [KubeVirt](charts/kubevirt) | A virtual machine management add-on for Kubernetes |
+| [KubeVirt Dashboard Extension](charts/kubevirt-dashboard-extension) | KubeVirt extension for Rancher Dashboard |
+| [Metal<sup>3</sup>](charts/metal3) | All of The Dependencies to Deploy Metal<sup>3</sup> |
+| [MetalLB](charts/metallb) | A network load-balancer implementation for Kubernetes using standard routing protocols |
