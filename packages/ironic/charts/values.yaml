@@ -172,9 +172,6 @@ tolerations: []
 affinity: {}
 
 baremetaloperator:
-  # If no dhpHosts set, all mac addresses acknowledged
-  dhcpHosts: ""
-
   httpPort: "6180"
 
   # The base URL to download IPA images (i.e. ironic-python-agent.tar

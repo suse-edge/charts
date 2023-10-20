@@ -31,9 +31,6 @@ data:
   CACHEURL: {{ $protocol }}://{{ $ironicCacheHost }}/images
   DEPLOY_KERNEL_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel
   DEPLOY_RAMDISK_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs
-  {{- if  .dhcpHosts }}
-  DHCP_HOSTS: {{ .dhcpHosts }}
-  {{- end }}
   HTTP_PORT: {{ .httpPort | quote }}
   IRONIC_API_BASE_URL: {{ $protocol }}://{{ $ironicApiHost }}
   IRONIC_API_HOST: {{ $ironicApiHost }}
