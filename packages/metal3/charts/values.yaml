@@ -2,12 +2,6 @@
 # all of the other charts that a metal3 deployment needs,
 # but doesn't actually deploy any services itself.
 
-# The reference examples below are for a single node management cluster,
-# connected to the to network where the baremental nodes (that it will
-# be managing are located) via with it's 'ens4' network interface, with
-# associated IP 192.168.20.5.
-
-# Define a global default for other charts to leverage.
 global:
   # IP on which the Ironic services will be exposed
   ironicIP: ""
@@ -55,15 +49,8 @@ global:
   # IP Address assigned to network interface on provisioning network
   provisioningIP: ""
 
-  # Name for the MariaDB service  
+  # Name for the MariaDB service
   databaseServiceName: metal3-mariadb
-
-  # Global ingress annotations that is shared by all the ingress services.
-  # For example, use it to override extern-dns records.
-  ingress:
-    annotations: {}
-      # The IP to register with external-dns for this service
-      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
 
   # In a multi-node cluster use the node selector to ensure the pods
   # all run on the same host where the dnsmasqDNSServer and provisioningIP
@@ -78,28 +65,11 @@ global:
 
 # Override any settings for the metal3 media service here
 metal3-media:
-  ingress:
-    annotations: {}
-      # The IP to register with external-dns for this service
-      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
-
   # location where media files should be placed so that they are
   # available to the Ironic deployment services.
   mediaVolume:
     hostPath: /opt/media
 
-
-#
-# baremetal-operator service
-#
-
-# Override any settings for the metal3 baremetal-operator service here
-metal3-baremetal-operator:
-
-  ingress:
-    annotations:
-      # The IP to register with external-dns for this service
-      external-dns.alpha.kubernetes.io/target: 192.168.20.5
 
 #
 # ironic service
@@ -112,20 +82,7 @@ metal3-ironic:
     type: LoadBalancer
   ingress:
     enabled: false
-    annotations: {}
-      # The IP to register with external-dns for this service
-      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
 
-  baremetaloperator:
-
-    # If no dhpHosts set, all mac addresses will be acknowledged
-    dhcpHosts: ""
-
-    # The base URL to download IPA images (i.e. ironic-python-agent.tar
-    # and ironic-python-agent.tar.md5). If not set, we install the
-    # opensuse based IPA image
-    #ipaBaseUri: "https://images.rdoproject.org/centos8/master/rdo_trunk/current-tripleo"
-  
   persistence:
     ironic:
       # storageClass for the ironic shared volume
