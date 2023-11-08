@@ -5,22 +5,19 @@ metadata:
   labels:
     {{- include "ironic.labels" . | nindent 4 }}
 data:
-  {{- $protocol := "http" }}
-  {{- $ironicApiHost := .Values.global.ironicApiHost }}
-  {{- $ironicBootHost := .Values.global.ironicBootHost }}
-  {{- $ironicInspectorHost := .Values.global.ironicInspectorHost }}
-  {{- $ironicCacheHost := .Values.global.ironicCacheHost }}
+  {{- $enableTLS := .Values.global.enable_tls }}
+  {{- $protocol := ternary "https" "http" $enableTLS }}
+  {{- $ironicIP := .Values.global.ironicIP | default "" }}
+  {{- $ironicApiHost := print $ironicIP ":6385" }}
+  {{- $ironicInspectorHost := print $ironicIP ":5050" }}
+  {{- $ironicBootHost := print $ironicIP ":6180" }}
+  {{- $ironicCacheHost := print $ironicIP ":6180" }}
 
-  {{- if .Values.global.ironicIP }}
-  {{- $ironicApiHost = print .Values.global.ironicIP ":6385" }}
-  {{- $ironicBootHost = print .Values.global.ironicIP ":6180" }}
-  {{- $ironicInspectorHost = print .Values.global.ironicIP ":5050" }}
-  {{- $ironicCacheHost = print .Values.global.ironicIP ":6180" }}
+  {{- if $enableTLS }}
+    {{- $ironicBootHost = print $ironicIP ":" .Values.global.vmediaTLSPort }}
+    {{- $ironicCacheHost = print $ironicIP ":" .Values.global.vmediaTLSPort }}
   {{- end }}
 
-  {{- if  ( .Values.global.enable_tls ) }}
-    {{- $protocol = "https" }}
-  {{- end }}
   {{- if  ( .Values.global.enable_dnsmasq ) }}
   DNSMASQ_BOOT_SERVER_ADDRESS: {{ $ironicBootHost }}
   DNSMASQ_DNS_SERVER_ADDRESS: {{ .Values.global.dnsmasqDNSServer }}
@@ -31,6 +28,7 @@ data:
   IRONIC_RAMDISK_SSH_KEY: {{ .Values.debug.ironicRamdiskSshKey }}
   {{- end }}
   HTTP_PORT: "6180"
+  IRONIC_EXTERNAL_HTTP_URL: {{ $protocol }}://{{ $ironicCacheHost }}
   CACHEURL: {{ $protocol }}://{{ $ironicCacheHost }}/images
   DEPLOY_KERNEL_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel
   DEPLOY_RAMDISK_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs
@@ -55,16 +53,22 @@ data:
   IRONIC_ILO_USE_SWIFT: "false"
   IRONIC_ILO_USE_WEB_SERVER_FOR_IMAGES: "true"
   IRONIC_FAST_TRACK: "true"
-  IRONIC_REVERSE_PROXY_SETUP: "false"
   IRONIC_USE_MARIADB: "true"
   LISTEN_ALL_INTERFACES: "true"
+  {{- if .Values.global.ironicIP }}
+  IRONIC_IP: {{ .Values.global.ironicIP }}
+  {{- end }}
   {{- if  ( .Values.global.enable_tls ) }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
   IRONIC_KERNEL_PARAMS: console=ttyS0 suse.cafile={{ $protocol }}://{{ $ironicBootHost }}/tstcerts/ca.crt
   IPA_INSECURE: "0"
+  IRONIC_REVERSE_PROXY_SETUP: "true"
+  INSPECTOR_REVERSE_PROXY_SETUP: "true"
+  VMEDIA_TLS_PORT: "{{ .Values.global.vmediaTLSPort }}"
   {{- else }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
   IRONIC_KERNEL_PARAMS: console=ttyS0
   IPA_INSECURE: "1"
+  IRONIC_REVERSE_PROXY_SETUP: "false"
   {{- end }}
   DATABASE_HOST: {{ .Values.global.databaseServiceName }}.{{ .Release.Namespace }}.svc.cluster.local

@@ -36,6 +36,7 @@ data:
   {{ end }}
   IRONIC_API_BASE_URL: {{ $protocol }}://{{ $ironicApiHost }}
   IRONIC_API_HOST: {{ $ironicApiHost }}
+  IRONIC_EXTERNAL_HTTP_URL: {{ $protocol }}://{{ .Values.global.ironicIP }}:6180
   IRONIC_API_HTTPD_SERVER_NAME: {{ $ironicApiHost }}
   IRONIC_BOOT_BASE_URL: {{ $protocol }}://{{ $ironicBootHost }}
   IRONIC_ENDPOINT: {{ $protocol }}://{{ $ironicApiHost }}/v1/
@@ -58,14 +59,8 @@ data:
   IRONIC_REVERSE_PROXY_SETUP: "false"
   IRONIC_USE_MARIADB: "true"
   LISTEN_ALL_INTERFACES: "true"
-  {{- if  ( .Values.global.enable_tls ) }}
-  RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
-  IRONIC_KERNEL_PARAMS: console=ttyS0 suse.cafile={{ $protocol }}://{{ $ironicBootHost }}/tstcerts/ca.crt
-  IPA_INSECURE: "0"
-  {{- else }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
   IRONIC_KERNEL_PARAMS: console=ttyS0
   IPA_INSECURE: "1"
-  {{- end }}
   DATABASE_HOST: {{ .Values.global.database_clusterIP }}
   #DATABASE_HOST: "127.0.0.1"

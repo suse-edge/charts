@@ -6,6 +6,8 @@ global:
   # IP on which the Ironic services will be exposed
   ironicIP: ""
 
+  vmediaTLSPort: 6185
+
   # whether to enable media server.
   enable_metal3_media_server: false
 
@@ -21,6 +23,8 @@ global:
   # to 'true' while enable_ironic is set to 'false', dnsmasq service will still be
   # enabled.
   enable_ironic: true
+
+  enable_tls: true
 
   # Host of the Ironic API
   ironicApiHost: ""

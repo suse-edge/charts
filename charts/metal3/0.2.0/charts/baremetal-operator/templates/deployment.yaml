@@ -67,6 +67,11 @@ spec:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
+        {{- if .Values.global.enable_tls }}
+        - name: cacert
+          mountPath: "/opt/metal3/certs/ca"
+          readOnly: true
+        {{- end }}
       - args:
         - --secure-listen-address=0.0.0.0:8443
         - --upstream=http://127.0.0.1:8085/
@@ -84,6 +89,11 @@ spec:
         secret:
           defaultMode: 420
           secretName: bmo-webhook-server-cert
+      {{- if .Values.global.enable_tls }}
+      - name: cacert
+        secret:
+          secretName: ironic-cacert
+      {{- end }}
       {{- with .Values.global.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
