@@ -1,21 +1,23 @@
-{{- $ironicApiHost := .Values.global.ironicApiHost }}
-{{- $ironicBootHost := .Values.global.ironicBootHost }}
-{{- $ironicInspectorHost := .Values.global.ironicInspectorHost }}
-{{- $ironicCacheHost := .Values.global.ironicCacheHost }}
+  {{- $enableTLS := .Values.global.enable_tls }}
+  {{- $protocol := ternary "https" "http" $enableTLS }}
+  {{- $ironicIP := .Values.global.ironicIP | default "" }}
+  {{- $ironicApiHost := print $ironicIP ":6385" }}
+  {{- $ironicInspectorHost := print $ironicIP ":5050" }}
+  {{- $ironicBootHost := print $ironicIP ":6180" }}
+  {{- $ironicCacheHost := print $ironicIP ":6180" }}
 
-{{- if .Values.global.ironicIP }}
-{{- $ironicApiHost = print .Values.global.ironicIP ":6385" }}
-{{- $ironicBootHost = print .Values.global.ironicIP ":6180" }}
-{{- $ironicInspectorHost = print .Values.global.ironicIP ":5050" }}
-{{- $ironicCacheHost = print .Values.global.ironicIP ":6180" }}
-{{- end }}
+  {{- if $enableTLS }}
+    {{- $ironicBootHost = print $ironicIP ":" .Values.global.vmediaTLSPort }}
+    {{- $ironicCacheHost = print $ironicIP ":" .Values.global.vmediaTLSPort }}
+  {{- end }}
+
 apiVersion: v1
 data:
-  CACHEURL: "http://{{ $ironicCacheHost }}/images"
-  DEPLOY_KERNEL_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.kernel"
-  DEPLOY_RAMDISK_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs"
-  IRONIC_ENDPOINT: "http://{{ $ironicApiHost }}/v1/"
-  IRONIC_INSPECTOR_ENDPOINT: "http://{{ $ironicInspectorHost }}/v1/"
+  CACHEURL: "{{ $protocol }}://{{ $ironicCacheHost }}/images"
+  DEPLOY_KERNEL_URL: "{{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel"
+  DEPLOY_RAMDISK_URL: "{{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs"
+  IRONIC_ENDPOINT: "{{ $protocol }}://{{ $ironicApiHost }}/v1/"
+  IRONIC_INSPECTOR_ENDPOINT: "{{ $protocol }}://{{ $ironicInspectorHost }}/v1/"
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
 kind: ConfigMap
 metadata:

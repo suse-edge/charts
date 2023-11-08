@@ -3,7 +3,6 @@
 # Declare variables to be passed into your templates.
 
 global:
-  enable_tls: false
   # whether to enable dnsmasq on the provisioning network (for PXE boot)
   enable_dnsmasq: false
 
@@ -28,7 +27,7 @@ global:
   # response
   dnsmasqDNSServer: ""
 
-  # specify comma-delimited range of IP addresses the DHCP server will manage.
+  # specify comma-delimited xrange of IP addresses the DHCP server will manage.
   # e.g 192.168.20.20,192.168.20.80
   dhcpRange: ""
 
@@ -40,13 +39,6 @@ global:
   provisioningIP: ""
 
   databaseServiceName: "metal3-mariadb"
-
-  # Global ingress annotations that is shared by all the ingress services.
-  # For example, use it to override extern-dns records.
-  ingress:
-    annotations: {}
-      # The IP to register with external-dns for this service
-      #external-dns.alpha.kubernetes.io/target: 192.168.20.5
 
   # In a multi-node kubernetes cluster, we need to "pin" the
   # ironic containers to the given host where the
@@ -88,7 +80,7 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 service:
-  type: NodePort
+  type: LoadBalancer
   annotations: {}
   externalIPs: []
   ports:
@@ -96,6 +88,10 @@ service:
     port: 6180
     protocol: TCP
     targetPort: 6180
+  - name: httpd-tls
+    port: 6185
+    protocol: TCP
+    targetPort: 6185
   - name: inspector
     port: 5050
     protocol: TCP
@@ -104,56 +100,6 @@ service:
     port: 6385
     protocol: TCP
     targetPort: 6385
-
-ingress:
-  enabled: true
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: "{{ .Values.global.ironicApiHost }}"
-      paths:
-        - path: /
-          pathType: Prefix
-          portname: api
-    - host: "{{ .Values.global.ironicInspectorHost }}"
-      paths:
-        - path: /
-          pathType: Prefix
-          portname: inspector
-    - host: "{{ .Values.global.ironicBootHost }}"
-      paths:
-        - path: /
-          pathType: Prefix
-          portname: httpd
-    - host: "{{ .Values.global.ironicCacheHost }}"
-      paths:
-        - path: /
-          pathType: Prefix
-          portname: httpd
-
-  # self,letsEncrypt,secrets
-  tlsSource: self
-  tls:
-    - secretName: ironic-cacert
-      hosts:
-        - "{{ .Values.global.ironicApiHost }}"
-        - "{{ .Values.global.ironicBootHost }}"
-        - "{{ .Values.global.ironicCacheHost }}"
-        - "{{ .Values.global.ironicInspectorHost }}"
-
-
-letsEncrypt:
-  # email: none@example.com
-  environment: staging
-
-#
-# tls
-#   Where to offload the TLS/SSL encryption
-# - ingress (default)
-# - ironic
-tls: ingress
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
