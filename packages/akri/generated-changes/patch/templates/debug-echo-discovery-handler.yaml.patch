@@ -1,0 +1,12 @@
+--- charts-original/templates/debug-echo-discovery-handler.yaml
++++ charts/templates/debug-echo-discovery-handler.yaml
+@@ -3,6 +3,8 @@
+ kind: DaemonSet
+ metadata:
+   name: akri-debug-echo-discovery-daemonset
++  annotations:
++    akri.sh/discoveryHandlerName: debugEcho
+ spec:
+   selector:
+     matchLabels:
+\ No newline at end of file

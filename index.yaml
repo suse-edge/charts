@@ -5,9 +5,9 @@ entries:
       catalog.cattle.io/display-name: Akri
     apiVersion: v2
     appVersion: 0.10.4
-    created: "2023-10-17T12:11:17.567764+03:00"
+    created: "2023-11-15T12:03:33.8679+01:00"
     description: A Helm chart for Akri
-    digest: 9fe62e9e460526afbae804231d735eece837c5543bf5832a5b6553e6164b63ae
+    digest: 3b204151383d9a86d691eb6bb363f1509fa2d2c838982307ddb697ebfc0b0c4c
     name: akri
     type: application
     urls:

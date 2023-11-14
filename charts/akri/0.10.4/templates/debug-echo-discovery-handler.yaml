@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: akri-debug-echo-discovery-daemonset
+  annotations:
+    akri.sh/discoveryHandlerName: debugEcho
 spec:
   selector:
     matchLabels:

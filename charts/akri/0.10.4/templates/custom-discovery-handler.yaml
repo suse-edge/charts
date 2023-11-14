@@ -3,6 +3,10 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ printf "%s-daemonset" .Values.custom.discovery.name }}
+  {{- if .Values.custom.discovery.discoveryHandlerName }}
+  annotations:
+    akri.sh/discoveryHandlerName: {{ .Values.custom.discovery.discoveryHandlerName }}
+  {{- end }}
 spec:
   selector:
     matchLabels:
