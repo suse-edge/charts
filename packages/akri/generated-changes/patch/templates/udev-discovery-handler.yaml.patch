@@ -1,0 +1,12 @@
+--- charts-original/templates/udev-discovery-handler.yaml
++++ charts/templates/udev-discovery-handler.yaml
+@@ -3,6 +3,8 @@
+ kind: DaemonSet
+ metadata:
+   name: akri-udev-discovery-daemonset
++  annotations:
++    akri.sh/discoveryHandlerName: udev
+ spec:
+   selector:
+     matchLabels:
+\ No newline at end of file

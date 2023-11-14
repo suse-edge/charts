@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: akri-opcua-discovery-daemonset
+  annotations:
+    akri.sh/discoveryHandlerName: opcua
 spec:
   selector:
     matchLabels:
