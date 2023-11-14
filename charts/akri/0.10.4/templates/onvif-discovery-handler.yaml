@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: akri-onvif-discovery-daemonset
+  annotations:
+    akri.sh/discoveryHandlerName: onvif
 spec:
   selector:
     matchLabels:

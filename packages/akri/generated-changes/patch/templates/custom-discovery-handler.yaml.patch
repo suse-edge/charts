@@ -1,0 +1,14 @@
+--- charts-original/templates/custom-discovery-handler.yaml
++++ charts/templates/custom-discovery-handler.yaml
+@@ -3,6 +3,10 @@
+ kind: DaemonSet
+ metadata:
+   name: {{ printf "%s-daemonset" .Values.custom.discovery.name }}
++  {{- if .Values.custom.discovery.discoveryHandlerName }}
++  annotations:
++    akri.sh/discoveryHandlerName: {{ .Values.custom.discovery.discoveryHandlerName }}
++  {{- end }}
+ spec:
+   selector:
+     matchLabels:
+\ No newline at end of file

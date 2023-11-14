@@ -1,0 +1,11 @@
+--- charts-original/values.yaml
++++ charts/values.yaml
+@@ -237,6 +237,8 @@
+       protocol: TCP
+   # discovery defines a set of values for a custom discovery handler DaemonSet
+   discovery: 
++    # exposes discovery handler name as akri.sh/discoveryHandlerName annotation on the DaemonSet
++    discoveryHandlerName: ''
+     # enabled defines whether discovery handler pods will be deployed in a slim Agent scenario
+     enabled: false
+     # name is the Kubernetes resource name that will be created for this

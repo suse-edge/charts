@@ -1,0 +1,12 @@
+--- charts-original/templates/onvif-discovery-handler.yaml
++++ charts/templates/onvif-discovery-handler.yaml
+@@ -3,6 +3,8 @@
+ kind: DaemonSet
+ metadata:
+   name: akri-onvif-discovery-daemonset
++  annotations:
++    akri.sh/discoveryHandlerName: onvif
+ spec:
+   selector:
+     matchLabels:
+\ No newline at end of file
