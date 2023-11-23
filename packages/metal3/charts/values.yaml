@@ -26,15 +26,6 @@ global:
 
   enable_tls: true
 
-  # Host of the Ironic API
-  ironicApiHost: ""
-  # Host of the Ironic Inspector
-  ironicInspectorHost: ""
-  # Host of the Ironic Boot
-  ironicBootHost: ""
-  # Host of the Ironic Cache
-  ironicCacheHost: ""
-
   # IP address of the router associated with the specified DHCP
   # address range
   dnsmasqDefaultRouter: ""
