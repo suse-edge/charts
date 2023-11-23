@@ -76,8 +76,9 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  runAsUser: 10475
+  runAsGroup: 10475
 
 service:
   type: LoadBalancer
