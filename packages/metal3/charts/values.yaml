@@ -84,8 +84,6 @@ metal3-media:
 metal3-ironic:
   service:
     type: LoadBalancer
-  ingress:
-    enabled: false
 
   persistence:
     ironic:
