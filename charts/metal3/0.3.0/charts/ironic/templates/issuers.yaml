@@ -1,4 +1,4 @@
-{{- if .Values.global.enable_tls }}
+{{- if and (.Values.global.enable_ironic) (.Values.global.enable_tls) -}}
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:

@@ -66,7 +66,36 @@ entries:
   metal3:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-11-23T14:21:28.421429+02:00"
+    created: "2023-11-27T16:47:17.354862+02:00"
+    dependencies:
+    - alias: metal3-baremetal-operator
+      name: baremetal-operator
+      repository: file://./charts/baremetal-operator
+      version: 0.3.0
+    - alias: metal3-ironic
+      name: ironic
+      repository: file://./charts/ironic
+      version: 0.3.0
+    - alias: metal3-mariadb
+      name: mariadb
+      repository: file://./charts/mariadb
+      version: 0.3.0
+    - alias: metal3-media
+      condition: global.enable_metal3_media_server
+      name: media
+      repository: file://./charts/media
+      version: 0.3.0
+    description: A Helm chart that installs all of the dependencies needed for Metal3
+    digest: 909bf16990d0ac348e8dcbf3d7ce136838759245dbefdca474e43384a9d2c909
+    icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
+    name: metal3
+    type: application
+    urls:
+    - assets/metal3/metal3-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-11-27T16:49:36.891948+02:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -86,7 +115,7 @@ entries:
       repository: file://./charts/media
       version: 0.2.0
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 5f0538f591d1f1c1832baf56c877f6dccb14a5e5272ecb211166900c17df0ca1
+    digest: 1b2b7b4a4ab6d4ab9d7d6821b65e6582d9d836858278115262d26b4cbd01c513
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3
     type: application
@@ -95,7 +124,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-10-17T12:18:02.553438+03:00"
+    created: "2023-11-27T16:19:34.748206+02:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
