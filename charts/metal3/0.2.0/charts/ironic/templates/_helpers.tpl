@@ -69,17 +69,181 @@ Shared directory volumeMount
   name: ironic-data-volume
 {{- end }}
 
+
 {{/*
-Get ironic CA volumeMounts
+Get certificate volumeMounts
 */}}
-{{- define "ironic.CAVolumeMounts" -}}
-- name: cert-ironic-ca
-  mountPath: "/certs/ca/ironic"
+{{- define "ironic.certVolumeMounts" -}}
+- mountPath: /certs/ironic/tls.crt
+  name: ironic-certs
+  subPath: tls.crt
+- mountPath: /certs/ironic/tls.key
+  name: ironic-certs
+  subPath: tls.key
+- mountPath: /certs/ironic-inspector/tls.crt
+  name: ironic-insp-certs
+  subPath: tls.crt
+- mountPath: /certs/ironic-inspector/tls.key
+  name: ironic-insp-certs
+  subPath: tls.key
+- mountPath: /certs/ca/ironic/tls.crt
+  name: ironic-cacerts
+  subPath: tls.crt
+- mountPath: /certs/ca/ironic-inspector/tls.crt
+  name: ironic-insp-cacerts
+  subPath: tls.crt
+{{- end }}
+
+
+{{/*
+Get secret volumeMounts
+*/}}
+{{- define "ironic.secretVolMounts" -}}
+- name: ironic-certs
+  mountPath: "/certs/ironic"
   readOnly: true
-- name: cert-ironic-inspector-ca
-  mountPath: "/certs/ca/ironic-inspector"
+- name: ironic-insp-certs
+  mountPath: "/certs/ironic-inspector"
   readOnly: true
-- name: cert-ironic-vmedia-ca
+- name: vmedia-certs
+  mountPath: "/certs/vmedia"
+  readOnly: true
+- name: vmedia-ca-certs
   mountPath: "/certs/ca/vmedia"
   readOnly: true
+{{- end }}
+
+{{/*
+Get cacert volumeMounts
+*/}}
+{{- define "ironic.cacertVolumeMounts" -}}
+- mountPath: /etc/pki/trust/anchors/ca.crt
+  name: ironic-trustca
+  subPath: tls.cacert
+- mountPath: /shared/html/tstcerts/ca.crt
+  name: ironicipa-trustca
+  subPath: tls.cacert
+{{- end }}
+
+{{/*
+Get trust cert volumeMounts
+*/}}
+{{- define "ironic.trustVolMounts" -}}
+- name: ironic-trustcerts
+  mountPath: "/etc/pki/trust/anchors"
+  readOnly: true
+- name: ironicipa-trustcerts
+  mountPath: "/shared/html/tstcerts"
+  readOnly: true
+{{- end }}
+
+{{/*
+Get letsEncrypt volumeMounts
+*/}}
+{{- define "ironic.letsEncryptVolMounts" -}}
+- mountPath: /etc/pki/trust/anchors/ca.crt
+  name: ironic-le-trustca
+  subPath: tls.lecacert
+- mountPath: /shared/html/tstcerts/ca.crt
+  name: ironicipa-le-trustca
+  subPath: tls.lecacert
+{{- end }}
+
+
+{{/*
+Get ironic volumes
+*/}}
+{{- define "ironic.volumes" -}}
+{{- if .Values.global.enable_ironic }}
+- name: ironic-data-volume
+  persistentVolumeClaim:
+    claimName: ironic-shared-volume
+{{- end }}
+{{- if .Values.global.enable_ironic }}
+{{- if .Values.global.enable_tls }}
+{{- if eq .Values.ingress.tlsSource "secrets" }}
+- name: ironic-trustca
+  configMap:
+    defaultMode: 493
+    name: ironic-certs
+- name: ironicipa-trustca
+  configMap:
+    defaultMode: 493
+    name: ironic-certs    
+{{- end }}
+{{- if (eq .Values.ingress.tlsSource "self") }}
+- name: ironic-trustcerts
+  secret:
+    secretName: ironic-cacert
+- name: ironicipa-trustcerts
+  secret:
+    secretName: ironic-cacert    
+{{- end }}
+{{- if (eq .Values.ingress.tlsSource "letsEncrypt") }}
+- name: ironic-le-trustca
+  configMap:
+    defaultMode: 493
+    name: ironic-certs
+- name: ironicipa-le-trustca
+  configMap:
+    defaultMode: 493
+    name: ironic-certs
+{{- end }}    
+{{- end }}
+{{- if and ($.Values.global.enable_tls) (eq .Values.ingress.tlsSource "secrets") (eq .Values.tls "ironic") }}
+- name: ironic-certs
+  configMap:
+    defaultMode: 493
+    name: ironic-certs
+- name: ironic-insp-certs
+  configMap:
+    defaultMode: 493
+    name: ironic-certs
+- name: ironic-cacerts
+  configMap:
+    defaultMode: 493
+    name: ironic-certs
+- name: ironic-insp-cacerts
+  configMap:
+    defaultMode: 493
+    name: ironic-certs
+{{- end }}
+{{- if and ($.Values.global.enable_tls) (or (eq .Values.ingress.tlsSource "self") (eq .Values.ingress.tlsSource "letsEncrypt")) (eq .Values.tls "ironic") }}
+- name: ironic-certs
+  secret:
+    secretName: ironic-cacert
+- name: ironic-insp-certs
+  secret:
+    secretName: ironic-cacert
+- name: vmedia-certs
+  secret:
+    secretName: ironic-cacert    
+- name: vmedia-ca-certs
+  secret:
+    secretName: ironic-cacert    
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Get ironic tls volumeMounts
+*/}}
+{{- define "ironic.tlsVolumeMounts" -}}
+{{- if (eq .Values.ingress.tlsSource "secrets") }}
+  {{- include "ironic.cacertVolumeMounts" . }}
+{{- end }}
+{{- if (eq .Values.ingress.tlsSource "self") }}
+  {{- include "ironic.trustVolMounts" . }}
+{{- end }}
+{{- if (eq .Values.ingress.tlsSource "letsEncrypt") }}
+  {{- include "ironic.letsEncryptVolMounts" . }}
+{{- end }}
+{{- end }}
+{{- if and ($.Values.global.enable_tls) (eq .Values.tls "ironic") }}
+{{- if (eq .Values.ingress.tlsSource "secrets") }}
+  {{- include "ironic.certVolumeMounts" . }}
+{{- end }}
+{{- if or (eq .Values.ingress.tlsSource "self") (eq .Values.ingress.tlsSource "letsEncrypt") }}
+  {{- include "ironic.secretVolMounts" . }}
+{{- end }}
 {{- end }}

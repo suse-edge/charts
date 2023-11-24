@@ -11,25 +11,9 @@ metadata:
   {{- end }}
 spec:
   type: {{ .Values.service.type }}
-  ports:
-  {{- $enableTLS := .Values.global.enable_tls }}
-  {{- range .Values.service.ports }}
-  {{- if and (eq .name "httpd") (not $enableTLS) }}
-    - name: {{ .name }}
-      port: {{ .port }}
-      protocol: {{ .protocol }}
-      targetPort: {{ .targetPort }}
-  {{- else if and (eq .name "httpd-tls") ($enableTLS) }}
-    - name: {{ .name }}
-      port: {{ .port }}
-      protocol: {{ .protocol }}
-      targetPort: {{ .targetPort }}
-  {{- else if and (ne .name "httpd") (ne .name "httpd-tls") }}
-    - name: {{ .name }}
-      port: {{ .port }}
-      protocol: {{ .protocol }}
-      targetPort: {{ .targetPort }}
-  {{- end }}
+  {{- with .Values.service.ports }}
+  ports: 
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   selector:
     {{- include "ironic.selectorLabels" . | nindent 4 }}
