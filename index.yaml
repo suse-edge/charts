@@ -13,6 +13,28 @@ entries:
     urls:
     - assets/akri/akri-0.10.4.tgz
     version: 0.10.4
+  akri-dashboard-extension:
+  - annotations:
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/display-name: Akri
+      catalog.cattle.io/kube-version: '>= 1.16.0-0 < 1.29.0-0'
+      catalog.cattle.io/namespace: cattle-ui-plugin-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/permits-os: linux, windows
+      catalog.cattle.io/rancher-version: '>= 2.7.0-0 < 2.9.0-0'
+      catalog.cattle.io/scope: management
+      catalog.cattle.io/ui-component: plugins
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-11-27T17:33:19.88265+01:00"
+    description: 'SUSE Edge: Akri extension for Rancher Dashboard'
+    digest: 1fd6e400df2e15cc006686d8c595f32daffb515291aa75ff09de3e4a75512722
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/akri/icon/light/akri-icon-light.svg
+    name: akri-dashboard-extension
+    type: application
+    urls:
+    - assets/akri-dashboard-extension/akri-dashboard-extension-0.1.0.tgz
+    version: 0.1.0
   endpoint-copier-operator:
   - apiVersion: v2
     appVersion: v0.2.0
