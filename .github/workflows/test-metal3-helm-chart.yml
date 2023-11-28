@@ -54,12 +54,17 @@ jobs:
           --namespace cert-manager \
           --create-namespace \
           --set installCRDs=true \
-          --version v1.11.1 
+          --version v1.11.1
+  
+    - name: Set IronicIP
+      run: |
+        echo "global:" > custom_values.yaml
+        echo "  ironicIP: 192.0.2.1" >> custom_values.yaml # TEST-NET-1
         
     - name: Deploy Metal3 Helm Chart
       run: |
         export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-        helm install metal3 helm-metal3-charts/metal3
+        helm install metal3 helm-metal3-charts/metal3 --values custom_values.yaml
         
     - name: Wait for all Metal3 pods to become ready
       run: |
