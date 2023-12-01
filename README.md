@@ -24,6 +24,7 @@ Visit a web friendly version at [https://suse-edge.github.io/charts/](https://su
 | Chart | Description |
 | - | - |
 | [Akri](charts/akri) | A Kubernetes Resource Interface for the Edge |
+| [Akri Dashboard Extension](charts/akri-dashboard-extension) | A Rancher Dashboard UI extension adding user interface for management of Akri resources |
 | [Endpoint Copier Operator](charts/endpoint-copier-operator) | A Kubernetes operator that copies an Endpoint resource and keeps it synced with the source Endpoint |
 | [KubeVirt](charts/kubevirt) | A virtual machine management add-on for Kubernetes |
 | [KubeVirt Dashboard Extension](charts/kubevirt-dashboard-extension) | KubeVirt extension for Rancher Dashboard |
