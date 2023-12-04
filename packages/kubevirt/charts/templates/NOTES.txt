@@ -1,4 +1,2 @@
-1. Check all KubeVirt components:
+Verify that all KubeVirt components are installed correctly:
   kubectl get all -n kubevirt
-2. Check all CDI components (if enabled):
-  kubectl get all -n cdi
