@@ -1,0 +1,13 @@
+cdi:
+  version: 1.57.0-150500.6.3.1
+  operatorImage: registry.suse.com/suse/sles/15.5/cdi-operator:1.57.0-150500.6.3.1
+  controllerImage: registry.suse.com/suse/sles/15.5/cdi-controller:1.57.0-150500.6.3.1
+  importerImage: registry.suse.com/suse/sles/15.5/cdi-importer:1.57.0-150500.6.3.1
+  clonerImage: registry.suse.com/suse/sles/15.5/cdi-cloner:1.57.0-150500.6.3.1
+  apiserverImage: registry.suse.com/suse/sles/15.5/cdi-apiserver:1.57.0-150500.6.3.1
+  uploadserverImage: registry.suse.com/suse/sles/15.5/cdi-uploadserver:1.57.0-150500.6.3.1
+  uploadproxyImage: registry.suse.com/suse/sles/15.5/cdi-uploadproxy:1.57.0-150500.6.3.1
+  pullPolicy: IfNotPresent
+
+kubecli:
+  image: bitnami/kubectl:1.27.3
