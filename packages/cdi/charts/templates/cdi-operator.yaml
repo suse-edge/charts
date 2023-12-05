@@ -404,23 +404,23 @@ spec:
             - name: OPERATOR_VERSION
               value: {{ .Values.cdi.version }}
             - name: CONTROLLER_IMAGE
-              value: {{ .Values.cdi.controllerImage }}
+              value: {{ .Values.cdi.controllerImage }}:{{ .Values.cdi.version }}
             - name: IMPORTER_IMAGE
-              value: {{ .Values.cdi.importerImage }}
+              value: {{ .Values.cdi.importerImage }}:{{ .Values.cdi.version }}
             - name: CLONER_IMAGE
-              value: {{ .Values.cdi.clonerImage }}
+              value: {{ .Values.cdi.clonerImage }}:{{ .Values.cdi.version }}
             - name: APISERVER_IMAGE
-              value: {{ .Values.cdi.apiserverImage }}
+              value: {{ .Values.cdi.apiserverImage }}:{{ .Values.cdi.version }}
             - name: UPLOAD_SERVER_IMAGE
-              value: {{ .Values.cdi.uploadserverImage }}
+              value: {{ .Values.cdi.uploadserverImage }}:{{ .Values.cdi.version }}
             - name: UPLOAD_PROXY_IMAGE
-              value: {{ .Values.cdi.uploadproxyImage }}
+              value: {{ .Values.cdi.uploadproxyImage }}:{{ .Values.cdi.version }}
             - name: VERBOSITY
               value: "1"
             - name: PULL_POLICY
               value: {{ .Values.cdi.pullPolicy }}
             - name: MONITORING_NAMESPACE
-          image: {{ .Values.cdi.operatorImage }}
+          image: {{ .Values.cdi.operatorImage }}:{{ .Values.cdi.version }}
           imagePullPolicy: {{ .Values.cdi.pullPolicy }}
           name: cdi-operator
           ports:
