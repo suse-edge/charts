@@ -1,2 +1,2 @@
-Check all CDI components:
+Verify that all CDI components are installed correctly:
   kubectl get all -n cdi

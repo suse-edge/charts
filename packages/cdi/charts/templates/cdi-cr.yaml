@@ -3,13 +3,16 @@ kind: CDI
 metadata:
   name: cdi
 spec:
+  config:
+    featureGates:
+      - HonorWaitForFirstConsumer
   imagePullPolicy: {{ .Values.cdi.pullPolicy }}
   infra:
     nodeSelector:
       kubernetes.io/os: linux
     tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
   workload:
     nodeSelector:
       kubernetes.io/os: linux
