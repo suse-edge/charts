@@ -96,6 +96,13 @@ spec:
         - configMapRef:
             name: ironic-bmo
         env:
+        {{- if .Values.global.enable_basicAuth }}
+        - name: INSPECTOR_HTPASSWD
+          valueFrom:
+            secretKeyRef:
+              name: ironic-inspector-basic-auth
+              key: htpasswd
+        {{- end }}
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -129,6 +136,16 @@ spec:
           timeoutSeconds: 10
         volumeMounts:
           {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+        {{- if .Values.global.enable_basicAuth }}
+          - mountPath: "/auth/ironic/auth-config"
+            name: ironic-basic-auth
+            subPath: auth-config
+            readOnly: true
+          - mountPath: "/auth/ironic-inspector/auth-config"
+            name: ironic-inspector-basic-auth
+            subPath: auth-config
+            readOnly: true
+        {{- end }}
         {{- if .Values.global.enable_tls }}
           {{- include "ironic.CAVolumeMounts" . | nindent 10 }}
           - name: cert-ironic-inspector
@@ -151,6 +168,13 @@ spec:
         - configMapRef:
             name: ironic-bmo
         env:
+        {{- if .Values.global.enable_basicAuth }}
+        - name: IRONIC_HTPASSWD
+          valueFrom:
+            secretKeyRef:
+              name: ironic-basic-auth
+              key: htpasswd
+        {{- end }}
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -184,6 +208,16 @@ spec:
           timeoutSeconds: 10
         volumeMounts:
           {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+          {{- if .Values.global.enable_basicAuth }}
+          - mountPath: "/auth/ironic/auth-config"
+            name: ironic-basic-auth
+            subPath: auth-config
+            readOnly: true
+          - mountPath: "/auth/ironic-inspector/auth-config"
+            name: ironic-inspector-basic-auth
+            subPath: auth-config
+            readOnly: true
+          {{- end }}
           {{- if .Values.global.enable_tls }}
           {{- include "ironic.CAVolumeMounts" . | nindent 10 }}
           - name: cert-ironic
@@ -263,6 +297,14 @@ spec:
       - name: ironic-data-volume
         persistentVolumeClaim:
           claimName: ironic-shared-volume
+      {{- if .Values.global.enable_basicAuth }}
+      - name: ironic-basic-auth
+        secret:
+          secretName: ironic-basic-auth
+      - name: ironic-inspector-basic-auth
+        secret:
+          secretName: ironic-inspector-basic-auth
+      {{- end }}
       {{- if .Values.global.enable_tls }}
       - name: cert-ironic-ca
         secret:

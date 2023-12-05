@@ -71,4 +71,8 @@ data:
   IPA_INSECURE: "1"
   IRONIC_REVERSE_PROXY_SETUP: "false"
   {{- end }}
+  {{- if  ( .Values.global.enable_basicAuth ) }}
+  AUTH_STRATEGY: "http_basic"
+  INSPECTOR_AUTH_STRATEGY: "http_basic"
+  {{- end }}
   DATABASE_HOST: {{ .Values.global.databaseServiceName }}.{{ .Release.Namespace }}.svc.cluster.local

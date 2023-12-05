@@ -71,6 +71,24 @@ spec:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
+        {{- if .Values.global.enable_basicAuth }}
+        - name: ironic-basic-auth
+          mountPath: "/opt/metal3/auth/ironic/username"
+          subPath: username
+          readOnly: true
+        - name: ironic-basic-auth
+          mountPath: "/opt/metal3/auth/ironic/password"
+          subPath: password
+          readOnly: true
+        - name: ironic-inspector-basic-auth
+          mountPath: "/opt/metal3/auth/ironic-inspector/username"
+          subPath: username
+          readOnly: true
+        - name: ironic-inspector-basic-auth
+          mountPath: "/opt/metal3/auth/ironic-inspector/password"
+          subPath: password
+          readOnly: true
+        {{- end }}
         {{- if .Values.global.enable_tls }}
         - name: cacert
           mountPath: "/opt/metal3/certs/ca"
@@ -93,6 +111,14 @@ spec:
         secret:
           defaultMode: 420
           secretName: bmo-webhook-server-cert
+      {{- if .Values.global.enable_basicAuth }}
+      - name: ironic-basic-auth
+        secret:
+          secretName: ironic-basic-auth
+      - name: ironic-inspector-basic-auth
+        secret:
+          secretName: ironic-inspector-basic-auth
+      {{- end }}
       {{- if .Values.global.enable_tls }}
       - name: cacert
         secret:

@@ -25,6 +25,15 @@ global:
   # whether to enable tls
   enable_tls: true
 
+  # whether to enable basic auth
+  enable_basicAuth: true
+
+  auth:
+    ironicUsername: ""
+    ironicPassword: ""
+    ironicInspectorUsername: ""
+    ironicInspectorPassword: ""
+
   # Will be used when tls is enabled
   vmediaTLSPort: 6185
 
