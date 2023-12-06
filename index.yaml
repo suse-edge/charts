@@ -35,6 +35,18 @@ entries:
     urls:
     - assets/akri-dashboard-extension/akri-dashboard-extension-0.1.0.tgz
     version: 0.1.0
+  cdi:
+  - apiVersion: v2
+    appVersion: 1.57.0
+    created: "2023-12-05T16:21:51.029356+02:00"
+    description: A Helm chart for Containerized-Data-Importer (CDI)
+    digest: 70b8a281684f8f5a5414f5ac42b0d104bd6679f23e834b811abac85ac792fb85
+    icon: https://raw.githubusercontent.com/cncf/artwork/main/projects/kubevirt/icon/color/kubevirt-icon-color.svg
+    name: cdi
+    type: application
+    urls:
+    - assets/cdi/cdi-0.2.0.tgz
+    version: 0.2.0
   endpoint-copier-operator:
   - apiVersion: v2
     appVersion: v0.2.0
