@@ -67,6 +67,8 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: kubevirt-crd-uninstaller
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ .Values.kubecli.image }}
           command:
             - /bin/sh

@@ -61,6 +61,8 @@ spec:
       containers:
         - name: kubevirt-cr-uninstaller
           image: {{ .Values.kubecli.image }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           command:
             - /bin/sh
             - -c

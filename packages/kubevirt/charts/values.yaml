@@ -3,5 +3,14 @@ kubevirt:
   version: 1.1.0-150500.8.6.1
   pullPolicy: IfNotPresent
 
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
 kubecli:
   image: bitnami/kubectl:1.27.3
