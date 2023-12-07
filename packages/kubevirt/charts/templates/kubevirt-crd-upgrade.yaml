@@ -85,6 +85,8 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: kubevirt-crd-upgrader
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ .Values.kubecli.image }}
           command:
             - /bin/sh
