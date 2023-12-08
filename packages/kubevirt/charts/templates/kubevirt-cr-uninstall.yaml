@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  namespace: kubevirt
+  namespace: {{ .Release.Namespace }}
   name: kubevirt-cr-uninstaller
   annotations:
     "helm.sh/hook": pre-delete
@@ -11,7 +11,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: kubevirt
+  namespace: {{ .Release.Namespace }}
   name: kubevirt-cr-uninstaller
   annotations:
     "helm.sh/hook": pre-delete
@@ -27,7 +27,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  namespace: kubevirt
+  namespace: {{ .Release.Namespace }}
   name: kubevirt-cr-uninstaller
   annotations:
     "helm.sh/hook": pre-delete
@@ -35,7 +35,7 @@ metadata:
     "helm.sh/hook-weight": "2"
 subjects:
   - kind: ServiceAccount
-    namespace: kubevirt
+    namespace: {{ .Release.Namespace }}
     name: kubevirt-cr-uninstaller
 roleRef:
   kind: Role
@@ -45,7 +45,7 @@ roleRef:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  namespace: kubevirt
+  namespace: {{ .Release.Namespace }}
   name: kubevirt-cr-uninstaller
   annotations:
     "helm.sh/hook": pre-delete
