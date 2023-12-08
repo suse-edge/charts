@@ -9,5 +9,5 @@ spec:
     developerConfiguration:
       featureGates: []
   customizeComponents: {}
-  imagePullPolicy: {{ .Values.kubevirt.pullPolicy }}
+  imagePullPolicy: {{ .Values.operator.pullPolicy }}
   workloadUpdateStrategy: {}
