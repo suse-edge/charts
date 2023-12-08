@@ -3,6 +3,15 @@ operator:
   version: 1.1.0-150500.8.6.1
   pullPolicy: IfNotPresent
 
+kubevirt:
+  certificateRotateStrategy: {}
+  configuration:
+    developerConfiguration:
+      featureGates: []
+  customizeComponents: {}
+  pullPolicy: IfNotPresent
+  workloadUpdateStrategy: {}
+
 securityContext:
   seccompProfile:
     type: RuntimeDefault

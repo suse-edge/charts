@@ -4,10 +4,20 @@ metadata:
   name: kubevirt
   namespace: {{ .Release.Namespace }}
 spec:
-  certificateRotateStrategy: {}
+  {{- with .Values.kubevirt.certificateRotateStrategy }}
+  certificateRotateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.kubevirt.configuration }}
   configuration:
-    developerConfiguration:
-      featureGates: []
-  customizeComponents: {}
-  imagePullPolicy: {{ .Values.operator.pullPolicy }}
-  workloadUpdateStrategy: {}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.kubevirt.customizeComponents }}
+  customizeComponents:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  imagePullPolicy: {{ .Values.kubevirt.pullPolicy }}
+  {{- with .Values.kubevirt.workloadUpdateStrategy }}
+  workloadUpdateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
