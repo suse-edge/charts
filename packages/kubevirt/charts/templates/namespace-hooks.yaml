@@ -65,5 +65,5 @@ spec:
             - /bin/sh
             - -c
             - >
-              kubectl label namespace {{ .Release.Namespace }} kubevirt.io=""
-              kubectl label namespace {{ .Release.Namespace }} pod-security.kubernetes.io/enforce="privileged"
+              kubectl label namespace {{ .Release.Namespace }} kubevirt.io="";
+              kubectl label namespace {{ .Release.Namespace }} pod-security.kubernetes.io/enforce="privileged";
