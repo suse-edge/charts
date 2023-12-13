@@ -4,8 +4,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.namespaceHook }}
   annotations:
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.namespaceHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "1"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -13,8 +13,8 @@ kind: ClusterRole
 metadata:
   name: {{ .Values.namespaceHook }}
   annotations:
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.namespaceHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "1"
 rules:
   - apiGroups: [ "" ]
@@ -31,8 +31,8 @@ kind: ClusterRoleBinding
 metadata:
   name: {{ .Values.namespaceHook }}
   annotations:
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.namespaceHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "2"
 subjects:
   - kind: ServiceAccount
@@ -49,8 +49,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.namespaceHook }}
   annotations:
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.namespaceHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "3"
 spec:
   template:

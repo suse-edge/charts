@@ -4,8 +4,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: kubevirt-crd-manifest
   annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crdUpgradeHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "1"
 data:
   crd: |-
@@ -17,8 +17,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.crdUpgradeHook }}
   annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crdUpgradeHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "2"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -26,8 +26,8 @@ kind: ClusterRole
 metadata:
   name: {{ .Values.crdUpgradeHook }}
   annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crdUpgradeHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "2"
 rules:
   - apiGroups: [ "" ]
@@ -46,8 +46,8 @@ kind: ClusterRoleBinding
 metadata:
   name: {{ .Values.crdUpgradeHook }}
   annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crdUpgradeHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "3"
 subjects:
   - kind: ServiceAccount
@@ -64,8 +64,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.crdUpgradeHook }}
   annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crdUpgradeHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "4"
 spec:
   template:

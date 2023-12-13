@@ -4,8 +4,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.crUninstallHook }}
   annotations:
-    "helm.sh/hook": pre-delete
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crUninstallHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "1"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -14,8 +14,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.crUninstallHook }}
   annotations:
-    "helm.sh/hook": pre-delete
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crUninstallHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "1"
 rules:
   - apiGroups: [ "kubevirt.io" ]
@@ -30,8 +30,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.crUninstallHook }}
   annotations:
-    "helm.sh/hook": pre-delete
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crUninstallHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "2"
 subjects:
   - kind: ServiceAccount
@@ -48,8 +48,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.crUninstallHook }}
   annotations:
-    "helm.sh/hook": pre-delete
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook": {{ .Values.crUninstallHookType }}
+    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
     "helm.sh/hook-weight": "3"
 spec:
   template:
