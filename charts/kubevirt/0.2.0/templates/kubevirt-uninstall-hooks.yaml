@@ -68,4 +68,6 @@ spec:
             - -c
             - >
               kubectl delete kubevirt kubevirt;
-              sleep 45; # wait for the operator to clean up
+              kubectl wait --for=delete deployments/virt-api --timeout=45s;
+              kubectl wait --for=delete deployments/virt-controller --timeout=45s;
+              kubectl wait --for=delete daemonsets/virt-handler --timeout=45s;
