@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: kubevirt-crd-uninstaller
+  name: {{ .Values.crdUninstallHook }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -11,7 +11,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: kubevirt-crd-uninstaller
+  name: {{ .Values.crdUninstallHook }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -26,7 +26,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: kubevirt-crd-uninstaller
+  name: {{ .Values.crdUninstallHook }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -34,17 +34,17 @@ metadata:
 subjects:
   - kind: ServiceAccount
     namespace: {{ .Release.Namespace }}
-    name: kubevirt-crd-uninstaller
+    name: {{ .Values.crdUninstallHook }}
 roleRef:
   kind: ClusterRole
-  name: kubevirt-crd-uninstaller
+  name: {{ .Values.crdUninstallHook }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: kubevirt-crd-uninstaller
+  name: {{ .Values.crdUninstallHook }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -52,15 +52,15 @@ metadata:
 spec:
   template:
     metadata:
-      name: kubevirt-crd-uninstaller
+      name: {{ .Values.crdUninstallHook }}
     spec:
-      serviceAccountName: kubevirt-crd-uninstaller
-      restartPolicy: OnFailure
+      serviceAccountName: {{ .Values.crdUninstallHook }}
+      restartPolicy: {{ .Values.hookRestartPolicy }}
       containers:
-        - name: kubevirt-crd-uninstaller
+        - name: {{ .Values.crdUninstallHook }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ .Values.kubecli.image }}
+          image: {{ .Values.hookImage }}
           command:
             - /bin/sh
             - -c

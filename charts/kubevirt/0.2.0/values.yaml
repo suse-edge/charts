@@ -12,5 +12,10 @@ securityContext:
     drop:
       - ALL
 
-kubecli:
-  image: bitnami/kubectl:1.27.3
+namespaceHook: kubevirt-namespace-modify
+crdUpgradeHook: kubevirt-crd-upgrade
+crdUninstallHook: kubevirt-crd-uninstall
+crUninstallHook: kubevirt-uninstall
+
+hookImage: bitnami/kubectl:1.27.3
+hookRestartPolicy: OnFailure

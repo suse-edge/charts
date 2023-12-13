@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: kubevirt-cr-uninstaller
+  name: {{ .Values.crUninstallHook }}
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -12,7 +12,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: kubevirt-cr-uninstaller
+  name: {{ .Values.crUninstallHook }}
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -28,7 +28,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: kubevirt-cr-uninstaller
+  name: {{ .Values.crUninstallHook }}
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -36,17 +36,17 @@ metadata:
 subjects:
   - kind: ServiceAccount
     namespace: {{ .Release.Namespace }}
-    name: kubevirt-cr-uninstaller
+    name: {{ .Values.crUninstallHook }}
 roleRef:
   kind: Role
-  name: kubevirt-cr-uninstaller
+  name: {{ .Values.crUninstallHook }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: kubevirt-cr-uninstaller
+  name: {{ .Values.crUninstallHook }}
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -54,13 +54,13 @@ metadata:
 spec:
   template:
     metadata:
-      name: kubevirt-cr-uninstaller
+      name: {{ .Values.crUninstallHook }}
     spec:
-      serviceAccountName: kubevirt-cr-uninstaller
-      restartPolicy: OnFailure
+      serviceAccountName: {{ .Values.crUninstallHook }}
+      restartPolicy: {{ .Values.hookRestartPolicy }}
       containers:
-        - name: kubevirt-cr-uninstaller
-          image: {{ .Values.kubecli.image }}
+        - name: {{ .Values.crUninstallHook }}
+          image: {{ .Values.hookImage }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           command:
