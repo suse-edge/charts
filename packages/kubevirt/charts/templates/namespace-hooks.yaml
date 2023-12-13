@@ -9,10 +9,9 @@ metadata:
     "helm.sh/hook-weight": "1"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   name: kubevirt-namespace-modifier
-  namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -23,12 +22,14 @@ rules:
     resourceNames:
       - {{ .Release.Namespace | quote }}
     verbs: [ "get", "patch" ]
+  - apiGroups: [ "management.cattle.io" ] # Rancher
+    resources: [ "projects" ]
+    verbs: [ "updatepsa" ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: kubevirt-namespace-modifier
-  namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -38,7 +39,7 @@ subjects:
     namespace: {{ .Release.Namespace }}
     name: kubevirt-namespace-modifier
 roleRef:
-  kind: Role
+  kind: ClusterRole
   name: kubevirt-namespace-modifier
   apiGroup: rbac.authorization.k8s.io
 ---
