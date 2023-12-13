@@ -23,6 +23,9 @@ rules:
     resourceNames:
       - "kubevirt"
     verbs: [ "delete" ]
+  - apiGroups: [ "apps" ]
+    resources: [ "deployments", "daemonsets" ]
+    verbs: [ "get", "list" ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
