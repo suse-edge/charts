@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: 0.4.0
+description: Baremetal Operator CRDs
+name: baremetal-operator-crds
+type: application
+version: 0.1.0

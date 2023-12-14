@@ -1,5 +1,9 @@
 apiVersion: v2
 appVersion: 1.16.0
+dependencies:
+- name: baremetal-operator-crds
+  repository: file://./charts/baremetal-operator-crds
+  version: 0.1.0
 description: A Helm chart for baremetal-operator, used by Metal3
 name: baremetal-operator
 type: application
