@@ -2,21 +2,15 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.crUninstallHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.crUninstallHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "1"
+  name: {{ template "kubevirt.crUninstallHook.name" . }}
+  {{ template "kubevirt.crUninstallHook.annotations" (dict "hookWeight" 1) }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.crUninstallHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.crUninstallHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "1"
+  name: {{ template "kubevirt.crUninstallHook.name" . }}
+  {{ template "kubevirt.crUninstallHook.annotations" (dict "hookWeight" 1) }}
 rules:
   - apiGroups: [ "kubevirt.io" ]
     resources: [ "kubevirts" ]
@@ -31,38 +25,32 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.crUninstallHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.crUninstallHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "2"
+  name: {{ template "kubevirt.crUninstallHook.name" . }}
+  {{ template "kubevirt.crUninstallHook.annotations" (dict "hookWeight" 2) }}
 subjects:
   - kind: ServiceAccount
     namespace: {{ .Release.Namespace }}
-    name: {{ .Values.crUninstallHook }}
+    name: {{ template "kubevirt.crUninstallHook.name" . }}
 roleRef:
   kind: Role
-  name: {{ .Values.crUninstallHook }}
+  name: {{ template "kubevirt.crUninstallHook.name" . }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.crUninstallHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.crUninstallHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "3"
+  name: {{ template "kubevirt.crUninstallHook.name" . }}
+  {{ template "kubevirt.crUninstallHook.annotations" (dict "hookWeight" 3) }}
 spec:
   template:
     metadata:
-      name: {{ .Values.crUninstallHook }}
+      name: {{ template "kubevirt.crUninstallHook.name" . }}
     spec:
-      serviceAccountName: {{ .Values.crUninstallHook }}
+      serviceAccountName: {{ template "kubevirt.crUninstallHook.name" . }}
       restartPolicy: {{ .Values.hookRestartPolicy }}
       containers:
-        - name: {{ .Values.crUninstallHook }}
+        - name: {{ template "kubevirt.crUninstallHook.name" . }}
           image: {{ .Values.hookImage }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

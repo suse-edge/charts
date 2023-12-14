@@ -2,20 +2,14 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.namespaceHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.namespaceHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "1"
+  name: {{ template "kubevirt.namespaceHook.name" . }}
+  {{ template "kubevirt.namespaceHook.annotations" (dict "hookWeight" 1) }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Values.namespaceHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.namespaceHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "1"
+  name: {{ template "kubevirt.namespaceHook.name" . }}
+  {{ template "kubevirt.namespaceHook.annotations" (dict "hookWeight" 1) }}
 rules:
   - apiGroups: [ "" ]
     resources: [ "namespaces" ]
@@ -29,38 +23,32 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ .Values.namespaceHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.namespaceHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "2"
+  name: {{ template "kubevirt.namespaceHook.name" . }}
+  {{ template "kubevirt.namespaceHook.annotations" (dict "hookWeight" 2) }}
 subjects:
   - kind: ServiceAccount
     namespace: {{ .Release.Namespace }}
-    name: {{ .Values.namespaceHook }}
+    name: {{ template "kubevirt.namespaceHook.name" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Values.namespaceHook }}
+  name: {{ template "kubevirt.namespaceHook.name" . }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.namespaceHook }}
-  annotations:
-    "helm.sh/hook": {{ .Values.namespaceHookType }}
-    "helm.sh/hook-delete-policy": {{ .Values.hookDeletePolicy }}
-    "helm.sh/hook-weight": "3"
+  name: {{ template "kubevirt.namespaceHook.name" . }}
+  {{ template "kubevirt.namespaceHook.annotations" (dict "hookWeight" 3) }}
 spec:
   template:
     metadata:
-      name: {{ .Values.namespaceHook }}
+      name: {{ template "kubevirt.namespaceHook.name" . }}
     spec:
-      serviceAccountName: {{ .Values.namespaceHook }}
+      serviceAccountName: {{ template "kubevirt.namespaceHook.name" . }}
       restartPolicy: {{ .Values.hookRestartPolicy }}
       containers:
-        - name: {{ .Values.namespaceHook }}
+        - name: {{ template "kubevirt.namespaceHook.name" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ .Values.hookImage }}

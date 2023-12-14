@@ -12,18 +12,5 @@ securityContext:
     drop:
       - ALL
 
-namespaceHook: kubevirt-namespace-modify
-namespaceHookType: pre-install
-
-crdUpgradeHook: kubevirt-crd-upgrade
-crdUpgradeHookType: pre-upgrade
-
-crUninstallHook: kubevirt-uninstall
-crUninstallHookType: pre-delete
-
-crdUninstallHook: kubevirt-crd-uninstall
-crdUninstallHookType: post-delete
-
 hookImage: bitnami/kubectl:1.27.3
 hookRestartPolicy: OnFailure
-hookDeletePolicy: before-hook-creation,hook-succeeded
