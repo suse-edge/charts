@@ -12,5 +12,5 @@ securityContext:
     drop:
       - ALL
 
-kubecli:
-  image: bitnami/kubectl:1.27.3
+hookImage: bitnami/kubectl:1.27.3
+hookRestartPolicy: OnFailure
