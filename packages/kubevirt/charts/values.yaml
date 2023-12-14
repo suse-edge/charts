@@ -12,7 +12,9 @@ kubevirt:
   pullPolicy: IfNotPresent
   workloadUpdateStrategy: {}
 
-securityContext:
+hookImage: bitnami/kubectl:1.27.3
+hookRestartPolicy: OnFailure
+hookSecurityContext:
   seccompProfile:
     type: RuntimeDefault
   runAsNonRoot: true
@@ -20,6 +22,3 @@ securityContext:
   capabilities:
     drop:
       - ALL
-
-hookImage: bitnami/kubectl:1.27.3
-hookRestartPolicy: OnFailure
