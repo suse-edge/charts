@@ -4,10 +4,6 @@ metadata:
   name: kubevirt
   namespace: {{ .Release.Namespace }}
 spec:
-  {{- with .Values.kubevirt.certificateRotateStrategy }}
-  certificateRotateStrategy:
-  {{- toYaml . | nindent 4 }}
-  {{- end }}
   {{- with .Values.kubevirt.configuration }}
   configuration:
   {{- toYaml . | nindent 4 }}
@@ -17,46 +13,14 @@ spec:
   {{- toYaml . | nindent 4 }}
   {{- end }}
   imagePullPolicy: {{ .Values.kubevirt.imagePullPolicy }}
-  {{- with .Values.kubevirt.imagePullSecrets }}
-  imagePullSecrets:
-  {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- if .Values.kubevirt.imageRegistry }}
-  imageRegistry: {{ .Values.kubevirt.imageRegistry }}
-  {{- end }}
-  {{- if .Values.kubevirt.imageTag }}
-  imageTag: {{ .Values.kubevirt.imageTag }}
-  {{- end }}
   {{- with .Values.kubevirt.infra }}
   infra:
   {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- if .Values.kubevirt.monitorAccount }}
-  monitorAccount: {{ .Values.kubevirt.monitorAccount }}
-  {{- end }}
-  {{- if .Values.kubevirt.monitorNamespace }}
-  monitorNamespace: {{ .Values.kubevirt.monitorNamespace }}
-  {{- end }}
-  {{- if .Values.kubevirt.productComponent }}
-  productComponent: {{ .Values.kubevirt.productComponent }}
-  {{- end }}
-  {{- if .Values.kubevirt.productName }}
-  productName: {{ .Values.kubevirt.productName }}
-  {{- end }}
-  {{- if .Values.kubevirt.productVersion }}
-  productVersion: {{ .Values.kubevirt.productVersion }}
-  {{- end }}
-  {{- if .Values.kubevirt.serviceMonitorNamespace }}
-  serviceMonitorNamespace: {{ .Values.kubevirt.serviceMonitorNamespace }}
   {{- end }}
   {{- if .Values.kubevirt.uninstallStrategy }}
   uninstallStrategy: {{ .Values.kubevirt.uninstallStrategy }}
   {{- end }}
   {{- with .Values.kubevirt.workloadUpdateStrategy }}
   workloadUpdateStrategy:
-  {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- with .Values.kubevirt.workloads }}
-  workloads:
   {{- toYaml . | nindent 4 }}
   {{- end }}

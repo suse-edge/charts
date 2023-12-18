@@ -4,50 +4,18 @@ operator:
   pullPolicy: IfNotPresent
 
 kubevirt:
-  certificateRotateStrategy: {}
   # Holds kubevirt configurations. Same as the virt-configMap.
   configuration: {}
   customizeComponents: {}
   # The ImagePullPolicy to use.
   imagePullPolicy: IfNotPresent
-  # The imagePullSecrets to pull the container images from. Defaults to none.
-  imagePullSecrets: []
-  # The image registry to pull the container images from.
-  # Defaults to the same registry the operator's container image is pulled from.
-  imageRegistry: ""
-  # The image registry to pull the container images from.
-  # Defaults to the operator's container image tag.
-  imageTag: ""
   # Selectors and tolerations that should apply to KubeVirt infrastructure components.
   infra: {}
-  # The name of the Prometheus service account that needs read-access to KubeVirt endpoints.
-  # Defaults to prometheus-k8s.
-  monitorAccount: ""
-  # The namespace Prometheus is deployed in.
-  # Defaults to openshift-monitor.
-  monitorNamespace: ""
-  # Designate the apps.kubevirt.io/component label for KubeVirt components.
-  # Useful if KubeVirt is included as part of a product.
-  # If ProductComponent is not specified, the component label default value is kubevirt.
-  productComponent: ""
-  # Designate the apps.kubevirt.io/part-of label for KubeVirt components.
-  # Useful if KubeVirt is included as part of a product.
-  # If ProductName is not specified, the part-of label will be omitted.
-  productName: ""
-  # Designate the apps.kubevirt.io/version label for KubeVirt components.
-  # Useful if KubeVirt is included as part of a product.
-  # If ProductVersion is not specified, KubeVirt's version will be used.
-  productVersion: ""
-  # The namespace where the service monitor will be deployed.
-  # Defaults to the monitoring namespace if not specified.
-  serviceMonitorNamespace: ""
   # Specifies if KubeVirt can be deleted if workloads are still present.
   # This is mainly a precaution to avoid accidental data loss.
   uninstallStrategy: ""
   # WorkloadUpdateStrategy defines at the cluster level how to handle automated workload updates.
   workloadUpdateStrategy: {}
-  # Selectors and tolerations that should apply to KubeVirt workloads.
-  workloads: {}
 
 hookImage: bitnami/kubectl:1.27.3
 hookRestartPolicy: OnFailure
