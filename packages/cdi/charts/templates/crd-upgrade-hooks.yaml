@@ -3,10 +3,7 @@ kind: ConfigMap
 metadata:
   namespace: {{ .Release.Namespace }}
   name: cdi-crd-manifest
-  annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
-    "helm.sh/hook-weight": "1"
+  {{ template "cdi.crdUpgradeHook.annotations" (dict "hookWeight" 1) }}
 data:
   crd: |-
     {{ $.Files.Get "crds/cdi.yaml" | nindent 4 }}
@@ -15,20 +12,14 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: cdi-crd-upgrader
-  annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
-    "helm.sh/hook-weight": "2"
+  name: {{ template "cdi.crdUpgradeHook.name" . }}
+  {{ template "cdi.crdUpgradeHook.annotations" (dict "hookWeight" 2) }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: cdi-crd-upgrader
-  annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
-    "helm.sh/hook-weight": "2"
+  name: {{ template "cdi.crdUpgradeHook.name" . }}
+  {{ template "cdi.crdUpgradeHook.annotations" (dict "hookWeight" 2) }}
 rules:
   - apiGroups: [ "" ]
     resources: [ "configmaps" ]
@@ -44,39 +35,35 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: cdi-crd-upgrader
-  annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
-    "helm.sh/hook-weight": "3"
+  name: {{ template "cdi.crdUpgradeHook.name" . }}
+  {{ template "cdi.crdUpgradeHook.annotations" (dict "hookWeight" 3) }}
 subjects:
   - kind: ServiceAccount
     namespace: {{ .Release.Namespace }}
-    name: cdi-crd-upgrader
+    name: {{ template "cdi.crdUpgradeHook.name" . }}
 roleRef:
   kind: ClusterRole
-  name: cdi-crd-upgrader
+  name: {{ template "cdi.crdUpgradeHook.name" . }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: cdi-crd-upgrader
-  annotations:
-    "helm.sh/hook": pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
-    "helm.sh/hook-weight": "4"
+  name: {{ template "cdi.crdUpgradeHook.name" . }}
+  {{ template "cdi.crdUpgradeHook.annotations" (dict "hookWeight" 4) }}
 spec:
   template:
     metadata:
-      name: cdi-crd-upgrader
+      name: {{ template "cdi.crdUpgradeHook.name" . }}
     spec:
-      serviceAccountName: cdi-crd-upgrader
-      restartPolicy: OnFailure
+      serviceAccountName: {{ template "cdi.crdUpgradeHook.name" . }}
+      restartPolicy: {{ .Values.hookRestartPolicy }}
       containers:
-        - name: cdi-crd-upgrader
-          image: {{ .Values.kubecli.image }}
+        - name: {{ template "cdi.crdUpgradeHook.name" . }}
+          image: {{ .Values.hookImage }}
+          securityContext:
+            {{- toYaml .Values.hookSecurityContext | nindent 12 }}
           command:
             - /bin/sh
             - -c
