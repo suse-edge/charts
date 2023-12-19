@@ -1,0 +1,24 @@
+{{- $ironicApiHost := .Values.global.ironicApiHost }}
+{{- $ironicBootHost := .Values.global.ironicBootHost }}
+{{- $ironicInspectorHost := .Values.global.ironicInspectorHost }}
+{{- $ironicCacheHost := .Values.global.ironicCacheHost }}
+
+{{- if .Values.global.ironicIP }}
+{{- $ironicApiHost = print .Values.global.ironicIP ":6385" }}
+{{- $ironicBootHost = print .Values.global.ironicIP ":6180" }}
+{{- $ironicInspectorHost = print .Values.global.ironicIP ":5050" }}
+{{- $ironicCacheHost = print .Values.global.ironicIP ":6180" }}
+{{- end }}
+apiVersion: v1
+data:
+  CACHEURL: "http://{{ $ironicCacheHost }}/images"
+  DEPLOY_KERNEL_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.kernel"
+  DEPLOY_RAMDISK_URL: "http://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs"
+  IRONIC_ENDPOINT: "http://{{ $ironicApiHost }}/v1/"
+  IRONIC_INSPECTOR_ENDPOINT: "http://{{ $ironicInspectorHost }}/v1/"
+  RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
+kind: ConfigMap
+metadata:
+  name: baremetal-operator-ironic
+  labels:
+    {{- include "baremetal-operator.labels" . | nindent 4 }}
