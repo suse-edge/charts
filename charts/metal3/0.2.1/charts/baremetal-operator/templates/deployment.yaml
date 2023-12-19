@@ -77,6 +77,8 @@ spec:
         ports:
         - containerPort: 8443
           name: https
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
       serviceAccountName: {{ include "baremetal-operator.serviceAccountName" . }}
       terminationGracePeriodSeconds: 10
       volumes:

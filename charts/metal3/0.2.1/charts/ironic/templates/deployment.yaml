@@ -34,6 +34,8 @@ spec:
       - name: ironic-httpd
         image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
         imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
         command:
         - /bin/runhttpd
         envFrom:
@@ -80,6 +82,8 @@ spec:
       - name: ironic-inspector
         image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
         imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
         command:
         - /bin/runironic-inspector
         envFrom:
@@ -131,6 +135,8 @@ spec:
       - name: ironic-log-watch
         image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
         imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
         command:
         - /bin/runlogwatch.sh
         volumeMounts:
@@ -138,6 +144,8 @@ spec:
       - name: ironic
         image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
         imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
         command:
         - /bin/runironic
         envFrom:
@@ -199,6 +207,8 @@ spec:
         image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
         imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
         securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
+        securityContext:
           capabilities:
             add:
             - NET_ADMIN
@@ -245,6 +255,8 @@ spec:
       - name: ironic-ipa-downloader
         image: {{ .Values.images.ironicIPADownloader.repository }}:{{ .Values.images.ironicIPADownloader.tag }}
         imagePullPolicy: {{ .Values.images.ironicIPADownloader.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
         command:
           - /usr/local/bin/get-resource.sh
         envFrom:

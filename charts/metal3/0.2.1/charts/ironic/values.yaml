@@ -84,8 +84,18 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  runAsUser: 10475
+  fsGroup: 10475
+
+securityContext: 
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
 
 service:
   type: NodePort
