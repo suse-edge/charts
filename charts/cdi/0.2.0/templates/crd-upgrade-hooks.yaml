@@ -69,4 +69,3 @@ spec:
             - -c
             - >
               kubectl get configmap cdi-crd-manifest -o "jsonpath={.data['crd']}" | kubectl apply -f -;
-              sleep 10; # wait for the operator to handle the update

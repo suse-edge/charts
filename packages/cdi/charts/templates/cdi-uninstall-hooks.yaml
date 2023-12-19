@@ -16,6 +16,9 @@ rules:
     resourceNames:
       - "cdi"
     verbs: [ "delete" ]
+  - apiGroups: [ "apps" ]
+    resources: [ "deployments" ]
+    verbs: [ "get", "list" ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -54,4 +57,6 @@ spec:
             - -c
             - >
               kubectl delete cdi cdi;
-              sleep 45; # wait for the operator to clean up
+              kubectl wait --for=delete deployments/cdi-apiserver --timeout=45s;
+              kubectl wait --for=delete deployments/cdi-deployment --timeout=45s;
+              kubectl wait --for=delete deployments/cdi-uploadproxy --timeout=45s;
