@@ -53,7 +53,7 @@ spec:
         - name: {{ template "kubevirt.crUninstallHook.name" . }}
           image: {{ .Values.hookImage }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.hookSecurityContext | nindent 12 }}
           command:
             - /bin/sh
             - -c

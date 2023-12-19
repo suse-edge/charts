@@ -1284,15 +1284,15 @@ spec:
             - virt-operator
           env:
             - name: VIRT_OPERATOR_IMAGE
-              value: {{ .Values.kubevirt.image }}:{{ .Values.kubevirt.version }}
+              value: {{ .Values.operator.image }}:{{ .Values.operator.version }}
             - name: WATCH_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.annotations['olm.targetNamespaces']
             - name: KUBEVIRT_VERSION
-              value: {{ .Values.kubevirt.version }}
-          image: {{ .Values.kubevirt.image }}:{{ .Values.kubevirt.version }}
-          imagePullPolicy: {{ .Values.kubevirt.pullPolicy }}
+              value: {{ .Values.operator.version }}
+          image: {{ .Values.operator.image }}:{{ .Values.operator.version }}
+          imagePullPolicy: {{ .Values.operator.pullPolicy }}
           name: virt-operator
           ports:
             - containerPort: 8443

@@ -62,7 +62,7 @@ spec:
       containers:
         - name: {{ template "kubevirt.crdUpgradeHook.name" . }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.hookSecurityContext | nindent 12 }}
           image: {{ .Values.hookImage }}
           command:
             - /bin/sh

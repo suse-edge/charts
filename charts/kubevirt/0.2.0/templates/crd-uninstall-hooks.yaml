@@ -47,7 +47,7 @@ spec:
       containers:
         - name: {{ template "kubevirt.crdUninstallHook.name" . }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.hookSecurityContext | nindent 12 }}
           image: {{ .Values.hookImage }}
           command:
             - /bin/sh
