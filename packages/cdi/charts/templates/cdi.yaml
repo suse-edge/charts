@@ -3,16 +3,19 @@ kind: CDI
 metadata:
   name: cdi
 spec:
+  {{- with .Values.cdi.config }}
   config:
-    featureGates:
-      - HonorWaitForFirstConsumer
-  imagePullPolicy: {{ .Values.cdi.pullPolicy }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  imagePullPolicy: {{ .Values.cdi.imagePullPolicy }}
+  {{- with .Values.cdi.infra }}
   infra:
-    nodeSelector:
-      kubernetes.io/os: linux
-    tolerations:
-      - key: CriticalAddonsOnly
-        operator: Exists
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.cdi.uninstallStrategy }}
+  uninstallStrategy: {{ .Values.cdi.uninstallStrategy }}
+  {{- end }}
+  {{- with .Values.cdi.workload }}
   workload:
-    nodeSelector:
-      kubernetes.io/os: linux
+  {{- toYaml . | nindent 4 }}
+  {{- end }}

@@ -543,26 +543,26 @@ spec:
             - name: DEPLOY_CLUSTER_RESOURCES
               value: "true"
             - name: OPERATOR_VERSION
-              value: {{ .Values.cdi.version }}
+              value: {{ .Values.deployment.version }}
             - name: CONTROLLER_IMAGE
-              value: {{ .Values.cdi.controllerImage }}:{{ .Values.cdi.version }}
+              value: {{ .Values.deployment.controllerImage }}:{{ .Values.deployment.version }}
             - name: IMPORTER_IMAGE
-              value: {{ .Values.cdi.importerImage }}:{{ .Values.cdi.version }}
+              value: {{ .Values.deployment.importerImage }}:{{ .Values.deployment.version }}
             - name: CLONER_IMAGE
-              value: {{ .Values.cdi.clonerImage }}:{{ .Values.cdi.version }}
+              value: {{ .Values.deployment.clonerImage }}:{{ .Values.deployment.version }}
             - name: APISERVER_IMAGE
-              value: {{ .Values.cdi.apiserverImage }}:{{ .Values.cdi.version }}
+              value: {{ .Values.deployment.apiserverImage }}:{{ .Values.deployment.version }}
             - name: UPLOAD_SERVER_IMAGE
-              value: {{ .Values.cdi.uploadserverImage }}:{{ .Values.cdi.version }}
+              value: {{ .Values.deployment.uploadserverImage }}:{{ .Values.deployment.version }}
             - name: UPLOAD_PROXY_IMAGE
-              value: {{ .Values.cdi.uploadproxyImage }}:{{ .Values.cdi.version }}
+              value: {{ .Values.deployment.uploadproxyImage }}:{{ .Values.deployment.version }}
             - name: VERBOSITY
               value: "1"
             - name: PULL_POLICY
-              value: {{ .Values.cdi.pullPolicy }}
+              value: {{ .Values.deployment.pullPolicy }}
             - name: MONITORING_NAMESPACE
-          image: {{ .Values.cdi.operatorImage }}:{{ .Values.cdi.version }}
-          imagePullPolicy: {{ .Values.cdi.pullPolicy }}
+          image: {{ .Values.deployment.operatorImage }}:{{ .Values.deployment.version }}
+          imagePullPolicy: {{ .Values.deployment.pullPolicy }}
           name: cdi-operator
           ports:
             - containerPort: 8080
