@@ -9,5 +9,13 @@ cdi:
   uploadproxyImage: registry.suse.com/suse/sles/15.5/cdi-uploadproxy
   pullPolicy: IfNotPresent
 
-kubecli:
-  image: bitnami/kubectl:1.27.3
+hookImage: bitnami/kubectl:1.27.3
+hookRestartPolicy: OnFailure
+hookSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
