@@ -1,0 +1,26 @@
+apiVersion: kubevirt.io/v1
+kind: KubeVirt
+metadata:
+  name: kubevirt
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{- with .Values.kubevirt.configuration }}
+  configuration:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.kubevirt.customizeComponents }}
+  customizeComponents:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  imagePullPolicy: {{ .Values.kubevirt.imagePullPolicy }}
+  {{- with .Values.kubevirt.infra }}
+  infra:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.kubevirt.uninstallStrategy }}
+  uninstallStrategy: {{ .Values.kubevirt.uninstallStrategy }}
+  {{- end }}
+  {{- with .Values.kubevirt.workloadUpdateStrategy }}
+  workloadUpdateStrategy:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
