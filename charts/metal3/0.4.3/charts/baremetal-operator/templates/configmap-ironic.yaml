@@ -1,0 +1,26 @@
+  {{- $enableTLS := .Values.global.enable_tls }}
+  {{- $protocol := ternary "https" "http" $enableTLS }}
+  {{- $ironicIP := .Values.global.ironicIP | default "" }}
+  {{- $ironicApiHost := print $ironicIP ":6385" }}
+  {{- $ironicInspectorHost := print $ironicIP ":5050" }}
+  {{- $ironicBootHost := print $ironicIP ":6180" }}
+  {{- $ironicCacheHost := print $ironicIP ":6180" }}
+
+  {{- if $enableTLS }}
+    {{- $ironicBootHost = print $ironicIP ":" .Values.global.vmediaTLSPort }}
+    {{- $ironicCacheHost = print $ironicIP ":" .Values.global.vmediaTLSPort }}
+  {{- end }}
+
+apiVersion: v1
+data:
+  CACHEURL: "{{ $protocol }}://{{ $ironicCacheHost }}/images"
+  DEPLOY_KERNEL_URL: "{{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel"
+  DEPLOY_RAMDISK_URL: "{{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.initramfs"
+  IRONIC_ENDPOINT: "{{ $protocol }}://{{ $ironicApiHost }}/v1/"
+  IRONIC_INSPECTOR_ENDPOINT: "{{ $protocol }}://{{ $ironicInspectorHost }}/v1/"
+  RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
+kind: ConfigMap
+metadata:
+  name: baremetal-operator-ironic
+  labels:
+    {{- include "baremetal-operator.labels" . | nindent 4 }}
