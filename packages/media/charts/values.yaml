@@ -22,10 +22,9 @@ global:
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent 
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.22.0-alpine"
+  repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+  pullPolicy: Always
+  tag: 21.1.1
 
 imagePullSecrets: []
 nameOverride: ""
@@ -43,15 +42,17 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext:
-  fsGroup: 2000
+  runAsUser: 10475
+  fsGroup: 10475
 
 securityContext:
+  allowPrivilegeEscalation: false
   capabilities:
     drop:
     - ALL
-  readOnlyRootFilesystem: true
+  seccompProfile:
+    type: RuntimeDefault
   runAsNonRoot: true
-  runAsUser: 1000
 
 service:
   type: ClusterIP
@@ -104,7 +105,7 @@ volumes:
 
 # volume mounts
 volumeMounts:
-  - mountPath: /usr/share/nginx/html
+  - mountPath: /srv/www/htdocs
     name: assets
 
 # media volume settings
