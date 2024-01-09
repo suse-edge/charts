@@ -47,6 +47,36 @@ entries:
     urls:
     - assets/cdi/cdi-0.2.0.tgz
     version: 0.2.0
+  core:
+  - apiVersion: v1
+    appVersion: 5.2.4
+    created: "2024-01-09T07:58:37.561145-08:00"
+    description: Helm chart for NeuVector's core services
+    digest: 13ad160346b81da3dd9793eb7282d50719daf6bd6cc3614c30cbae27ddebd801
+    home: https://neuvector.com
+    icon: https://avatars2.githubusercontent.com/u/19367275?s=200&v=4
+    maintainers:
+    - email: support@neuvector.com
+      name: becitsthere
+    name: core
+    urls:
+    - assets/core/core-2.6.6.tgz
+    version: 2.6.6
+  crd:
+  - apiVersion: v1
+    appVersion: 5.2.4
+    created: "2024-01-09T08:00:13.878601-08:00"
+    description: Helm chart for NeuVector's CRD services
+    digest: c505cd9e5dda3a4c4f7cdbf67848fdb68e9b3044e8f85d5273350b8f46f72ac5
+    home: https://neuvector.com
+    icon: https://avatars2.githubusercontent.com/u/19367275?s=200&v=4
+    maintainers:
+    - email: support@neuvector.com
+      name: becitsthere
+    name: crd
+    urls:
+    - assets/crd/crd-2.6.6.tgz
+    version: 2.6.6
   endpoint-copier-operator:
   - apiVersion: v2
     appVersion: v0.2.0

@@ -1,0 +1,3 @@
+url: https://github.com/neuvector/neuvector-helm.git
+commit: 9fda5661b068e4ddf27bdf0dfd564de6a3a3cb44
+subdirectory: charts/crd
