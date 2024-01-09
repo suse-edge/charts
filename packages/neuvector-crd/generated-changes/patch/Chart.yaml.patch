@@ -1,0 +1,9 @@
+--- charts-original/Chart.yaml
++++ charts/Chart.yaml
+@@ -6,5 +6,5 @@
+ maintainers:
+ - email: support@neuvector.com
+   name: becitsthere
+-name: crd
++name: neuvector-crd
+ version: 2.6.6
