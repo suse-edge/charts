@@ -1,0 +1,147 @@
+# Default values for ironic.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  # whether to enable dnsmasq on the provisioning network (for PXE boot)
+  enable_dnsmasq: false
+
+  # whether to enable PXE boot capability
+  # NOTE: enable_dnsmasq must set to 'true' in order for this option to be effective.
+  enable_pxe_boot: false
+
+  # DNS Policy of the Ironic pod
+  dnsPolicy: "ClusterFirstWithHostNet"
+
+  # IP address of the router associated with the specified DHCP
+  # address range
+  dnsmasqDefaultRouter: ""
+
+  # IP address of the dns server to be provided with DHCP
+  # response
+  dnsmasqDNSServer: ""
+
+  # specify comma-delimited xrange of IP addresses the DHCP server will manage.
+  # e.g 192.168.20.20,192.168.20.80
+  dhcpRange: ""
+
+  # Network interface on which provisioning network can be accessed
+  # Note this must be a dedicated NIC separate from the controlplane network
+  provisioningInterface: ""
+
+  # IP Address assigned to network interface on provisioning network
+  provisioningIP: ""
+
+  databaseServiceName: "metal3-mariadb"
+
+  # In a multi-node kubernetes cluster, we need to "pin" the
+  # ironic containers to the given host where the
+  # provisioningIP exists. Uncomment the nodeSelector
+  # here and update the hostname accordingly.
+  #nodeSelector:
+    #kubernetes.io/hostname: "csrancher-n1"
+
+  # Comment this out when pinning the pdns containers to a specfic host.
+  nodeSelector: {}
+
+replicaCount: 1
+
+images:
+  ironic:
+    repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
+    pullPolicy: Always
+    tag: 21.1.1
+  ironicIPADownloader:
+    repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/zed/containerfile/suse/ironic-ipa-downloader
+    pullPolicy: IfNotPresent
+    tag: latest
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsUser: 10475
+  fsGroup: 10475
+
+securityContext: 
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+
+service:
+  type: LoadBalancer
+  annotations: {}
+  externalIPs: []
+  ports:
+  - name: httpd
+    port: 6180
+    protocol: TCP
+    targetPort: 6180
+  - name: httpd-tls
+    port: 6185
+    protocol: TCP
+    targetPort: 6185
+  - name: inspector
+    port: 5050
+    protocol: TCP
+    targetPort: 5050
+  - name: api
+    port: 6385
+    protocol: TCP
+    targetPort: 6385
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+tolerations: []
+
+affinity: {}
+
+baremetaloperator:
+  cloudflareApiToken: "foo"
+  ironichostNetwork: true
+
+debug:
+  ironicRamdiskSshKey: ""
+
+tlscerts:
+  cacert: ""
+  key: ""
+  crt: ""
+
+persistence:
+  ironic:
+    # storageClass for the ironic shared volume
+    # Ensure the storageClass is defined
+    storageClass: ""
+    # size of the ironic shared volume
+    size: "1Gi"
+    # accessMode of the ironic shared volume PVC
+    # If empty defaults to ReadWriteOnce when replicaCount=1 otherwise ReadWriteMany
+    accessMode: ""
+    # flag to indicate to keep pvc upon helm uninstall
+    keep: false
