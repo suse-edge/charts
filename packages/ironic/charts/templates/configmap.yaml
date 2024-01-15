@@ -60,7 +60,7 @@ data:
   {{- end }}
   {{- if  ( .Values.global.enable_tls ) }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
-  IRONIC_KERNEL_PARAMS: console=ttyS0 suse.cafile={{ $protocol }}://{{ $ironicBootHost }}/tstcerts/ca.crt
+  IRONIC_KERNEL_PARAMS: console=ttyS0 tls.enabled=true
   IPA_INSECURE: "0"
   IRONIC_REVERSE_PROXY_SETUP: "true"
   INSPECTOR_REVERSE_PROXY_SETUP: "true"
