@@ -300,6 +300,10 @@ spec:
             name: ironic-ipa-downloader
         volumeMounts:
           {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+        {{- if .Values.global.enable_tls }}
+          - name: cert-ironic-ca
+            mountPath: /tmp/ironic-ca
+        {{- end }}
       volumes:
       - name: ironic-data-volume
         persistentVolumeClaim:
