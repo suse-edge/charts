@@ -54,7 +54,7 @@ images:
   ironicIPADownloader:
     repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/zed/containerfile/suse/ironic-ipa-downloader
     pullPolicy: IfNotPresent
-    tag: latest
+    tag: 1.0.0
 
 nameOverride: ""
 fullnameOverride: ""
