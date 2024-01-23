@@ -48,13 +48,13 @@ replicaCount: 1
 
 images:
   ironic:
-    repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/ironic
-    pullPolicy: Always
+    repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/zed/containerfile/suse/ironic
+    pullPolicy: IfNotPresent
     tag: 21.1.1
   ironicIPADownloader:
     repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/zed/containerfile/suse/ironic-ipa-downloader
     pullPolicy: IfNotPresent
-    tag: 1.0.0
+    tag: 1.1.0
 
 nameOverride: ""
 fullnameOverride: ""

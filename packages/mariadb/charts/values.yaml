@@ -12,8 +12,8 @@ service:
     targetPort: 3306
 
 image:
-  repository: registry.opensuse.org/isv/metal3/bci/ironic/containerfile/suse/mariadb
-  pullPolicy: Always
+  repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/zed/containerfile/suse/mariadb
+  pullPolicy: IfNotPresent
   tag: 10.6.7
 
 nameOverride: ""
