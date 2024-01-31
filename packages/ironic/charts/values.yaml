@@ -48,11 +48,11 @@ replicaCount: 1
 
 images:
   ironic:
-    repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/zed/containerfile/suse/ironic
+    repository: registry.opensuse.org/home/kzhelyazkov/branches/isv/suse/edge/metal3/ironic/2023.2/containerfile/suse/ironic
     pullPolicy: IfNotPresent
-    tag: 21.1.1
+    tag: 23.0.1.1
   ironicIPADownloader:
-    repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/zed/containerfile/suse/ironic-ipa-downloader
+    repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/2023.2/containerfile/suse/ironic-ipa-downloader
     pullPolicy: IfNotPresent
     tag: 1.1.0
 

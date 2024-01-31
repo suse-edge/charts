@@ -3,10 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: baremetal-operator-system/baremetal-operator-serving-cert
     controller-gen.kubebuilder.io/version: v0.12.1
-  labels:
-    clusterctl.cluster.x-k8s.io: ""
   name: baremetalhosts.metal3.io
 spec:
   group: metal3.io
@@ -212,8 +209,10 @@ spec:
                 type: object
               hardwareProfile:
                 description: What is the name of the hardware profile for this host?
-                  It should only be necessary to set this when inspection cannot automatically
-                  determine the profile.
+                  Hardware profiles are deprecated and should not be used. Use the
+                  separate fields Architecture and RootDeviceHints instead. Set to
+                  "empty" to prepare for the future version of the API without hardware
+                  profiles.
                 type: string
               image:
                 description: Image holds the details of the image to be provisioned.
@@ -222,12 +221,15 @@ spec:
                     description: Checksum is the checksum for the image.
                     type: string
                   checksumType:
-                    description: ChecksumType is the checksum algorithm for the image.
-                      e.g md5, sha256, sha512
+                    description: ChecksumType is the checksum algorithm for the image,
+                      e.g md5, sha256 or sha512. The special value "auto" can be used
+                      to detect the algorithm from the checksum. If missing, MD5 is
+                      used. If in doubt, use "auto".
                     enum:
                     - md5
                     - sha256
                     - sha512
+                    - auto
                     type: string
                   format:
                     description: DiskFormat contains the format of the image (raw,
@@ -669,6 +671,13 @@ spec:
                       description: Storage describes one storage device (disk, SSD,
                         etc.) on the host.
                       properties:
+                        alternateNames:
+                          description: A list of alternate Linux device names of the
+                            disk, e.g. "/dev/sda". Note that this list is not exhaustive,
+                            and names may not be stable across reboots.
+                          items:
+                            type: string
+                          type: array
                         hctl:
                           description: The SCSI location of the device
                           type: string
@@ -676,8 +685,9 @@ spec:
                           description: Hardware model
                           type: string
                         name:
-                          description: The Linux device name of the disk, e.g. "/dev/sda".
-                            Note that this may not be stable across reboots.
+                          description: A Linux device name of the disk, e.g. "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0".
+                            This will be a name that is stable across reboots if one
+                            is available.
                           type: string
                         rotational:
                           description: Whether this disk represents rotational storage.
@@ -864,11 +874,14 @@ spec:
                         type: string
                       checksumType:
                         description: ChecksumType is the checksum algorithm for the
-                          image. e.g md5, sha256, sha512
+                          image, e.g md5, sha256 or sha512. The special value "auto"
+                          can be used to detect the algorithm from the checksum. If
+                          missing, MD5 is used. If in doubt, use "auto".
                         enum:
                         - md5
                         - sha256
                         - sha512
+                        - auto
                         type: string
                       format:
                         description: DiskFormat contains the format of the image (raw,

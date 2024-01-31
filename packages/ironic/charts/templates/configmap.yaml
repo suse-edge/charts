@@ -28,6 +28,7 @@ data:
   IRONIC_RAMDISK_SSH_KEY: {{ .Values.debug.ironicRamdiskSshKey }}
   {{- end }}
   HTTP_PORT: "6180"
+  USE_IRONIC_INSPECTOR: "true"
   IRONIC_EXTERNAL_HTTP_URL: {{ $protocol }}://{{ $ironicCacheHost }}
   CACHEURL: {{ $protocol }}://{{ $ironicCacheHost }}/images
   DEPLOY_KERNEL_URL: {{ $protocol }}://{{ $ironicBootHost }}/images/ironic-python-agent.kernel
@@ -75,4 +76,4 @@ data:
   AUTH_STRATEGY: "http_basic"
   INSPECTOR_AUTH_STRATEGY: "http_basic"
   {{- end }}
-  DATABASE_HOST: {{ .Values.global.databaseServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+  MARIADB_HOST: {{ .Values.global.databaseServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
