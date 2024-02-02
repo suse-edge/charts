@@ -38,6 +38,7 @@ spec:
     kind: Issuer
     name: ca-issuer
   secretName: ironic-inspector-cert
+{{- if .Values.global.enable_vmedia_tls -}}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -51,4 +52,5 @@ spec:
     kind: Issuer
     name: ca-issuer
   secretName: ironic-vmedia-cert
+{{- end }}
 {{- end }}

@@ -12,13 +12,14 @@ spec:
   type: {{ .Values.service.type }}
   ports:
   {{- $enableTLS := .Values.global.enable_tls }}
+  {{- $enableVMediaTLS := .Values.global.enable_vmedia_tls }}
   {{- range .Values.service.ports }}
-  {{- if and (eq .name "httpd") (not $enableTLS) }}
+  {{- if and (eq .name "httpd") (not $enableTLS) (not $enableVMediaTLS) }}
     - name: {{ .name }}
       port: {{ .port }}
       protocol: {{ .protocol }}
       targetPort: {{ .targetPort }}
-  {{- else if and (eq .name "httpd-tls") ($enableTLS) }}
+  {{- else if and (eq .name "httpd-tls") ($enableTLS) ($enableVMediaTLS) }}
     - name: {{ .name }}
       port: {{ .port }}
       protocol: {{ .protocol }}
