@@ -14,7 +14,7 @@ spec:
   {{- $enableTLS := .Values.global.enable_tls }}
   {{- $enableVMediaTLS := .Values.global.enable_vmedia_tls }}
   {{- range .Values.service.ports }}
-  {{- if and (eq .name "httpd") (not $enableTLS) (not $enableVMediaTLS) }}
+  {{- if and (eq .name "httpd") (or (not $enableTLS) (not $enableVMediaTLS)) }}
     - name: {{ .name }}
       port: {{ .port }}
       protocol: {{ .protocol }}
