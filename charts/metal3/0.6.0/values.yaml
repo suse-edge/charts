@@ -19,6 +19,9 @@ global:
   # whether to enable tls
   enable_tls: true
 
+  # whether to enable the TLS of the Virtual Media.
+  enable_vmedia_tls: true
+
   # whether to enable basic auth
   enable_basicAuth: true
 
@@ -80,7 +83,6 @@ metal3-media:
 metal3-ironic:
   service:
     type: LoadBalancer
-
   persistence:
     ironic:
       # storageClass for the ironic shared volume

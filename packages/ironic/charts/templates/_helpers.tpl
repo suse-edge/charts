@@ -79,7 +79,9 @@ Get ironic CA volumeMounts
 - name: cert-ironic-inspector-ca
   mountPath: "/certs/ca/ironic-inspector"
   readOnly: true
+{{- if .Values.global.enable_vmedia_tls }}
 - name: cert-ironic-vmedia-ca
   mountPath: "/certs/ca/vmedia"
   readOnly: true
+{{- end }}
 {{- end }}
