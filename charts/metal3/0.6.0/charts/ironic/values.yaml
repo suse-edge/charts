@@ -32,6 +32,9 @@ global:
   # IP Address assigned to network interface on provisioning network
   provisioningIP: ""
 
+  # Whether the NIC names should be predictable or not
+  predictableNicNames: "true"
+
   databaseServiceName: "metal3-mariadb"
 
   # In a multi-node kubernetes cluster, we need to "pin" the
