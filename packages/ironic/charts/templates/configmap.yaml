@@ -66,7 +66,7 @@ data:
   {{- end }}
   {{- if  ( .Values.global.enable_tls ) }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
-  IRONIC_KERNEL_PARAMS: console=ttyS0 tls.enabled=true
+  IRONIC_KERNEL_PARAMS: {{ .Values.global.ironicKernelParams }} tls.enabled=true
   IPA_INSECURE: "0"
   IRONIC_REVERSE_PROXY_SETUP: "true"
   INSPECTOR_REVERSE_PROXY_SETUP: "true"
@@ -75,7 +75,7 @@ data:
   {{- end }}
   {{- else }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
-  IRONIC_KERNEL_PARAMS: console=ttyS0
+  IRONIC_KERNEL_PARAMS: {{ .Values.global.ironicKernelParams }}
   IPA_INSECURE: "1"
   IRONIC_REVERSE_PROXY_SETUP: "false"
   {{- end }}
