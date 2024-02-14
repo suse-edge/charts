@@ -35,6 +35,9 @@ global:
   # Whether the NIC names should be predictable or not
   predictableNicNames: "true"
 
+  # The kernel params for Ironic
+  ironicKernelParams: "console=ttyS0"
+
   databaseServiceName: "metal3-mariadb"
 
   # In a multi-node kubernetes cluster, we need to "pin" the
