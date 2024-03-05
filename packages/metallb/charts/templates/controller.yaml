@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "metallb.fullname" . }}-controller
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "metallb.labels" . | nindent 4 }}
     app.kubernetes.io/component: controller
@@ -71,6 +72,12 @@ spec:
         {{- if .Values.controller.webhookMode }}
         - --webhook-mode={{ .Values.controller.webhookMode }}
         {{- end }}
+        {{- if .Values.controller.tlsMinVersion }}
+        - --tls-min-version={{ .Values.controller.tlsMinVersion }}
+        {{- end }}
+        {{- if .Values.controller.tlsCipherSuites }}
+        - --tls-cipher-suites={{ .Values.controller.tlsCipherSuites }}
+        {{- end }}
         env:
         {{- if and .Values.speaker.enabled .Values.speaker.memberlist.enabled }}
         - name: METALLB_ML_SECRET_NAME
@@ -81,6 +88,10 @@ spec:
         {{- if .Values.speaker.frr.enabled }}
         - name: METALLB_BGP_TYPE
           value: frr
+        {{- end }}
+        {{- if .Values.frrk8s.enabled }}
+        - name: METALLB_BGP_TYPE
+          value: frr-k8s
         {{- end }}
         ports:
         - name: monitoring
@@ -152,6 +163,9 @@ spec:
             readOnly: true
         {{- end }}
       {{ end }}
+      {{- if .Values.controller.extraContainers }}
+      {{- toYaml .Values.controller.extraContainers | nindent 6 }}
+      {{- end }}
       nodeSelector:
         "kubernetes.io/os": linux
         {{- with .Values.controller.nodeSelector }}
