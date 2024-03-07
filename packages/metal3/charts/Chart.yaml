@@ -4,7 +4,7 @@ dependencies:
 - alias: metal3-baremetal-operator
   name: baremetal-operator
   repository: file://./charts/baremetal-operator
-  version: 0.4.0
+  version: 0.4.1
 - alias: metal3-ironic
   name: ironic
   repository: file://./charts/ironic
@@ -22,4 +22,4 @@ description: A Helm chart that installs all of the dependencies needed for Metal
 icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
 name: metal3
 type: application
-version: 0.6.1
+version: 0.6.2

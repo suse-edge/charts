@@ -24,10 +24,15 @@ global:
 
 replicaCount: 1
 
-image:
-  repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/2023.2/containerfile/suse/baremetal-operator
-  pullPolicy: IfNotPresent 
-  tag: "0.5.0"
+images:
+  baremetal-operator:
+    repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/2023.2/containerfile/suse/baremetal-operator
+    pullPolicy: IfNotPresent
+    tag: "0.5.0"
+  kube-rbac-proxy:
+    repository: registry.opensuse.org/isv/suse/edge/metallb/images/kube-rbac-proxy
+    pullPolicy: IfNotPresent
+    tag: "v0.14.2"
 
 imagePullSecrets: []
 nameOverride: "manger"
