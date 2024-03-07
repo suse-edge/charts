@@ -541,7 +541,7 @@ entries:
   metallb:
   - apiVersion: v2
     appVersion: v0.14.3
-    created: "2024-03-05T15:22:13.231148+02:00"
+    created: "2024-03-07T09:54:15.349397+02:00"
     dependencies:
     - condition: frrk8s.enabled
       name: frr-k8s
@@ -553,7 +553,7 @@ entries:
       version: 0.14.3
     description: A network load-balancer implementation for Kubernetes using standard
       routing protocols
-    digest: a31b602ea71621814bcb9ddc089abd5711edd9b75920c8ae55d72ea839c90e5f
+    digest: 115160198c535ec161ebc2a0d296e5c36881d33ce694e74a8ac37f11ff6675b9
     home: https://metallb.universe.tf
     icon: https://metallb.universe.tf/images/logo/metallb-white.png
     kubeVersion: '>= 1.19.0-0'
