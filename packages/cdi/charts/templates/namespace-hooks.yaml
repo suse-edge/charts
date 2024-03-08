@@ -49,8 +49,8 @@ spec:
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
           image: {{ .Values.hookImage }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl label namespace {{ .Release.Namespace }} cdi.kubevirt.io="";
+          args:
+            - label
+            - namespace
+            - {{ .Release.Namespace }}
+            - cdi.kubevirt.io=

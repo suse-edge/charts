@@ -62,10 +62,19 @@ spec:
       containers:
         - name: {{ template "cdi.crdUpgradeHook.name" . }}
           image: {{ .Values.hookImage }}
+          args:
+            - apply
+            - -f
+            - /etc/manifests/crd.yaml
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl get configmap cdi-crd-manifest -o "jsonpath={.data['crd']}" | kubectl apply -f -;
+          volumeMounts:
+            - name: crd-volume
+              mountPath: /etc/manifests
+      volumes:
+        - name: crd-volume
+          configMap:
+            name: cdi-crd-manifest
+            items:
+              - key: crd
+                path: crd.yaml

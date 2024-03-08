@@ -47,10 +47,9 @@ spec:
       containers:
         - name: {{ template "cdi.crdUninstallHook.name" . }}
           image: {{ .Values.hookImage }}
+          args:
+            - delete
+            - customresourcedefinitions
+            - cdis.cdi.kubevirt.io
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl delete customresourcedefinitions cdis.cdi.kubevirt.io;

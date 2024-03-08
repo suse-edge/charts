@@ -52,11 +52,18 @@ spec:
           image: {{ .Values.hookImage }}
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl delete cdi cdi;
-              kubectl wait --for=delete deployments/cdi-apiserver --timeout=45s;
-              kubectl wait --for=delete deployments/cdi-deployment --timeout=45s;
-              kubectl wait --for=delete deployments/cdi-uploadproxy --timeout=45s;
+          args:
+            - delete
+            - cdi
+            - cdi
+        - name: {{ template "cdi.crUninstallHook.name" . }}-cleanup
+          image: {{ .Values.hookImage }}
+          securityContext:
+            {{- toYaml .Values.hookSecurityContext | nindent 12 }}
+          args:
+            - wait
+            - --for=delete
+            - deployments/cdi-apiserver
+            - deployments/cdi-deployment
+            - deployments/cdi-uploadproxy
+            - --timeout=60s
