@@ -7,7 +7,7 @@ global:
   ironicIP: ""
 
   # whether to enable media server.
-  enable_metal3_media_server: true
+  enable_metal3_media_server: false
 
   # whether to enable dnsmasq on the provisioning network (for PXE boot)
   enable_dnsmasq: false
