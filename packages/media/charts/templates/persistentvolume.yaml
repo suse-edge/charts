@@ -1,3 +1,4 @@
+{{- if eq .Values.mediaVolume.storageClassName "local" }}
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -6,11 +7,12 @@ metadata:
   labels:
     {{- include "media.labels" . | nindent 4 }}
 spec:
-  storageClassName: local
+  storageClassName: {{ .Values.mediaVolume.storageClassName }}
   accessModes:
-    - ReadOnlyMany
+    {{ toYaml .Values.mediaVolume.accessModes }}
   capacity:
-    storage: 5Gi
+    storage: {{ .Values.mediaVolume.storage }}
   hostPath:
     path: {{ .Values.mediaVolume.hostPath }}
     type: DirectoryOrCreate
+{{- end }}

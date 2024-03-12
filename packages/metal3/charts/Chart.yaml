@@ -17,7 +17,7 @@ dependencies:
   condition: global.enable_metal3_media_server
   name: media
   repository: file://./charts/media
-  version: 0.4.1
+  version: 0.4.2
 description: A Helm chart that installs all of the dependencies needed for Metal3
 icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
 name: metal3

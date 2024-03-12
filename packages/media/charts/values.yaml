@@ -110,4 +110,8 @@ volumeMounts:
 
 # media volume settings
 mediaVolume:
+  storageClassName: local
+  accessModes:
+  - ReadOnlyMany
   hostPath: /opt/media
+  storage: 5Gi

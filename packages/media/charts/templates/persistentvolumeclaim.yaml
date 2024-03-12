@@ -6,9 +6,9 @@ metadata:
   labels:
     {{- include "media.labels" . | nindent 4 }}
 spec:
-  storageClassName: local
+  storageClassName: {{ .Values.mediaVolume.storageClassName }}
   accessModes:
-    - ReadOnlyMany
+   {{ toYaml .Values.mediaVolume.accessModes }}
   resources:
     requests:
-      storage: 5Mi
+      storage: {{ .Values.mediaVolume.storage }}
