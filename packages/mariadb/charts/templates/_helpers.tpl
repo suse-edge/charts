@@ -46,6 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "mariadb.selectorLabels" -}}
+app.kubernetes.io/component: mariadb
 app.kubernetes.io/name: {{ include "mariadb.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

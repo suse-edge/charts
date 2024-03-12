@@ -46,6 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "ironic.selectorLabels" -}}
+app.kubernetes.io/component: ironic
 app.kubernetes.io/name: {{ include "ironic.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

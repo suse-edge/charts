@@ -4,15 +4,15 @@ dependencies:
 - alias: metal3-baremetal-operator
   name: baremetal-operator
   repository: file://./charts/baremetal-operator
-  version: 0.4.1
+  version: 0.4.2
 - alias: metal3-ironic
   name: ironic
   repository: file://./charts/ironic
-  version: 0.6.1
+  version: 0.6.2
 - alias: metal3-mariadb
   name: mariadb
   repository: file://./charts/mariadb
-  version: 0.5.1
+  version: 0.5.2
 - alias: metal3-media
   condition: global.enable_metal3_media_server
   name: media

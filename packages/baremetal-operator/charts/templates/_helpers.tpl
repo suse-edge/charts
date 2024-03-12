@@ -46,6 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "baremetal-operator.selectorLabels" -}}
+app.kubernetes.io/component: baremetal-operator
 app.kubernetes.io/name: {{ include "baremetal-operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
