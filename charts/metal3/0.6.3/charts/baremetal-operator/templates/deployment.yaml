@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "ironic.selectorLabels" . | nindent 8 }}
+        {{- include "baremetal-operator.selectorLabels" . | nindent 8 }}
         control-plane: controller-manager
         webhook: metal3-io-v1alpha1-baremetalhost
     spec:
