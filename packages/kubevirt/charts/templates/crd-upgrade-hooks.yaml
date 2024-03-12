@@ -64,8 +64,17 @@ spec:
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
           image: {{ .Values.hookImage }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl get configmap kubevirt-crd-manifest -o "jsonpath={.data['crd']}" | kubectl apply -f -;
+          args:
+            - apply
+            - -f
+            - /etc/manifests/crd.yaml
+          volumeMounts:
+            - name: crd-volume
+              mountPath: /etc/manifests
+      volumes:
+        - name: crd-volume
+          configMap:
+            name: kubevirt-crd-manifest
+            items:
+              - key: crd
+                path: crd.yaml

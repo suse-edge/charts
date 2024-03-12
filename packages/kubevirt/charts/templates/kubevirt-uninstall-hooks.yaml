@@ -54,11 +54,18 @@ spec:
           image: {{ .Values.hookImage }}
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl delete kubevirt kubevirt;
-              kubectl wait --for=delete deployments/virt-api --timeout=45s;
-              kubectl wait --for=delete deployments/virt-controller --timeout=45s;
-              kubectl wait --for=delete daemonsets/virt-handler --timeout=45s;
+          args:
+            - delete
+            - kubevirt
+            - kubevirt
+        - name: {{ template "kubevirt.crUninstallHook.name" . }}-cleanup
+          image: {{ .Values.hookImage }}
+          securityContext:
+            {{- toYaml .Values.hookSecurityContext | nindent 12 }}
+          args:
+            - wait
+            - --for=delete
+            - deployments/virt-api
+            - deployments/virt-controller
+            - daemonsets/virt-handler
+            - --timeout=60s

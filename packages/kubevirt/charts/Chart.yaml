@@ -4,4 +4,4 @@ description: A Helm chart for KubeVirt
 icon: https://raw.githubusercontent.com/cncf/artwork/main/projects/kubevirt/icon/color/kubevirt-icon-color.svg
 name: kubevirt
 type: application
-version: 0.2.2
+version: 0.2.3

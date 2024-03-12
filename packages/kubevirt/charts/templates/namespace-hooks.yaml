@@ -52,9 +52,9 @@ spec:
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
           image: {{ .Values.hookImage }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl label namespace {{ .Release.Namespace }} kubevirt.io="";
-              kubectl label namespace {{ .Release.Namespace }} pod-security.kubernetes.io/enforce="privileged";
+          args:
+            - label
+            - namespace
+            - {{ .Release.Namespace }}
+            - kubevirt.io=
+            - pod-security.kubernetes.io/enforce=privileged

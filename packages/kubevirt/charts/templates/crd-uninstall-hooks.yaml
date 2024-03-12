@@ -46,11 +46,10 @@ spec:
       restartPolicy: {{ .Values.hookRestartPolicy }}
       containers:
         - name: {{ template "kubevirt.crdUninstallHook.name" . }}
+          image: {{ .Values.hookImage }}
+          args:
+            - delete
+            - customresourcedefinitions
+            - kubevirts.kubevirt.io
           securityContext:
             {{- toYaml .Values.hookSecurityContext | nindent 12 }}
-          image: {{ .Values.hookImage }}
-          command:
-            - /bin/sh
-            - -c
-            - >
-              kubectl delete customresourcedefinitions kubevirts.kubevirt.io;
