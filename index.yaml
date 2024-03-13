@@ -104,6 +104,17 @@ entries:
   kubevirt:
   - apiVersion: v2
     appVersion: 1.1.1
+    created: "2024-03-12T22:43:52.667337+02:00"
+    description: A Helm chart for KubeVirt
+    digest: b8b46cf53485af79293dac80ac22ce2abaec66726f5d0769c60df58759da2df1
+    icon: https://raw.githubusercontent.com/cncf/artwork/main/projects/kubevirt/icon/color/kubevirt-icon-color.svg
+    name: kubevirt
+    type: application
+    urls:
+    - assets/kubevirt/kubevirt-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: 1.1.1
     created: "2024-03-07T11:44:31.166867+02:00"
     description: A Helm chart for KubeVirt
     digest: ad6ab84ed1c48a547f76de47663f012ee53dda5274dc31fc15e42df3e045baad
