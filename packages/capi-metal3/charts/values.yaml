@@ -1,0 +1,17 @@
+# Default values for capi-metal3
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  capm3FastTrack: false
+  enableBMHNameBasedPreallocation: false
+
+images:
+  capm3:
+    repository: registry.opensuse.org/isv/suse/edge/clusterapi/containerfile/suse/cluster-api-provider-metal3
+    pullPolicy: IfNotPresent
+    tag: "1.6.0"
+  ipam:
+    repository: registry.opensuse.org/isv/suse/edge/clusterapi/containerfile/suse/ip-address-manager
+    pullPolicy: IfNotPresent
+    tag: "1.6.0"
