@@ -1,0 +1,22 @@
+# Default values for capi-core
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  features:
+    rancherEmbeddedCAPI:
+      disabled: true
+    rancherWebhook:
+      cleanup: true
+    kubectlImage: registry.k8s.io/kubernetes/kubectl:v1.28.0
+  featureGates:
+    machinePool: false
+    clusterResourceSet: false
+    clusterTopology: false
+    runtimeSDK: false
+    machineSetPreflightChecks: false
+
+image:
+  repository: registry.opensuse.org/isv/suse/edge/clusterapi/containerfile/suse/cluster-api-controller
+  pullPolicy: IfNotPresent
+  tag: "1.6.0"

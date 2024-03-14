@@ -90,6 +90,32 @@ entries:
     urls:
     - assets/cdi/cdi-0.2.0.tgz
     version: 0.2.0
+  cluster-api:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-15T22:07:58.845002627+02:00"
+    dependencies:
+    - name: capi-core
+      repository: file://./charts/capi-core
+      version: 0.1.0
+    - name: capi-metal3
+      repository: file://./charts/capi-metal3
+      version: 0.1.0
+    - name: capi-rke2-bootstrap
+      repository: file://./charts/capi-rke2-bootstrap
+      version: 0.1.0
+    - name: capi-rke2-controlplane
+      repository: file://./charts/capi-rke2-controlplane
+      version: 0.1.0
+    description: A Helm chart that installs all of the ClusterAPI dependencies needed
+      for Metal3 usage of ClusterAPI
+    digest: cd0fb93e4bf87008b0579ff76a440856efefcfd8cbc774e8a5de0fffe7e9d4ea
+    icon: https://github.com/kubernetes-sigs/cluster-api/blob/main/logos/kubernetes-cluster-logos_final-02.svg
+    name: cluster-api
+    type: application
+    urls:
+    - assets/cluster-api/cluster-api-0.1.0.tgz
+    version: 0.1.0
   endpoint-copier-operator:
   - apiVersion: v2
     appVersion: v0.2.0
