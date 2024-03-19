@@ -6,7 +6,7 @@ cd $(dirname $0)
 cd ..
 
 die(){
-	echo ${1} >2&
+	echo ${1} >&2
 	exit ${2}
 }
 
