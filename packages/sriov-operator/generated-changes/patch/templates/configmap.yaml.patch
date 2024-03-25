@@ -1,7 +1,7 @@
 --- charts-original/templates/configmap.yaml
 +++ charts/templates/configmap.yaml
-@@ -8,6 +8,10 @@ data:
-   Intel_i40e_10G_X710_SFP: "8086 1572 154c"
+@@ -13,6 +13,10 @@
+   Intel_i40e_10G_X710_BASE_T: "8086 15ff 154c"
    Intel_i40e_XXV710_N3000: "8086 0d58 154c"
    Intel_i40e_40G_XL710_QSFP: "8086 1583 154c"
 +  Intel_i40e_X550T: "8086 1563 1565"

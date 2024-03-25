@@ -1,0 +1,18 @@
+apiVersion: v2
+appVersion: 1.2.0
+dependencies:
+- condition: sriov-nfd.enabled
+  name: sriov-nfd
+  repository: file://./charts/sriov-nfd
+  version: 0.14.1
+description: SR-IOV network operator configures and manages SR-IOV networks in the
+  kubernetes cluster
+home: https://github.com/k8snetworkplumbingwg/sriov-network-operator
+keywords:
+- sriov
+kubeVersion: '>= 1.16.0-0'
+name: sriov-network-operator
+sources:
+- https://github.com/k8snetworkplumbingwg/sriov-network-operator
+type: application
+version: 1.2.0+up0.1.0
