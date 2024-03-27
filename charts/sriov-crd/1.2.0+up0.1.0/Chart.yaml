@@ -2,4 +2,4 @@ apiVersion: v2
 description: Installs the CRDs for the SR-IOV operator
 name: sriov-crd
 type: application
-version: 1.2.0
+version: 1.2.0+up0.1.0
