@@ -1,6 +1,6 @@
 operator:
   image: registry.suse.com/suse/sles/15.5/virt-operator
-  version: 1.1.1-150500.8.9.1
+  version: 1.1.1-150500.8.12.1
   pullPolicy: IfNotPresent
 
 kubevirt:
