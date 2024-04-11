@@ -1,0 +1,30 @@
+operator:
+  image: registry.suse.com/suse/sles/15.5/virt-operator
+  version: 1.1.1-150500.8.12.1
+  pullPolicy: IfNotPresent
+
+kubevirt:
+  # Holds kubevirt configurations. Same as the virt-configMap.
+  configuration: {}
+  customizeComponents: {}
+  # The ImagePullPolicy to use.
+  imagePullPolicy: IfNotPresent
+  # Selectors and tolerations that should apply to KubeVirt infrastructure components.
+  infra: {}
+  # Specifies if KubeVirt can be deleted if workloads are still present.
+  # This is mainly a precaution to avoid accidental data loss.
+  uninstallStrategy: ""
+  # WorkloadUpdateStrategy defines at the cluster level how to handle automated workload updates.
+  workloadUpdateStrategy: {}
+
+hookImage: rancher/kubectl:v1.28.7
+hookRestartPolicy: OnFailure
+hookSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
