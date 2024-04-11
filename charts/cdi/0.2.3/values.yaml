@@ -1,0 +1,38 @@
+deployment:
+  version: 1.58.0-150500.6.12.1
+  operatorImage: registry.suse.com/suse/sles/15.5/cdi-operator
+  controllerImage: registry.suse.com/suse/sles/15.5/cdi-controller
+  importerImage: registry.suse.com/suse/sles/15.5/cdi-importer
+  clonerImage: registry.suse.com/suse/sles/15.5/cdi-cloner
+  apiserverImage: registry.suse.com/suse/sles/15.5/cdi-apiserver
+  uploadserverImage: registry.suse.com/suse/sles/15.5/cdi-uploadserver
+  uploadproxyImage: registry.suse.com/suse/sles/15.5/cdi-uploadproxy
+  pullPolicy: IfNotPresent
+
+cdi:
+  config:
+    featureGates:
+      - HonorWaitForFirstConsumer
+  imagePullPolicy: "IfNotPresent"
+  infra:
+    nodeSelector:
+      kubernetes.io/os: linux
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+  uninstallStrategy: ""
+  workload:
+    nodeSelector:
+      kubernetes.io/os: linux
+
+hookImage: rancher/kubectl:v1.28.7
+hookRestartPolicy: OnFailure
+hookSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
