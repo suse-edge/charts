@@ -60,7 +60,7 @@ jobs:
       run: |
         echo "global:" > custom_values.yaml
         echo "  ironicIP: 192.0.2.1" >> custom_values.yaml # TEST-NET-1
-        echo "  enable_metal3_media_server: true" > custom_values.yaml
+        echo "  enable_metal3_media_server: true" >> custom_values.yaml
         
     - name: Deploy Metal3 Helm Chart
       run: |
