@@ -8,7 +8,7 @@ dependencies:
 - alias: metal3-ironic
   name: ironic
   repository: file://./charts/ironic
-  version: 0.6.2
+  version: 0.6.3
 - alias: metal3-mariadb
   name: mariadb
   repository: file://./charts/mariadb
@@ -22,4 +22,4 @@ description: A Helm chart that installs all of the dependencies needed for Metal
 icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
 name: metal3
 type: application
-version: 0.6.3
+version: 0.6.4
