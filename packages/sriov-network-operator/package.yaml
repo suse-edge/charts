@@ -1,7 +1,7 @@
 url: https://github.com/k8snetworkplumbingwg/sriov-network-operator.git
 subdirectory: deployment/sriov-network-operator
-commit: 7ca08f8f0f062a3637461d4e803b29cd10cd3537 # March 2024
-packageVersion: 01
+commit: f2ca88418036a7836ea2c0bd1f648a47774997c4 # March 2024
+packageVersion: 02
 additionalCharts:
   - workingDir: charts-crd
     crdOptions:
