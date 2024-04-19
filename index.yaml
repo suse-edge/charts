@@ -883,6 +883,15 @@ entries:
     version: 2.6.6
   sriov-crd:
   - apiVersion: v2
+    created: "2024-04-10T17:55:59.529653387-06:00"
+    description: Installs the CRDs for the SR-IOV operator
+    digest: 4eadf1bc29d32d9ee2711c083ad0568cad170ae306ecce952ef426b32eef95ce
+    name: sriov-crd
+    type: application
+    urls:
+    - assets/sriov-crd/sriov-crd-1.2.2+up0.1.0.tgz
+    version: 1.2.2+up0.1.0
+  - apiVersion: v2
     created: "2024-04-01T15:29:12.855107116+02:00"
     description: Installs the CRDs for the SR-IOV operator
     digest: 61c9c98fde439cfd8c50bf687879b345eaa29422c63de93a14c3ad3635e41b18
@@ -910,6 +919,28 @@ entries:
     - assets/sriov-crd/sriov-crd-1.1.0+up0.1.0.tgz
     version: 1.1.0+up0.1.0
   sriov-network-operator:
+  - apiVersion: v2
+    appVersion: 1.2.0
+    created: "2024-04-10T17:55:59.538376445-06:00"
+    dependencies:
+    - condition: sriov-nfd.enabled
+      name: sriov-nfd
+      repository: file://./charts/sriov-nfd
+      version: 0.15.4
+    description: SR-IOV network operator configures and manages SR-IOV networks in
+      the kubernetes cluster
+    digest: d4b7c6197cbb69d4bff58e40fcd3b48615b205ddd4d8961261ce07813520550a
+    home: https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    keywords:
+    - sriov
+    kubeVersion: '>= 1.16.0-0'
+    name: sriov-network-operator
+    sources:
+    - https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    type: application
+    urls:
+    - assets/sriov-network-operator/sriov-network-operator-1.2.2+up0.1.0.tgz
+    version: 1.2.2+up0.1.0
   - apiVersion: v2
     appVersion: 1.2.0
     created: "2024-04-01T15:29:12.859501386+02:00"
