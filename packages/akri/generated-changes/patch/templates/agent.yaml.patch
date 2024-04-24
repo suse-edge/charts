@@ -1,0 +1,39 @@
+--- charts-original/templates/agent.yaml
++++ charts/templates/agent.yaml
+@@ -16,11 +16,6 @@
+         app.kubernetes.io/name: akri-agent
+         app.kubernetes.io/component: agent
+     spec:
+-      {{- /* hostNetwork is only needed for embedded ONVIF discovery */}}
+-      {{- if .Values.agent.full }}
+-      hostNetwork: true
+-      dnsPolicy: ClusterFirstWithHostNet
+-      {{- end }}
+       nodeSelector:
+         "kubernetes.io/os": linux
+         {{- if .Values.agent.nodeSelectors }}
+@@ -31,7 +26,7 @@
+       {{- end }}
+       containers:
+       - name: akri-agent
+-        {{- $repository := ternary .Values.agent.image.fullRepository .Values.agent.image.repository .Values.agent.full -}}
++        {{- $repository := .Values.agent.image.repository -}}
+         {{- if .Values.useDevelopmentContainers }}
+         {{- if .Values.useLatestContainers }}
+         image: {{ printf "%s:%s" $repository (default "latest-dev" .Values.agent.image.tag) | quote }}
+@@ -68,7 +63,7 @@
+             value: {{ .Values.debugEcho.configuration.shared | quote }}
+           {{- end }}
+           - name: HOST_CRICTL_PATH
+-            value: /usr/local/bin/crictl
++            value: /usr/bin/crictl
+           - name: HOST_RUNTIME_ENDPOINT
+             value: unix:///host/run/containerd/containerd.sock
+           - name: HOST_IMAGE_ENDPOINT
+@@ -128,4 +123,4 @@
+         hostPath:
+           path: "{{ .Values.agent.host.udev }}"
+       {{- end }}
+-{{- end }}
+\ No newline at end of file
++{{- end }}

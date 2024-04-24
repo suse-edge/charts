@@ -1,6 +1,39 @@
 --- charts-original/values.yaml
 +++ charts/values.yaml
-@@ -237,6 +237,8 @@
+@@ -10,7 +10,7 @@
+ # useDevelopmentContainers is specified if the non-release (*-dev)
+ # tags should be used.  This will be overridden if *.image.tag
+ # is specified.
+-useDevelopmentContainers: true
++useDevelopmentContainers: false
+ 
+ # imagePullSecrets is the array of secrets needed to pull images.
+ # This can be set from the helm command line using `--set imagePullSecrets[0].name="mysecret"`
+@@ -45,7 +45,7 @@
+   enabled: true
+   image:
+     # repository is the Akri Controller container reference
+-    repository: ghcr.io/project-akri/akri/controller
++    repository: "registry.opensuse.org/isv/suse/edge/akri/images/akri-controller"
+     # tag is the Akri Controller container tag
+     # controller.yaml will default to v(AppVersion)[-dev]
+     # with `-dev` added if `useDevelopmentContainers` is specified
+@@ -84,13 +84,9 @@
+ agent:
+   # enabled defines whether to apply the Akri Agent
+   enabled: true
+-  # full specifies that the `agent-full` image should be used which has embedded Discovery Handlers
+-  full: false
+   image:
+     # repository is the Akri Agent container reference
+-    repository: ghcr.io/project-akri/akri/agent
+-    # fullRepository is the container reference for the Akri Agent with embedded Discovery Handlers
+-    fullRepository: ghcr.io/project-akri/akri/agent-full
++    repository: "registry.opensuse.org/isv/suse/edge/akri/images/akri-agent"
+     # tag is the Akri Agent container tag
+     # agent.yaml will default to v(AppVersion)[-dev]
+     # with `-dev` added if `useDevelopmentContainers` is specified
+@@ -234,6 +230,8 @@
        protocol: TCP
    # discovery defines a set of values for a custom discovery handler DaemonSet
    discovery: 
@@ -9,3 +42,48 @@
      # enabled defines whether discovery handler pods will be deployed in a slim Agent scenario
      enabled: false
      # name is the Kubernetes resource name that will be created for this
+@@ -378,7 +376,7 @@
+     enabled: false
+     image:
+       # repository is the container reference
+-      repository: ghcr.io/project-akri/akri/debug-echo-discovery
++      repository: "registry.opensuse.org/isv/suse/edge/akri/images/akri-debug-echo-discovery-handler"
+       # tag is the container tag
+       # debug-echo-configuration.yaml will default to v(AppVersion)[-dev]
+       # with `-dev` added if `useDevelopmentContainers` is specified
+@@ -528,7 +526,7 @@
+     enabled: false
+     image:
+       # repository is the container reference
+-      repository: ghcr.io/project-akri/akri/onvif-discovery
++      repository: "registry.opensuse.org/isv/suse/edge/akri/images/akri-onvif-discovery-handler"
+       # tag is the container tag
+       # onvif-configuration.yaml will default to v(AppVersion)[-dev]
+       # with `-dev` added if `useDevelopmentContainers` is specified
+@@ -671,7 +669,7 @@
+     enabled: false
+     image:
+       # repository is the container reference
+-      repository: ghcr.io/project-akri/akri/opcua-discovery
++      repository: "registry.opensuse.org/isv/suse/edge/akri/images/akri-opcua-discovery-handler"
+       # tag is the container tag
+       # opcua-configuration.yaml will default to v(AppVersion)[-dev]
+       # with `-dev` added if `useDevelopmentContainers` is specified
+@@ -807,7 +805,7 @@
+     enabled: false
+     image:
+       # repository is the container reference
+-      repository: ghcr.io/project-akri/akri/udev-discovery
++      repository: "registry.opensuse.org/isv/suse/edge/akri/images/akri-udev-discovery-handler"
+       # tag is the container tag
+       # udev-configuration.yaml will default to v(AppVersion)[-dev]
+       # with `-dev` added if `useDevelopmentContainers` is specified
+@@ -848,7 +846,7 @@
+   caBundle: null
+   image:
+     # repository is the Akri Webhook for Configurations image reference
+-    repository: ghcr.io/project-akri/akri/webhook-configuration
++    repository: "registry.opensuse.org/isv/suse/edge/akri/images/akri-webhook-configuration"
+     # tag is the container tag
+     # webhook-configuration.yaml will default to v(AppVersion)[-dev]
+     # with `-dev` added if `useDevelopmentContainers` is specified

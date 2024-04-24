@@ -6,7 +6,6 @@
    name: akri-debug-echo-discovery-daemonset
 +  annotations:
 +    akri.sh/discoveryHandlerName: debugEcho
- spec:
-   selector:
-     matchLabels:
-\ No newline at end of file
+   labels: {{- include "akri.labels" . | nindent 4 }}
+     app.kubernetes.io/name: akri-debug-echo-discovery
+     app.kubernetes.io/component: discovery-handler

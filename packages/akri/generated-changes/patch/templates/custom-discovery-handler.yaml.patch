@@ -8,7 +8,6 @@
 +  annotations:
 +    akri.sh/discoveryHandlerName: {{ .Values.custom.discovery.discoveryHandlerName }}
 +  {{- end }}
- spec:
-   selector:
-     matchLabels:
-\ No newline at end of file
+   labels: {{- include "akri.labels" . | nindent 4 }}
+     app.kubernetes.io/name: {{ .Values.custom.discovery.name }}
+     app.kubernetes.io/component: discovery-handler
