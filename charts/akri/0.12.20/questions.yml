@@ -1,0 +1,121 @@
+questions:
+- variable: kubernetesDistro
+  default: "k8s"
+  label: Kubernetes Distribution
+  description: Select Kubernetes distribution so Akri can determine where the container runtime socket lives.
+  type: enum
+  options:
+  - k8s
+  - microk8s
+  - k3s
+  - Other
+  group: General
+- variable: agent.host.containerRuntimeSocket
+  label: Container Runtime Socket
+  description: Akri depends on crictl to track some Pod information. In order to use it, the Agent must know where the container runtime socket lives.
+  show_if: "kubernetesDistro=Other"
+  type: string
+  group: General
+- variable: useDevelopmentContainers
+  label: Use development containers
+  description: When enabled the non-release (*-dev) image tags will be used by default. This can be overridden if the tag is explicitly specified.
+  type: boolean
+  group: General
+- variable: _imageDetails
+  label: Customize agent and controller images
+  default: false
+  type: boolean
+  group: General
+  show_subquestion_if: true
+  subquestions:
+  - variable: agent.image.repository
+    label: Akri agent image repository
+    type: string
+  - variable: agent.image.tag
+    label: Akri agent image tag
+    description: Akri agent container tag. agent.yaml will default to v(AppVersion)[-dev] with `-dev` added if `Use development containers` is enabled.
+    type: string
+  - variable: agent.image.pullPolicy
+    label: Akri agent image pull policy
+    type: enum
+    options:
+    - "IfNotPresent"
+    - "Always"
+    - "Never"
+  - variable: controller.image.repository
+    label: Akri controller image repository
+    type: string
+  - variable: controller.image.tag
+    label: Akri controller image tag
+    description: Akri controller container tag. controller.yaml will default to v(AppVersion)[-dev] with `-dev` added if `Use development containers` is enabled.
+    type: string
+  - variable: controller.image.pullPolicy
+    label: Akri controller image pull policy
+    type: enum
+    options:
+    - "IfNotPresent"
+    - "Always"
+    - "Never"
+- variable: onvif.discovery.enabled
+  label: Enable ONVIF Discovery Handler
+  description: ONVIF is a standard used by many IP cameras.
+  type: boolean
+  group: "Discovery Handlers"
+  show_subquestion_if: true
+  subquestions:
+  - variable: onvif.discovery.image.repository
+    label: ONVIF handler image repository
+    type: string
+  - variable: onvif.discovery.image.tag
+    label: Image tag
+    description: onvif-configuration.yaml will default to v(AppVersion)[-dev] with `-dev` added if `Use development containers` is enabled.
+    type: string
+  - variable: onvif.discovery.image.pullPolicy
+    label: Image pull policy
+    type: enum
+    options:
+    - "IfNotPresent"
+    - "Always"
+    - "Never"
+- variable: opcua.discovery.enabled
+  label: Enable OPC UA Discovery Handler
+  description: OPC UA (Open Platform Communications Unified Architecture) is a communication protocol for industrial automation.
+  type: boolean
+  group: "Discovery Handlers"
+  show_subquestion_if: true
+  subquestions:
+  - variable: opcua.discovery.image.repository
+    label: OPC UA handler image repository
+    type: string
+  - variable: opcua.discovery.image.tag
+    label: Image tag
+    description: opcua-configuration.yaml will default to v(AppVersion)[-dev] with `-dev` added if `Use development containers` is enabled.
+    type: string
+  - variable: opcua.discovery.image.pullPolicy
+    label: Image pull policy
+    type: enum
+    options:
+    - "IfNotPresent"
+    - "Always"
+    - "Never"
+- variable: udev.discovery.enabled
+  label: Enable Udev Discovery Handler
+  description: Udev is the device manager for Linux. It manages device nodes in the /dev directory, such as microphones, security chips, usb cameras, and so on. Udev can be used to find devices that are attached to or embedded in Linux nodes.
+  type: boolean
+  group: "Discovery Handlers"
+  show_subquestion_if: true
+  subquestions:
+  - variable: udev.discovery.image.repository
+    label: Udev handler image repository
+    type: string
+  - variable: udev.discovery.image.tag
+    label: Image tag
+    description: udev-configuration.yaml will default to v(AppVersion)[-dev] with `-dev` added if `Use development containers` is enabled.
+    type: string
+  - variable: udev.discovery.image.pullPolicy
+    label: Image pull policy
+    type: enum
+    options:
+    - "IfNotPresent"
+    - "Always"
+    - "Never"

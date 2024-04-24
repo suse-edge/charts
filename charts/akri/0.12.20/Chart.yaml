@@ -1,0 +1,9 @@
+annotations:
+  catalog.cattle.io/display-name: Akri
+apiVersion: v2
+appVersion: 0.12.20
+description: A Helm chart for Akri
+icon: https://raw.githubusercontent.com/project-akri/akri-docs/main/art/icon/akri-icon-light.svg
+name: akri
+type: application
+version: 0.12.20
