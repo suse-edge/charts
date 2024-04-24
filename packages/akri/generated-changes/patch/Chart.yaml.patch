@@ -4,5 +4,5 @@
 +annotations:
 +  catalog.cattle.io/display-name: Akri
  apiVersion: v2
- appVersion: 0.10.4
+ appVersion: 0.12.20
  description: A Helm chart for Akri

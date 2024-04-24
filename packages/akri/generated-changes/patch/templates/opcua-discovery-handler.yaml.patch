@@ -6,7 +6,6 @@
    name: akri-opcua-discovery-daemonset
 +  annotations:
 +    akri.sh/discoveryHandlerName: opcua
- spec:
-   selector:
-     matchLabels:
-\ No newline at end of file
+   labels: {{- include "akri.labels" . | nindent 4 }}
+     app.kubernetes.io/name: akri-opcua-discovery
+     app.kubernetes.io/component: discovery-handler

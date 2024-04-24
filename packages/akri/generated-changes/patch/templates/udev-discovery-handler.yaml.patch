@@ -6,7 +6,22 @@
    name: akri-udev-discovery-daemonset
 +  annotations:
 +    akri.sh/discoveryHandlerName: udev
- spec:
-   selector:
-     matchLabels:
+   labels: {{- include "akri.labels" . | nindent 4 }}
+     app.kubernetes.io/name: akri-udev-discovery
+     app.kubernetes.io/component: discovery-handler
+@@ -16,6 +18,8 @@
+         app.kubernetes.io/name: akri-udev-discovery
+         app.kubernetes.io/component: discovery-handler
+     spec:
++      nodeSelector:
++        "kubernetes.io/os": linux
+       containers:
+       - name: akri-udev-discovery
+         {{- if .Values.useDevelopmentContainers }}
+@@ -80,4 +84,4 @@
+         hostPath:
+           path: "{{ .Values.udev.discovery.host.udev }}"
+       {{- end }}
+-{{- end }}
 \ No newline at end of file
++{{- end }}

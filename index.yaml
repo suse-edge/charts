@@ -4,6 +4,19 @@ entries:
   - annotations:
       catalog.cattle.io/display-name: Akri
     apiVersion: v2
+    appVersion: 0.12.20
+    created: "2024-04-24T10:18:46.368590141+02:00"
+    description: A Helm chart for Akri
+    digest: f1f6760018f4171ce14432486105b84cd6389d878cb98ebd36283a7abc2493b7
+    icon: https://raw.githubusercontent.com/project-akri/akri-docs/main/art/icon/akri-icon-light.svg
+    name: akri
+    type: application
+    urls:
+    - assets/akri/akri-0.12.20.tgz
+    version: 0.12.20
+  - annotations:
+      catalog.cattle.io/display-name: Akri
+    apiVersion: v2
     appVersion: 0.10.4
     created: "2023-11-15T12:03:33.8679+01:00"
     description: A Helm chart for Akri
