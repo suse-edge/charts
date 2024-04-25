@@ -33,7 +33,18 @@
      # tag is the Akri Agent container tag
      # agent.yaml will default to v(AppVersion)[-dev]
      # with `-dev` added if `useDevelopmentContainers` is specified
-@@ -234,6 +230,8 @@
+@@ -98,9 +94,7 @@
+     # pullPolicy is the Akri Agent pull policy
+     pullPolicy: ""
+   securityContext:
+-    allowPrivilegeEscalation: false
+-    capabilities:
+-      drop: ["ALL"]
++    privileged: true
+   host:
+     # discoveryHandlers is the location of Akri Discovery Handler sockets and
+     # the agent registration service
+@@ -234,6 +228,8 @@
        protocol: TCP
    # discovery defines a set of values for a custom discovery handler DaemonSet
    discovery: 
@@ -42,7 +53,7 @@
      # enabled defines whether discovery handler pods will be deployed in a slim Agent scenario
      enabled: false
      # name is the Kubernetes resource name that will be created for this
-@@ -378,7 +376,7 @@
+@@ -378,7 +374,7 @@
      enabled: false
      image:
        # repository is the container reference
@@ -51,7 +62,7 @@
        # tag is the container tag
        # debug-echo-configuration.yaml will default to v(AppVersion)[-dev]
        # with `-dev` added if `useDevelopmentContainers` is specified
-@@ -528,7 +526,7 @@
+@@ -528,7 +524,7 @@
      enabled: false
      image:
        # repository is the container reference
@@ -60,7 +71,7 @@
        # tag is the container tag
        # onvif-configuration.yaml will default to v(AppVersion)[-dev]
        # with `-dev` added if `useDevelopmentContainers` is specified
-@@ -671,7 +669,7 @@
+@@ -671,7 +667,7 @@
      enabled: false
      image:
        # repository is the container reference
@@ -69,7 +80,7 @@
        # tag is the container tag
        # opcua-configuration.yaml will default to v(AppVersion)[-dev]
        # with `-dev` added if `useDevelopmentContainers` is specified
-@@ -807,7 +805,7 @@
+@@ -807,7 +803,7 @@
      enabled: false
      image:
        # repository is the container reference
@@ -78,7 +89,7 @@
        # tag is the container tag
        # udev-configuration.yaml will default to v(AppVersion)[-dev]
        # with `-dev` added if `useDevelopmentContainers` is specified
-@@ -848,7 +846,7 @@
+@@ -848,7 +844,7 @@
    caBundle: null
    image:
      # repository is the Akri Webhook for Configurations image reference
