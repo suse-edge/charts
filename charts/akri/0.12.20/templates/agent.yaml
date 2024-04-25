@@ -53,6 +53,9 @@ spec:
         {{- if .Values.agent.securityContext }}
         securityContext:
         {{- toYaml .Values.agent.securityContext | nindent 10 }}
+        {{- else }}
+        securityContext:
+          privileged: true
         {{- end}}
         env:
           {{- if .Values.agent.allowDebugEcho }}

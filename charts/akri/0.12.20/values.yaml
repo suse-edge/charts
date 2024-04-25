@@ -94,9 +94,7 @@ agent:
     # pullPolicy is the Akri Agent pull policy
     pullPolicy: ""
   securityContext:
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop: ["ALL"]
+    privileged: true
   host:
     # discoveryHandlers is the location of Akri Discovery Handler sockets and
     # the agent registration service

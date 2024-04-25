@@ -21,7 +21,17 @@
          {{- if .Values.useDevelopmentContainers }}
          {{- if .Values.useLatestContainers }}
          image: {{ printf "%s:%s" $repository (default "latest-dev" .Values.agent.image.tag) | quote }}
-@@ -68,7 +63,7 @@
+@@ -58,6 +53,9 @@
+         {{- if .Values.agent.securityContext }}
+         securityContext:
+         {{- toYaml .Values.agent.securityContext | nindent 10 }}
++        {{- else }}
++        securityContext:
++          privileged: true
+         {{- end}}
+         env:
+           {{- if .Values.agent.allowDebugEcho }}
+@@ -68,7 +66,7 @@
              value: {{ .Values.debugEcho.configuration.shared | quote }}
            {{- end }}
            - name: HOST_CRICTL_PATH
@@ -30,7 +40,7 @@
            - name: HOST_RUNTIME_ENDPOINT
              value: unix:///host/run/containerd/containerd.sock
            - name: HOST_IMAGE_ENDPOINT
-@@ -128,4 +123,4 @@
+@@ -128,4 +126,4 @@
          hostPath:
            path: "{{ .Values.agent.host.udev }}"
        {{- end }}
