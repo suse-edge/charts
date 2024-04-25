@@ -934,7 +934,7 @@ entries:
   sriov-network-operator:
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2024-04-10T17:55:59.538376445-06:00"
+    created: "2024-04-25T21:19:07.317955637-06:00"
     dependencies:
     - condition: sriov-nfd.enabled
       name: sriov-nfd
@@ -942,7 +942,7 @@ entries:
       version: 0.15.4
     description: SR-IOV network operator configures and manages SR-IOV networks in
       the kubernetes cluster
-    digest: d4b7c6197cbb69d4bff58e40fcd3b48615b205ddd4d8961261ce07813520550a
+    digest: 591537f5cbcbb0f7e14c9e9acfcfea16fb29a3c930d5e8bf2ee9e95fc7ae8ce2
     home: https://github.com/k8snetworkplumbingwg/sriov-network-operator
     keywords:
     - sriov
