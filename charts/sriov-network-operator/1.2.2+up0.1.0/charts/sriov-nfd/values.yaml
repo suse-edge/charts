@@ -3,7 +3,7 @@ image:
   # This should be set to 'IfNotPresent' for released version
   pullPolicy: IfNotPresent
   # tag, if defined will use the given image tag, else Chart.AppVersion will be used
-  tag: v0.15.3-build20240325
+  tag: v0.15.4-build20240423
 imagePullSecrets: []
 
 nameOverride: ""
