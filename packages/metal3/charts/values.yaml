@@ -31,6 +31,13 @@ global:
     ironicInspectorUsername: ""
     ironicInspectorPassword: ""
 
+  # whether to have additional trusted CA
+  # NOTE: If enabled, a secret with name tls-ca-additional should be deployed
+  # The secret should be like this:
+  # data:
+  #   ca-additional.crt: <b64enc cert>
+  additionalTrustedCAs: false
+
   # Will be used when tls is enabled
   vmediaTLSPort: 6185
 

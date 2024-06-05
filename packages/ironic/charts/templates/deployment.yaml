@@ -233,7 +233,7 @@ spec:
             mountPath: "/certs/ironic"
             readOnly: true
           - mountPath: /etc/pki/trust/anchors
-            name: cert-ironic-ca
+            name: trusted-certs
             readOnly: true
         lifecycle:
           postStart:
@@ -318,6 +318,15 @@ spec:
         secret:
           secretName: ironic-inspector-basic-auth
       {{- if .Values.global.enable_tls }}
+      - name: trusted-certs
+        projected:
+          sources:
+          - secret:
+              name: ironic-cacert
+        {{- if .Values.global.additionalTrustedCAs }}
+          - secret:
+              name: tls-ca-additional
+        {{- end }}
       - name: cert-ironic-ca
         secret:
           secretName: ironic-cacert
