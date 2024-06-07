@@ -306,7 +306,11 @@ entries:
   metal3:
   - apiVersion: v2
     appVersion: 1.16.0
+<<<<<<< HEAD
     created: "2024-06-10T16:54:46.478148+03:00"
+=======
+    created: "2024-06-07T17:01:56.292809+03:00"
+>>>>>>> 675049c (Run make charts)
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
