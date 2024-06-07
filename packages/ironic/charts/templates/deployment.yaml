@@ -303,8 +303,8 @@ spec:
         volumeMounts:
           {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
         {{- if .Values.global.enable_tls }}
-          - name: cert-ironic-ca
-            mountPath: /tmp/ironic-ca
+          - mountPath: /tmp/ironic-certificates
+            name: trusted-certs
         {{- end }}
       volumes:
       - name: ironic-data-volume
