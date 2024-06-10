@@ -306,7 +306,36 @@ entries:
   metal3:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-06-10T13:26:04.374923+03:00"
+    created: "2024-06-10T16:54:46.478148+03:00"
+    dependencies:
+    - alias: metal3-baremetal-operator
+      name: baremetal-operator
+      repository: file://./charts/baremetal-operator
+      version: 0.4.3
+    - alias: metal3-ironic
+      name: ironic
+      repository: file://./charts/ironic
+      version: 0.6.5
+    - alias: metal3-mariadb
+      name: mariadb
+      repository: file://./charts/mariadb
+      version: 0.5.3
+    - alias: metal3-media
+      condition: global.enable_metal3_media_server
+      name: media
+      repository: file://./charts/media
+      version: 0.4.3
+    description: A Helm chart that installs all of the dependencies needed for Metal3
+    digest: d582518592a33826084bd8797260f7f49ee45e123ed199709e45c8198b8f9883
+    icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
+    name: metal3
+    type: application
+    urls:
+    - assets/metal3/metal3-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-04-19T10:49:17.850301+02:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -326,7 +355,7 @@ entries:
       repository: file://./charts/media
       version: 0.4.2
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 5dae97df7e1986b5bd6d6e62b20ac4dc47b8441a6e77150f4ea838b0866bfbc3
+    digest: f8ae5fe51bb0f096420e59bbdfcbb1b48ab101c1b136750e4b794580adda5752
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3
     type: application
@@ -335,7 +364,7 @@ entries:
     version: 0.6.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-06-10T13:55:34.555569+03:00"
+    created: "2024-04-16T17:35:38.924656334+03:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -355,7 +384,7 @@ entries:
       repository: file://./charts/media
       version: 0.4.2
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: a6ee24c234dd37aa2ce816058f64920df6a14f8162bd25a538070bd947ae173e
+    digest: 74cef2ed982885ab225d460a00840fad4f42f64b42379e52a930081d6c4ddff9
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3
     type: application
@@ -364,7 +393,7 @@ entries:
     version: 0.6.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-06-10T13:55:34.553946+03:00"
+    created: "2024-03-12T19:04:25.592115+02:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -384,7 +413,7 @@ entries:
       repository: file://./charts/media
       version: 0.4.2
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 8f86350f2a01605043be906d63bf914187caa86adee868bdfe33585a445ef0ca
+    digest: 09b9919afd4934827b11667b8a75dba6ed7274b09719307151d0b93c44dcb38d
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3
     type: application
@@ -393,7 +422,7 @@ entries:
     version: 0.6.3
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-06-10T13:55:34.552353+03:00"
+    created: "2024-03-07T14:28:22.751247+02:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -413,7 +442,7 @@ entries:
       repository: file://./charts/media
       version: 0.4.1
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 4e4e97f4ea8fe4de810f324f650033bcbe47de4f9eb31727c9127b8ddcb04c42
+    digest: a73100c6728493601b6231a5142ee0d82928680e3692a61ef8dbe6d9be8574ee
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3
     type: application
@@ -422,7 +451,7 @@ entries:
     version: 0.6.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-06-10T13:55:34.550747+03:00"
+    created: "2024-02-14T13:15:25.629192+02:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -442,7 +471,7 @@ entries:
       repository: file://./charts/media
       version: 0.4.1
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: 8dd43972062fa3efe3849cfd17bce1c174947d99284fe034691aade36c744254
+    digest: 3d984de66ee493e3ff1b96c87afc6222691a94d29571df551da809fda162b5fb
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3
     type: application
@@ -451,7 +480,7 @@ entries:
     version: 0.6.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-06-10T13:55:34.548169+03:00"
+    created: "2024-02-06T10:24:18.741154+02:00"
     dependencies:
     - alias: metal3-baremetal-operator
       name: baremetal-operator
@@ -471,7 +500,7 @@ entries:
       repository: file://./charts/media
       version: 0.4.0
     description: A Helm chart that installs all of the dependencies needed for Metal3
-    digest: a4ee575a450bc4eef038a0745c6035c17364e4b65c49510ee574f4fe2d25e2b5
+    digest: 9c4e80a07154caa04e2a2457c41f5125942a76eb0d8f4c9c1250c00c6983a079
     icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
     name: metal3
     type: application
