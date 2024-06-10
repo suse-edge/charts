@@ -12,7 +12,6 @@ helm install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
-  --version v1.11.1 \
   --set installCRDs=true
 ```
 , or via `kubectl` with:

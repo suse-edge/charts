@@ -8,7 +8,7 @@ dependencies:
 - alias: metal3-ironic
   name: ironic
   repository: file://./charts/ironic
-  version: 0.6.5
+  version: 0.6.6
 - alias: metal3-mariadb
   name: mariadb
   repository: file://./charts/mariadb

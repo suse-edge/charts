@@ -26,7 +26,7 @@ replicaCount: 1
 
 images:
   baremetalOperator:
-    repository: registry.opensuse.org/isv/suse/edge/metal3/ironic/2023.2/containerfile/suse/baremetal-operator
+    repository: registry.opensuse.org/isv/suse/edge/metal3/containers/images/suse/baremetal-operator
     pullPolicy: IfNotPresent
     tag: "0.5.1"
   rbacProxy:
