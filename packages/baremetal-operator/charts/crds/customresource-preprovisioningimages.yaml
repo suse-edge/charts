@@ -31,7 +31,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: PreprovisioningImage is the Schema for the preprovisioningimages
-          API
+          API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -46,7 +46,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: PreprovisioningImageSpec defines the desired state of PreprovisioningImage
+            description: PreprovisioningImageSpec defines the desired state of PreprovisioningImage.
             properties:
               acceptFormats:
                 description: acceptFormats is a list of acceptable image formats.
@@ -68,7 +68,7 @@ spec:
             type: object
           status:
             description: PreprovisioningImageStatus defines the observed state of
-              PreprovisioningImage
+              PreprovisioningImage.
             properties:
               architecture:
                 description: architecture is the processor architecture for which

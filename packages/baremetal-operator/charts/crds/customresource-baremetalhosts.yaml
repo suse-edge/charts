@@ -74,7 +74,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: BareMetalHostSpec defines the desired state of BareMetalHost
+            description: BareMetalHostSpec defines the desired state of BareMetalHost.
             properties:
               architecture:
                 description: CPU architecture of the host, e.g. "x86_64" or "aarch64".
@@ -301,7 +301,7 @@ spec:
                       of this field to `[]` to clear all the hardware RAID configurations.
                     items:
                       description: HardwareRAIDVolume defines the desired configuration
-                        of volume in hardware RAID
+                        of volume in hardware RAID.
                       properties:
                         controller:
                           description: The name of the RAID controller to use
@@ -366,7 +366,7 @@ spec:
                       will always be deleted.
                     items:
                       description: SoftwareRAIDVolume defines the desired configuration
-                        of volume in software RAID
+                        of volume in software RAID.
                       properties:
                         level:
                           description: 'RAID level for the logical disk. The following
@@ -536,7 +536,7 @@ spec:
             - online
             type: object
           status:
-            description: BareMetalHostStatus defines the observed state of BareMetalHost
+            description: BareMetalHostStatus defines the observed state of BareMetalHost.
             properties:
               errorCount:
                 default: 0
@@ -653,7 +653,7 @@ spec:
                         vlans:
                           description: The VLANs available
                           items:
-                            description: VLAN represents the name and ID of a VLAN
+                            description: VLAN represents the name and ID of a VLAN.
                             properties:
                               id:
                                 description: VLANID is a 12-bit 802.1Q VLAN identifier
@@ -916,7 +916,7 @@ spec:
                           the hardware RAID configurations.
                         items:
                           description: HardwareRAIDVolume defines the desired configuration
-                            of volume in hardware RAID
+                            of volume in hardware RAID.
                           properties:
                             controller:
                               description: The name of the RAID controller to use
@@ -982,7 +982,7 @@ spec:
                           RAID will always be deleted.
                         items:
                           description: SoftwareRAIDVolume defines the desired configuration
-                            of volume in software RAID
+                            of volume in software RAID.
                           properties:
                             level:
                               description: 'RAID level for the logical disk. The following
