@@ -1,0 +1,15 @@
+--- charts-original/values.yaml
++++ charts/values.yaml
+@@ -72,3 +72,12 @@
+         fetchConfig:
+           url: ""
+           selector: ""
++    metal3:
++      enabled: true
++      version: ""
++      infrastructure:
++        namespace: capm3-system
++        imageUrl: ""
++        fetchConfig:
++          url: ""
++          selector: ""

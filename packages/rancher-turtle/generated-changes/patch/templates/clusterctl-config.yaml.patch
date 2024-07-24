@@ -1,0 +1,77 @@
+--- charts-original/templates/clusterctl-config.yaml
++++ charts/templates/clusterctl-config.yaml
+@@ -6,50 +6,32 @@
+   namespace: '{{ .Values.rancherTurtles.namespace }}'
+ data:
+   clusterctl.yaml: |
++    images:
++      all:
++        repository: registry.suse.com/edge
+     providers:
+-    # Cluster API core provider
+-    - name:         "cluster-api"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api/releases/v1.4.6/core-components.yaml"
+-      type:         "CoreProvider"
++      # Cluster API core provider
++      - name:         "cluster-api"
++        url:          "https://github.com/kubernetes-sigs/cluster-api/releases/v1.6.2/core-components.yaml"
++        type:         "CoreProvider"
+ 
+-    # Infrastructure providers
+-    - name:         "aws"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api-provider-aws/releases/v2.3.5/infrastructure-components.yaml"
+-      type:         "InfrastructureProvider"
+-    - name:         "azure"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api-provider-azure/releases/v1.13.2/infrastructure-components.yaml"
+-      type:         "InfrastructureProvider"
+-    - name:         "docker"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api/releases/v1.4.6/infrastructure-components-development.yaml"
+-      type:         "InfrastructureProvider"
+-    - name:         "gcp"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api-provider-gcp/releases/v1.6.0/infrastructure-components.yaml"
+-      type:         "InfrastructureProvider"
+-    - name:         "vsphere"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/releases/v1.9.1/infrastructure-components.yaml"
+-      type:         "InfrastructureProvider"
+-    - name:         "digitalocean"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api-provider-digitalocean/releases/v1.4.1/infrastructure-components.yaml"
+-      type:         "InfrastructureProvider"
++      # Infrastructure providers
++      - name:         "metal3"
++        url:          "https://github.com/metal3-io/cluster-api-provider-metal3/releases/download/v1.6.0/infrastructure-components.yaml"
++        type:         "InfrastructureProvider"
+ 
+-    # Bootstrap providers
+-    - name:         "kubeadm"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api/releases/v1.4.6/bootstrap-components.yaml"
+-      type:         "BootstrapProvider"
+-    - name:         "rke2"
+-      url:          "https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/v0.3.0/bootstrap-components.yaml"
+-      type:         "BootstrapProvider"
++      # Bootstrap providers
++      - name:         "rke2"
++        url:          "https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/download/v0.2.6/bootstrap-components.yaml"
++        type:         "BootstrapProvider"
+ 
+-    # ControlPlane providers
+-    - name:         "kubeadm"
+-      url:          "https://github.com/kubernetes-sigs/cluster-api/releases/v1.4.6/control-plane-components.yaml"
+-      type:         "ControlPlaneProvider"
+-    - name:         "rke2"
+-      url:          "https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/v0.3.0/control-plane-components.yaml"
+-      type:         "ControlPlaneProvider"
++      # ControlPlane providers
++      - name:         "rke2"
++        url:          "https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/download/v0.2.6/control-plane-components.yaml"
++        type:         "ControlPlaneProvider"
+ 
+     # Addon providers
+-    - name:         "fleet"
+-      url:          "https://github.com/rancher-sandbox/cluster-api-addon-provider-fleet/releases/latest/addon-components.yaml"
+-      type:         "AddonProvider"
+-{{- end }}
++    #- name:         "fleet"
++    #  url:          "https://github.com/rancher-sandbox/cluster-api-addon-provider-fleet/releases/latest/addon-components.yaml"
++    #  type:         "AddonProvider"
++{{- end }}
+\ No newline at end of file
