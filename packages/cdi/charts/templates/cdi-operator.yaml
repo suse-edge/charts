@@ -73,6 +73,7 @@ rules:
       - admissionregistration.k8s.io
     resourceNames:
       - cdi-api-datavolume-mutate
+      - cdi-api-pvc-mutate
     resources:
       - mutatingwebhookconfigurations
     verbs:
@@ -110,6 +111,24 @@ rules:
       - persistentvolumeclaims
     verbs:
       - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+    verbs:
+      - get
+      - list
+      - watch
   - apiGroups:
       - ""
     resources:
@@ -122,6 +141,8 @@ rules:
       - volumesnapshots
     verbs:
       - get
+      - list
+      - watch
   - apiGroups:
       - cdi.kubevirt.io
     resources:
@@ -138,9 +159,35 @@ rules:
   - apiGroups:
       - cdi.kubevirt.io
     resources:
+      - volumeclonesources
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - cdi.kubevirt.io
+    resources:
+      - storageprofiles
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - cdi.kubevirt.io
+    resources:
       - cdis
     verbs:
       - get
+      - list
+      - watch
+  - apiGroups:
+      - cdi.kubevirt.io
+    resources:
+      - cdiconfigs
+    verbs:
+      - get
+      - list
+      - watch
   - apiGroups:
       - cdi.kubevirt.io
     resources:
@@ -218,6 +265,12 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - config.openshift.io
+    resources:
+      - clusterversions
+    verbs:
+      - get
   - apiGroups:
       - cdi.kubevirt.io
     resources:
@@ -321,6 +374,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
+    app: containerized-data-importer
     app.kubernetes.io/component: storage
     app.kubernetes.io/managed-by: cdi-operator
     cdi.kubevirt.io: ""
@@ -446,14 +500,14 @@ rules:
       - watch
       - create
       - update
-      - delete
+      - deletecollection
   - apiGroups:
       - batch
     resources:
       - jobs
     verbs:
       - create
-      - delete
+      - deletecollection
       - list
       - watch
   - apiGroups:
@@ -501,6 +555,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
+    app: containerized-data-importer
     app.kubernetes.io/component: storage
     app.kubernetes.io/managed-by: cdi-operator
     cdi.kubevirt.io: ""
@@ -519,6 +574,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    cdi.kubevirt.io: cdi-operator
     name: cdi-operator
     operator.cdi.kubevirt.io: ""
     prometheus.cdi.kubevirt.io: "true"
@@ -534,10 +590,23 @@ spec:
   template:
     metadata:
       labels:
+        cdi.kubevirt.io: cdi-operator
         name: cdi-operator
         operator.cdi.kubevirt.io: ""
         prometheus.cdi.kubevirt.io: "true"
     spec:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: cdi.kubevirt.io
+                      operator: In
+                      values:
+                        - cdi-operator
+                topologyKey: kubernetes.io/hostname
+              weight: 1
       containers:
         - env:
             - name: DEPLOY_CLUSTER_RESOURCES
