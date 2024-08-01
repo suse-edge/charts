@@ -16,7 +16,7 @@ rules:
     resources: [ "kubevirts" ]
     resourceNames:
       - "kubevirt"
-    verbs: [ "delete" ]
+    verbs: [ "get", "list", "delete" ]
   - apiGroups: [ "apps" ]
     resources: [ "deployments", "daemonsets" ]
     verbs: [ "get", "list" ]
