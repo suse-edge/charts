@@ -26,11 +26,11 @@ replicaCount: 1
 
 images:
   baremetalOperator:
-    repository: registry.opensuse.org/isv/suse/edge/metal3/containers/images/suse/baremetal-operator
+    repository: registry.opensuse.org/isv/suse/edge/metal3/containers/images/baremetal-operator
     pullPolicy: IfNotPresent
-    tag: "0.5.1"
+    tag: "0.6.1"
   rbacProxy:
-    repository: registry.opensuse.org/isv/suse/edge/metallb/images/kube-rbac-proxy
+    repository: registry.opensuse.org/isv/suse/edge/metal3/containers/images/kube-rbac-proxy
     pullPolicy: IfNotPresent
     tag: "v0.14.2"
 
