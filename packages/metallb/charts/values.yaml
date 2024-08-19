@@ -59,7 +59,7 @@ prometheus:
   # the image to be used for the kuberbacproxy container
   rbacProxy:
     repository: "registry.opensuse.org/isv/suse/edge/metallb/images/kube-rbac-proxy"
-    tag: "v0.14.2"
+    tag: "v0.18.0"
     pullPolicy: IfNotPresent
 
   # Prometheus Operator PodMonitors
@@ -201,7 +201,7 @@ controller:
   # webhookMode: enabled
   image:
     repository: "registry.opensuse.org/isv/suse/edge/metallb/images/metallb-controller"
-    tag: "v0.14.3"
+    tag: "v0.14.8"
     pullPolicy: IfNotPresent
   ## @param controller.updateStrategy.type Metallb controller deployment strategy type.
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
@@ -271,9 +271,12 @@ speaker:
     mlSecretKeyPath: "/etc/ml_secret_key"
   excludeInterfaces:
     enabled: true
+  # ignore the exclude-from-external-loadbalancer label
+  ignoreExcludeLB: false
+
   image:
     repository: "registry.opensuse.org/isv/suse/edge/metallb/images/metallb-speaker"
-    tag: "v0.14.3"
+    tag: "v0.14.8"
     pullPolicy: IfNotPresent
   ## @param speaker.updateStrategy.type Speaker daemonset strategy type
   ## ref: https://kubernetes.io/docs/tasks/manage-daemon/update-daemon-set/
@@ -361,3 +364,5 @@ frrk8s:
   # if set, enables frrk8s as a backend. This is mutually exclusive to frr
   # mode.
   enabled: false
+  external: false
+  namespace: ""
