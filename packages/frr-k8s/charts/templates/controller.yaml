@@ -50,7 +50,7 @@ data:
     #
     vtysh_enable=yes
     zebra_options="  -A 127.0.0.1 -s 90000000"
-    bgpd_options="   -A 127.0.0.1 -p 0"
+    bgpd_options="   -A 127.0.0.1"
     ospfd_options="  -A 127.0.0.1"
     ospf6d_options=" -A ::1"
     ripd_options="   -A 127.0.0.1"
@@ -95,7 +95,7 @@ data:
   frr.conf: |+
     ! This file gets overriden the first time the speaker renders a config.
     ! So anything configured here is only temporary.
-    frr version 7.5.1
+    frr version 8.0
     frr defaults traditional
     hostname Router
     line vty

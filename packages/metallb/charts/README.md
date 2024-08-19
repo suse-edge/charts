@@ -1,6 +1,6 @@
 # metallb
 
-![Version: 0.14.3](https://img.shields.io/badge/Version-0.14.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.14.3](https://img.shields.io/badge/AppVersion-v0.14.3-informational?style=flat-square)
+![Version: 0.14.8](https://img.shields.io/badge/Version-0.14.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.14.8](https://img.shields.io/badge/AppVersion-v0.14.8-informational?style=flat-square)
 
 A network load-balancer implementation for Kubernetes using standard routing protocols
 
@@ -16,8 +16,8 @@ Kubernetes: `>= 1.19.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | crds | 0.14.3 |
-| https://metallb.github.io/frr-k8s | frr-k8s | 0.0.8 |
+|  | crds | 0.14.8 |
+| https://metallb.github.io/frr-k8s | frr-k8s | 0.0.14 |
 
 ## Values
 
@@ -27,7 +27,7 @@ Kubernetes: `>= 1.19.0-0`
 | controller.enabled | bool | `true` |  |
 | controller.extraContainers | list | `[]` |  |
 | controller.image.pullPolicy | string | `nil` |  |
-| controller.image.repository | string | `registry.opensuse.org/isv/suse/edge/metallb/images/metallb-controller"` |  |
+| controller.image.repository | string | `"registry.opensuse.org/isv/suse/edge/metallb/images/metallb-controller"` |  |
 | controller.image.tag | string | `nil` |  |
 | controller.labels | object | `{}` |  |
 | controller.livenessProbe.enabled | bool | `true` |  |
@@ -61,6 +61,8 @@ Kubernetes: `>= 1.19.0-0`
 | crds.enabled | bool | `true` |  |
 | crds.validationFailurePolicy | string | `"Fail"` |  |
 | frrk8s.enabled | bool | `false` |  |
+| frrk8s.external | bool | `false` |  |
+| frrk8s.namespace | string | `""` |  |
 | fullnameOverride | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
 | loadBalancerClass | string | `""` |  |
@@ -124,6 +126,7 @@ Kubernetes: `>= 1.19.0-0`
 | speaker.frr.metricsPort | int | `7473` |  |
 | speaker.frr.resources | object | `{}` |  |
 | speaker.frrMetrics.resources | object | `{}` |  |
+| speaker.ignoreExcludeLB | bool | `false` |  |
 | speaker.image.pullPolicy | string | `nil` |  |
 | speaker.image.repository | string | `"registry.opensuse.org/isv/suse/edge/metallb/images/metallb-speaker"` |  |
 | speaker.image.tag | string | `nil` |  |

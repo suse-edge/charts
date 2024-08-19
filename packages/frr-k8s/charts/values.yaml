@@ -49,7 +49,7 @@ prometheus:
   # the image to be used for the kuberbacproxy container
   rbacProxy:
     repository: "registry.opensuse.org/isv/suse/edge/metallb/images/kube-rbac-proxy"
-    tag: "v0.14.2"
+    tag: "v0.18.0"
     pullPolicy: IfNotPresent
 
   # Prometheus Operator ServiceMonitors.
@@ -94,7 +94,7 @@ frrk8s:
   tolerateMaster: true
   image:
     repository: "registry.opensuse.org/isv/suse/edge/metallb/images/frr-k8s"
-    tag: "v0.0.8"
+    tag: "v0.0.14"
     pullPolicy: IfNotPresent
   ## @param controller.updateStrategy.type FRR-K8s controller daemonset strategy type
   ## ref: https://kubernetes.io/docs/tasks/manage-daemon/update-daemon-set/
