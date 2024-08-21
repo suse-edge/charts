@@ -160,6 +160,16 @@ entries:
   endpoint-copier-operator:
   - apiVersion: v2
     appVersion: v0.2.0
+    created: "2024-08-21T12:00:44.073686+03:00"
+    description: A Helm chart for Kubernetes
+    digest: f1b3214b1204217f295f4187e73f4ed216226fc5e24de673e30429e037b40e3c
+    name: endpoint-copier-operator
+    type: application
+    urls:
+    - assets/endpoint-copier-operator/endpoint-copier-operator-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: v0.2.0
     created: "2023-10-19T15:10:21.597661+03:00"
     description: A Helm chart for Kubernetes
     digest: 8bec7ba9ea626970c908d72f44e53cd8d9a64a7ef9eb1387c1971b8c95445e01
@@ -1007,6 +1017,31 @@ entries:
     - assets/metal3/metal3-0.1.0.tgz
     version: 0.1.0
   metallb:
+  - apiVersion: v2
+    appVersion: v0.14.3
+    created: "2024-08-21T12:00:45.068513+03:00"
+    dependencies:
+    - condition: frrk8s.enabled
+      name: frr-k8s
+      repository: file://./charts/frr-k8s
+      version: 0.0.15
+    - condition: crds.enabled
+      name: metallb-crds
+      repository: file://./charts/metallb-crds
+      version: 0.14.8
+    description: A network load-balancer implementation for Kubernetes using standard
+      routing protocols
+    digest: 332d5a74a4d62944d136501f53f1c3930d7998dee83f321690427aa4aa0d7b7a
+    home: https://metallb.universe.tf
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    kubeVersion: '>= 1.19.0-0'
+    name: metallb
+    sources:
+    - https://github.com/metallb/metallb
+    type: application
+    urls:
+    - assets/metallb/metallb-0.14.9.tgz
+    version: 0.14.9
   - apiVersion: v2
     appVersion: v0.14.3
     created: "2024-08-19T13:44:16.814949+03:00"
