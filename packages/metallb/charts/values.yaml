@@ -300,7 +300,6 @@ speaker:
     name: ""
     annotations: {}
   securityContext:
-    runAsNonRoot: true
     allowPrivilegeEscalation: false
     capabilities:
       drop:
