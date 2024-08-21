@@ -16,6 +16,10 @@ kubevirt:
   uninstallStrategy: ""
   # WorkloadUpdateStrategy defines at the cluster level how to handle automated workload updates.
   workloadUpdateStrategy: {}
+  # Optionally enable ServiceMonitor for prometheus, see
+  # https://kubevirt.io/user-guide/user_workloads/component_monitoring/
+  monitorAccount: ""
+  monitorNamespace: ""
 
 hookImage: rancher/kubectl:v1.28.7
 hookRestartPolicy: OnFailure

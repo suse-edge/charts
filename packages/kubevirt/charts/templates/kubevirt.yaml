@@ -24,3 +24,9 @@ spec:
   workloadUpdateStrategy:
   {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- if .Values.kubevirt.monitorNamespace }}
+  monitorNamespace: {{ .Values.kubevirt.monitorNamespace }}
+  {{- end }}
+  {{- if .Values.kubevirt.monitorAccount }}
+  monitorAccount: {{ .Values.kubevirt.monitorAccount }}
+  {{- end }}
