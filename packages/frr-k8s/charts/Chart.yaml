@@ -8,4 +8,4 @@ name: frr-k8s
 sources:
 - https://github.com/metallb/frr-k8s
 type: application
-version: 0.0.14
+version: 0.0.15

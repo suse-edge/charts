@@ -226,6 +226,12 @@ controller:
     # nobody
     runAsUser: 65534
     fsGroup: 65534
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    seccompProfile:
+      type: RuntimeDefault
   resources: {}
     # limits:
       # cpu: 100m
@@ -293,7 +299,14 @@ speaker:
     # true, a name is generated using the fullname template
     name: ""
     annotations: {}
-  securityContext: {}
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    seccompProfile:
+      type: RuntimeDefault
   ## Defines a secret name for the controller to generate a memberlist encryption secret
   ## By default secretName: {{ "metallb.fullname" }}-memberlist
   ##

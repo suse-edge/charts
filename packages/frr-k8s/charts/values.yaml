@@ -9,6 +9,10 @@ rbac:
   # create specifies whether to install and use RBAC rules.
   create: true
 
+podSecurityContext: 
+  seccompProfile:
+    type: RuntimeDefault
+
 prometheus:
   # scrape annotations specifies whether to add Prometheus metric
   # auto-collection annotations to pods. See
