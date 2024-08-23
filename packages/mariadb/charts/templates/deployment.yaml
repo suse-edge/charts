@@ -42,12 +42,19 @@ spec:
               configMapKeyRef:
                 name: mariadb-cm
                 key: RESTART_CONTAINER_CERTIFICATE_UPDATED
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - sh
+              - -c
+              - mysqladmin shutdown -uironic -p$(printenv MARIADB_PASSWORD)
         livenessProbe:
           exec:
-            command: 
+            command:
               - sh
-              - -c 
-              - mysqladmin status -uironic -p$(printenv MARIADB_PASSWORD)  
+              - -c
+              - mysqladmin status -uironic -p$(printenv MARIADB_PASSWORD)
           failureThreshold: 10
           initialDelaySeconds: 30
           periodSeconds: 30
@@ -59,10 +66,10 @@ spec:
             protocol: TCP
         readinessProbe:
           exec:
-            command: 
+            command:
               - sh
-              - -c 
-              - mysqladmin status -uironic -p$(printenv MARIADB_PASSWORD)  
+              - -c
+              - mysqladmin status -uironic -p$(printenv MARIADB_PASSWORD)
           failureThreshold: 10
           initialDelaySeconds: 30
           periodSeconds: 30
