@@ -1,4 +1,4 @@
-url: https://github.com/kubernetes-sigs/cluster-api-operator/releases/download/v0.11.0/cluster-api-operator-0.11.0.tgz
-version: 0.11.0
+url: https://github.com/kubernetes-sigs/cluster-api-operator/releases/download/v0.12.0/cluster-api-operator-0.12.0.tgz
+version: 0.12.0
 # cluster-api-operator is only used as a dependency of rancher-turtles
 doNotRelease: true
