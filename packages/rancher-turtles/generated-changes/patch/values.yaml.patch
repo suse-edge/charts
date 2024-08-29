@@ -1,5 +1,20 @@
 --- charts-original/values.yaml
 +++ charts/values.yaml
+@@ -8,12 +8,12 @@
+   features:
+     cluster-api-operator:
+       cleanup: true
+-      kubectlImage: registry.k8s.io/kubernetes/kubectl:v1.30.0
++      kubectlImage: rancher/kubectl:v1.30.3
+     embedded-capi:
+       disabled: true
+     rancher-webhook:
+       cleanup: true
+-      kubectlImage: registry.k8s.io/kubernetes/kubectl:v1.30.0
++      kubectlImage: rancher/kubectl:v1.30.3
+     rancher-kubeconfigs:
+       label: false
+     managementv3-cluster:
 @@ -72,3 +72,12 @@
          fetchConfig:
            url: ""
