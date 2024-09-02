@@ -1,0 +1,12 @@
+nameOverride: ""
+fullnameOverride: ""
+plugin:
+  enabled: true
+  versionOverride: ""
+  noCache: false
+  noAuth: false
+  metadata:
+    catalog.cattle.io/display-name: KubeVirt
+    catalog.cattle.io/rancher-version: ">= v2.9.0"
+    catalog.cattle.io/ui-extensions-version: ">= 2.0.1"
+    catalog.cattle.io/kube-version: ">= v1.26.0-0"
