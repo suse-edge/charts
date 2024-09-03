@@ -1,12 +1,6 @@
 --- charts-original/templates/clusterctl-config.yaml
 +++ charts/templates/clusterctl-config.yaml
-@@ -6,50 +6,32 @@
-   namespace: '{{ .Values.rancherTurtles.namespace }}'
- data:
-   clusterctl.yaml: |
-+    images:
-+      all:
-+        repository: registry.opensuse.org/isv/suse/edge/clusterapi/containers/images
+@@ -9,47 +9,26 @@
      providers:
      # Cluster API core provider
      - name:         "cluster-api"

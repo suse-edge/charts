@@ -15,7 +15,28 @@
      rancher-kubeconfigs:
        label: false
      managementv3-cluster:
-@@ -72,3 +72,12 @@
+@@ -53,7 +53,7 @@
+       defaultName: capi-env-variables
+     core:
+       namespace: capi-system
+-      imageUrl: ""
++      imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-controller:1.7.5"
+       fetchConfig:
+         url: ""
+         selector: ""
+@@ -62,13 +62,22 @@
+       version: ""
+       bootstrap:
+         namespace: rke2-bootstrap-system
+-        imageUrl: ""
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-bootstrap:0.6.1"
+         fetchConfig:
+           url: ""
+           selector: ""
+       controlPlane:
+         namespace: rke2-control-plane-system
+-        imageUrl: ""
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-controlplane:0.6.1"
          fetchConfig:
            url: ""
            selector: ""
@@ -24,7 +45,7 @@
 +      version: ""
 +      infrastructure:
 +        namespace: capm3-system
-+        imageUrl: ""
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-metal3:1.7.1"
 +        fetchConfig:
 +          url: ""
 +          selector: ""
