@@ -24,7 +24,7 @@
        fetchConfig:
          url: ""
          selector: ""
-@@ -62,13 +62,22 @@
+@@ -62,13 +62,25 @@
        version: ""
        bootstrap:
          namespace: rke2-bootstrap-system
@@ -49,3 +49,6 @@
 +        fetchConfig:
 +          url: ""
 +          selector: ""
++      ipam:
++        namespace: capm3-system
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/ip-address-manager:1.7.1"
