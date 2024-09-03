@@ -31,19 +31,25 @@ spec:
 {{ else }}
     name: {{ index .Values "cluster-api-operator" "cluster-api" "configSecret" "defaultName" }}
 {{- end }}
-{{- if or (index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "fetchConfig" "url") (index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "fetchConfig" "selector") }}
+{{- if or (index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "fetchConfig" "url") (index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "fetchConfig" "selector") }}
   fetchConfig:
-    {{- if index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "fetchConfig" "url" }}
-    url: {{ index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "fetchConfig" "url" }}
+    {{- if index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "fetchConfig" "url" }}
+    url: {{ index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "fetchConfig" "url" }}
     {{- end }}
-    {{- if index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "fetchConfig" "selector" }}
-    selector: {{ index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "fetchConfig" "selector" }}
+    {{- if index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "fetchConfig" "selector" }}
+    selector: {{ index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "fetchConfig" "selector" }}
     {{- end }}
 {{- end }}
-{{- if index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "imageUrl" }}
+{{- if index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "imageUrl" }}
   deployment:
     containers:
       - name: manager
-        imageUrl: {{ index .Values "cluster-api-operator" "cluster-api" "rke2" "bootstrap" "imageUrl" }}
+        imageUrl: {{ index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "imageUrl" }}
+  additionalDeployments:
+    ipam-controller-manager:
+      deployment:
+        containers:
+        - imageUrl:  {{ index .Values "cluster-api-operator" "cluster-api" "metal3" "ipam" "imageUrl" }}
+          name: manager
 {{- end }}
 {{- end }}
