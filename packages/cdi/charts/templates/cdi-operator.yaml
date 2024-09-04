@@ -261,6 +261,7 @@ rules:
       - config.openshift.io
     resources:
       - proxies
+      - infrastructures
     verbs:
       - get
       - list
@@ -332,6 +333,15 @@ rules:
       - virtualmachines/finalizers
     verbs:
       - update
+  - apiGroups:
+      - forklift.cdi.kubevirt.io
+    resources:
+      - ovirtvolumepopulators
+      - openstackvolumepopulators
+    verbs:
+      - get
+      - list
+      - watch
   - apiGroups:
       - ""
     resources:
@@ -619,6 +629,8 @@ spec:
               value: {{ .Values.deployment.importerImage }}:{{ .Values.deployment.version }}
             - name: CLONER_IMAGE
               value: {{ .Values.deployment.clonerImage }}:{{ .Values.deployment.version }}
+            - name: OVIRT_POPULATOR_IMAGE
+              value: {{ .Values.deployment.importerImage }}:{{ .Values.deployment.version }}
             - name: APISERVER_IMAGE
               value: {{ .Values.deployment.apiserverImage }}:{{ .Values.deployment.version }}
             - name: UPLOAD_SERVER_IMAGE
