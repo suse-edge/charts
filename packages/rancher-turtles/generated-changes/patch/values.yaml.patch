@@ -1,5 +1,13 @@
 --- charts-original/values.yaml
 +++ charts/values.yaml
+@@ -1,6 +1,6 @@
+ rancherTurtles:
+   image: registry.rancher.com/rancher/rancher/turtles
+-  imageVersion: sha256:2d209340a584171c39ad91ccf6301733a66690473f21860836688b61db5ca942
++  imageVersion: v0.11.0
+   imagePullPolicy: IfNotPresent
+   namespace: rancher-turtles-system
+   managerArguments: []
 @@ -8,12 +8,12 @@
    features:
      cluster-api-operator:
