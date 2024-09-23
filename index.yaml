@@ -1219,36 +1219,6 @@ entries:
     urls:
     - assets/metallb/metallb-0.13.10.tgz
     version: 0.13.10
-  neuvector-core:
-  - apiVersion: v1
-    appVersion: 5.2.4
-    created: "2024-01-09T08:38:16.411897-08:00"
-    description: Helm chart for NeuVector's core services
-    digest: b13118efde2723a31bde15fb872257ce598663f185154ff8a4c43c6fe784913b
-    home: https://neuvector.com
-    icon: https://avatars2.githubusercontent.com/u/19367275?s=200&v=4
-    maintainers:
-    - email: support@neuvector.com
-      name: becitsthere
-    name: neuvector-core
-    urls:
-    - assets/neuvector-core/neuvector-core-2.6.6.tgz
-    version: 2.6.6
-  neuvector-crd:
-  - apiVersion: v1
-    appVersion: 5.2.4
-    created: "2024-01-09T08:41:42.314521-08:00"
-    description: Helm chart for NeuVector's CRD services
-    digest: 6a99284e8c6f8cc79a3970a212429eb1670454672c542fbd7230329de0ac4499
-    home: https://neuvector.com
-    icon: https://avatars2.githubusercontent.com/u/19367275?s=200&v=4
-    maintainers:
-    - email: support@neuvector.com
-      name: becitsthere
-    name: neuvector-crd
-    urls:
-    - assets/neuvector-crd/neuvector-crd-2.6.6.tgz
-    version: 2.6.6
   rancher-turtles:
   - annotations:
       catalog.cattle.io/certified: rancher
