@@ -6,10 +6,10 @@ set -eux
 
 CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.7.5"}"
 CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.7.1"}"
-CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.6.1"}"
+CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.7.0"}"
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PACKAGE_CHARTS_DIR="../packages/rancher-turtles-airgap-resources/chart/templates"
+PACKAGE_CHARTS_DIR="../packages/rancher-turtles-airgap-resources/charts/templates"
 
 # FIXME could use TMPDIR perhaps
 CAPI_TMPDIR="${CAPI_TMPDIR:-/tmp/turtles_airgap_cms}"
