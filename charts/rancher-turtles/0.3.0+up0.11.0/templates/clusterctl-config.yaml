@@ -1,0 +1,34 @@
+{{- if index .Values "cluster-api-operator" "enabled" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clusterctl-config
+  namespace: '{{ .Values.rancherTurtles.namespace }}'
+data:
+  clusterctl.yaml: |
+    providers:
+    # Cluster API core provider
+    - name:         "cluster-api"
+      url:          "https://github.com/kubernetes-sigs/cluster-api/releases/v1.7.5/core-components.yaml"
+      type:         "CoreProvider"
+
+    # Infrastructure providers
+    - name:         "metal3"
+      url:          "https://github.com/metal3-io/cluster-api-provider-metal3/releases/v1.7.1/infrastructure-components.yaml"
+      type:         "InfrastructureProvider"
+
+    # Bootstrap providers
+    - name:         "rke2"
+      url:          "https://github.com/rancher/cluster-api-provider-rke2/releases/v0.7.0/bootstrap-components.yaml"
+      type:         "BootstrapProvider"
+
+    # ControlPlane providers
+    - name:         "rke2"
+      url:          "https://github.com/rancher/cluster-api-provider-rke2/releases/v0.7.0/control-plane-components.yaml"
+      type:         "ControlPlaneProvider"
+
+    # Addon providers
+#    - name:         "fleet"
+#      url:          "https://github.com/rancher-sandbox/cluster-api-addon-provider-fleet/releases/v0.3.1/addon-components.yaml"
+#      type:         "AddonProvider"
+{{- end }}
