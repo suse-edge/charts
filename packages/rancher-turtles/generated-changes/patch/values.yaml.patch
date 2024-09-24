@@ -15,10 +15,12 @@
 -      kubectlImage: registry.k8s.io/kubernetes/kubectl:v1.30.0
 +      kubectlImage: rancher/kubectl:v1.30.3
      embedded-capi:
-       disabled: true
+-      disabled: true
++      disabled: false
      rancher-webhook:
-       cleanup: true
+-      cleanup: true
 -      kubectlImage: registry.k8s.io/kubernetes/kubectl:v1.30.0
++      cleanup: false
 +      kubectlImage: rancher/kubectl:v1.30.3
      rancher-kubeconfigs:
        label: false
