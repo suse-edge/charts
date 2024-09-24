@@ -37,14 +37,14 @@
        bootstrap:
          namespace: rke2-bootstrap-system
 -        imageUrl: ""
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-bootstrap:0.6.1"
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-bootstrap:0.7.0"
          fetchConfig:
            url: ""
            selector: ""
        controlPlane:
          namespace: rke2-control-plane-system
 -        imageUrl: ""
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-controlplane:0.6.1"
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-controlplane:0.7.0"
          fetchConfig:
            url: ""
            selector: ""
