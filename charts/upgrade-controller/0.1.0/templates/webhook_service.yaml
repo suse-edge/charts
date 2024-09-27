@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "upgrade-controller.webhookServiceName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "upgrade-controller.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.webhookService.type }}
+  ports:
+    - port: {{ .Values.webhookService.port }}
+      targetPort: {{ .Values.webhookService.targetPort }}
+      protocol: TCP
+  selector:
+    {{- include "upgrade-controller.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,6 @@
+workingDir: ""
+url: https://github.com/suse-edge/upgrade-controller.git
+subdirectory: helm/upgrade-controller/charts/lifecycle-crds
+commit: bac33b4be264fc482b16431be124d63deed8deae
+ignoreDependencies: []
+replacePaths: []
