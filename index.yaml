@@ -1638,4 +1638,20 @@ entries:
     urls:
     - assets/sriov-network-operator/sriov-network-operator-1.1.0+up0.1.0.tgz
     version: 1.1.0+up0.1.0
+  upgrade-controller:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2024-09-27T16:39:46.486857+03:00"
+    dependencies:
+    - condition: crds.enabled
+      name: lifecycle-crds
+      repository: file://./charts/lifecycle-crds
+      version: 0.1.0
+    description: A Helm chart for Upgrade Controller
+    digest: 03e38b9d8bedb8437d5816e2d8bd7b07eea5369bfcc399797903557fc6b80f45
+    name: upgrade-controller
+    type: application
+    urls:
+    - assets/upgrade-controller/upgrade-controller-0.1.0.tgz
+    version: 0.1.0
 generated: "2023-10-17T12:11:15.900212+03:00"

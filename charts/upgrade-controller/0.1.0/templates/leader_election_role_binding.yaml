@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "upgrade-controller.fullname" . }}-leader-election
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "upgrade-controller.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "upgrade-controller.fullname" . }}-leader-election
+subjects:
+- kind: ServiceAccount
+  name: {{ include "upgrade-controller.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
