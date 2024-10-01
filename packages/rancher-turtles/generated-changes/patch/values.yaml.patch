@@ -25,7 +25,18 @@
      rancher-kubeconfigs:
        label: false
      managementv3-cluster:
-@@ -53,7 +53,7 @@
+@@ -30,6 +30,10 @@
+   enabled: true
+   cert-manager:
+     enabled: false
++  image:
++    manager:
++      repository: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-operator"
++      tag: 0.12.0
+   volumes:
+     - name: cert
+       secret:
+@@ -53,7 +57,7 @@
        defaultName: capi-env-variables
      core:
        namespace: capi-system
@@ -34,7 +45,7 @@
        fetchConfig:
          url: ""
          selector: ""
-@@ -62,13 +62,25 @@
+@@ -62,13 +66,25 @@
        version: ""
        bootstrap:
          namespace: rke2-bootstrap-system
