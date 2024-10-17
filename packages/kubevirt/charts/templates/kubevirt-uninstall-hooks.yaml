@@ -1,3 +1,4 @@
+{{- if .Values.hooksEnabled.kubevirt.uninstall }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -69,3 +70,4 @@ spec:
             - deployments/virt-controller
             - daemonsets/virt-handler
             - --timeout=60s
+  {{- end }}

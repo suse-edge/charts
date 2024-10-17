@@ -21,6 +21,13 @@ kubevirt:
   monitorAccount: ""
   monitorNamespace: ""
 
+hooksEnabled:
+  crd:
+    upgrade: true
+    uninstall: true
+  kubevirt:
+    uninstall: true
+  namespace: true
 hookImage: rancher/kubectl:v1.30.2
 hookRestartPolicy: OnFailure
 hookSecurityContext:

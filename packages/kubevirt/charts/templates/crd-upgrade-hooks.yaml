@@ -1,3 +1,4 @@
+{{- if .Values.hooksEnabled.crd.upgrade }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -78,3 +79,4 @@ spec:
             items:
               - key: crd
                 path: crd.yaml
+{{- end }}
