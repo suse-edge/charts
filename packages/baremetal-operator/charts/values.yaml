@@ -28,7 +28,7 @@ images:
   baremetalOperator:
     repository: registry.opensuse.org/isv/suse/edge/metal3/containers/images/baremetal-operator
     pullPolicy: IfNotPresent
-    tag: "0.6.1"
+    tag: "0.6.2"
   rbacProxy:
     repository: registry.opensuse.org/isv/suse/edge/metal3/containers/images/kube-rbac-proxy
     pullPolicy: IfNotPresent
