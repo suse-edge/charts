@@ -2535,7 +2535,7 @@ data:
             - --insecure-diagnostics=${CAPRKE2_INSECURE_DIAGNOSTICS:=false}
             command:
             - /manager
-            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.7.0
+            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.7.1
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -2745,7 +2745,7 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.7.0
+  name: v0.7.1
   namespace: rke2-bootstrap-system
   labels:
     provider-components: rke2-bootstrap
