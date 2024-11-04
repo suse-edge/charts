@@ -28,8 +28,6 @@ global:
   auth:
     ironicUsername: ""
     ironicPassword: ""
-    ironicInspectorUsername: ""
-    ironicInspectorPassword: ""
 
   # whether to have additional trusted CA
   # NOTE: If enabled, a secret with name tls-ca-additional should be deployed

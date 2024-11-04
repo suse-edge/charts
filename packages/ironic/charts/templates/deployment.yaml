@@ -78,9 +78,6 @@ spec:
           - name: cert-ironic
             mountPath: "/certs/ironic"
             readOnly: true
-          - name: cert-ironic-inspector
-            mountPath: "/certs/ironic-inspector"
-            readOnly: true
           {{- if .Values.global.enable_vmedia_tls }}
           - name: cert-ironic-vmedia
             mountPath: "/certs/vmedia"
@@ -88,73 +85,6 @@ spec:
           {{- end }}
           - mountPath: /shared/html/tstcerts
             name: cert-ironic-ca
-            readOnly: true
-        {{- end }}
-      - name: ironic-inspector
-        image: {{ .Values.images.ironic.repository }}:{{ .Values.images.ironic.tag }}
-        imagePullPolicy: {{ .Values.images.ironic.pullPolicy }}
-        securityContext:
-          {{- toYaml .Values.securityContext | nindent 10 }}
-        command:
-        - /bin/runironic-inspector
-        envFrom:
-        - configMapRef:
-            name: ironic-bmo
-        env:
-        {{- if .Values.global.enable_basicAuth }}
-        - name: INSPECTOR_HTPASSWD
-          valueFrom:
-            secretKeyRef:
-              name: ironic-inspector-basic-auth
-              key: htpasswd
-        {{- end }}
-        - name: MARIADB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: ironic-mariadb
-        livenessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -sSf http://127.0.0.1:{{ if .Values.global.enable_tls }}5049{{ else }}5050{{ end }}
-          failureThreshold: 10
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          successThreshold: 1
-          timeoutSeconds: 10
-        ports:
-        - containerPort: 5050
-          name: inspector
-          protocol: TCP
-        readinessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -sSf http://127.0.0.1:{{ if .Values.global.enable_tls }}5049{{ else }}5050{{ end }}
-          failureThreshold: 10
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          successThreshold: 1
-          timeoutSeconds: 10
-        volumeMounts:
-          {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
-        {{- if .Values.global.enable_basicAuth }}
-          - mountPath: "/auth/ironic/auth-config"
-            name: ironic-basic-auth
-            subPath: auth-config
-            readOnly: true
-          - mountPath: "/auth/ironic-inspector/auth-config"
-            name: ironic-inspector-basic-auth
-            subPath: auth-config
-            readOnly: true
-        {{- end }}
-        {{- if .Values.global.enable_tls }}
-          {{- include "ironic.CAVolumeMounts" . | nindent 10 }}
-          - name: cert-ironic-inspector
-            mountPath: "/certs/ironic-inspector"
             readOnly: true
         {{- end }}
       - name: ironic-log-watch
@@ -191,39 +121,29 @@ spec:
               name: ironic-mariadb
         livenessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -sSf http://127.0.0.1:{{ if .Values.global.enable_tls }}6388{{ else }}6385{{ end }}
-          failureThreshold: 10
+            command: ["/bin/ironic-liveness"]
           initialDelaySeconds: 30
           periodSeconds: 30
-          successThreshold: 1
           timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
         ports:
         - containerPort: 6385
           name: api
           protocol: TCP
         readinessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -sSf http://127.0.0.1:{{ if .Values.global.enable_tls }}6388{{ else }}6385{{ end }}
-          failureThreshold: 10
+            command: ["/bin/ironic-readiness"]
           initialDelaySeconds: 30
           periodSeconds: 30
-          successThreshold: 1
           timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
         volumeMounts:
           {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
           {{- if .Values.global.enable_basicAuth }}
           - mountPath: "/auth/ironic/auth-config"
             name: ironic-basic-auth
-            subPath: auth-config
-            readOnly: true
-          - mountPath: "/auth/ironic-inspector/auth-config"
-            name: ironic-inspector-basic-auth
             subPath: auth-config
             readOnly: true
           {{- end }}
@@ -314,9 +234,6 @@ spec:
       - name: ironic-basic-auth
         secret:
           secretName: ironic-basic-auth
-      - name: ironic-inspector-basic-auth
-        secret:
-          secretName: ironic-inspector-basic-auth
       {{- if .Values.global.enable_tls }}
       - name: trusted-certs
         projected:
@@ -333,12 +250,6 @@ spec:
       - name: cert-ironic
         secret:
           secretName: ironic-cert
-      - name: cert-ironic-inspector-ca
-        secret:
-          secretName: ironic-cacert
-      - name: cert-ironic-inspector
-        secret:
-          secretName: ironic-inspector-cert
       {{- if .Values.global.enable_vmedia_tls }}
       - name: cert-ironic-vmedia-ca
         secret:
