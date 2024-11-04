@@ -78,14 +78,6 @@ spec:
           mountPath: "/opt/metal3/auth/ironic/password"
           subPath: password
           readOnly: true
-        - name: ironic-inspector-basic-auth
-          mountPath: "/opt/metal3/auth/ironic-inspector/username"
-          subPath: username
-          readOnly: true
-        - name: ironic-inspector-basic-auth
-          mountPath: "/opt/metal3/auth/ironic-inspector/password"
-          subPath: password
-          readOnly: true
         {{- end }}
         {{- if .Values.global.enable_tls }}
         - name: cacert
@@ -116,9 +108,6 @@ spec:
       - name: ironic-basic-auth
         secret:
           secretName: ironic-basic-auth
-      - name: ironic-inspector-basic-auth
-        secret:
-          secretName: ironic-inspector-basic-auth
       {{- end }}
       {{- if .Values.global.enable_tls }}
       - name: cacert
