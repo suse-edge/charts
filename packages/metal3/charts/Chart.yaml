@@ -4,7 +4,7 @@ dependencies:
 - alias: metal3-baremetal-operator
   name: baremetal-operator
   repository: file://./charts/baremetal-operator
-  version: 0.5.1
+  version: 0.6.0
 - alias: metal3-ironic
   name: ironic
   repository: file://./charts/ironic
