@@ -41,10 +41,7 @@ spec:
             name: ironic-bmo
         livenessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl {{ if and .Values.global.enable_tls .Values.global.enable_vmedia_tls }}-sSfk https://127.0.0.1:{{ .Values.global.vmediaTLSPort }}/boot.ipxe {{ else }}-sSf http://127.0.0.1:6180/boot.ipxe{{ end }}
+            command: ["sh", "-c", "curl -sSfk https://127.0.0.1:6385"]
           failureThreshold: 10
           initialDelaySeconds: 30
           periodSeconds: 30
@@ -62,10 +59,7 @@ spec:
         {{- end }}
         readinessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl {{ if and .Values.global.enable_tls .Values.global.enable_vmedia_tls }}-sSfk https://127.0.0.1:{{ .Values.global.vmediaTLSPort }}/boot.ipxe {{ else }}-sSf http://127.0.0.1:6180/boot.ipxe{{ end }}
+            command: ["sh", "-c", "curl -sSfk https://127.0.0.1:6385"]
           failureThreshold: 10
           initialDelaySeconds: 30
           periodSeconds: 30
