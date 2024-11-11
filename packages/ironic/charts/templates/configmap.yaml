@@ -53,7 +53,6 @@ data:
   IRONIC_ILO_USE_SWIFT: "false"
   IRONIC_ILO_USE_WEB_SERVER_FOR_IMAGES: "true"
   IRONIC_FAST_TRACK: "true"
-  IRONIC_USE_MARIADB: "true"
   LISTEN_ALL_INTERFACES: "true"
   {{- if .Values.global.ironicIP }}
   IRONIC_IP: {{ .Values.global.ironicIP }}
@@ -75,4 +74,9 @@ data:
   {{- if  ( .Values.global.enable_basicAuth ) }}
   AUTH_STRATEGY: "http_basic"
   {{- end }}
+  {{- if .Values.global.enable_mariadb }}
   MARIADB_HOST: {{ .Values.global.databaseServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+  IRONIC_USE_MARIADB: "true"
+  {{- else }}
+  IRONIC_USE_MARIADB: "false"
+  {{- end }}
