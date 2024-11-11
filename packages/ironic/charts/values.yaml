@@ -140,8 +140,9 @@ persistence:
     # storageClass for the ironic shared volume
     # Ensure the storageClass is defined
     storageClass: ""
-    # size of the ironic shared volume
-    size: "1Gi"
+    # size of the ironic shared volume e.g "1Gi"
+    # When unset persistent storage is disabled and emptyDir is enabled
+    size: ""
     # accessMode of the ironic shared volume PVC
     # If empty defaults to ReadWriteOnce when replicaCount=1 otherwise ReadWriteMany
     accessMode: ""

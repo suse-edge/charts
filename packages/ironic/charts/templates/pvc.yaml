@@ -1,3 +1,4 @@
+{{- if .Values.persistence.ironic.size }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -22,3 +23,4 @@ spec:
   storageClassName: {{ .Values.persistence.ironic.storageClass }}
   {{- end }}
   volumeMode: Filesystem
+{{- end }}
