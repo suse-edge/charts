@@ -224,8 +224,12 @@ spec:
         {{- end }}
       volumes:
       - name: ironic-data-volume
+      {{- if .Values.persistence.ironic.size }}
         persistentVolumeClaim:
           claimName: ironic-shared-volume
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
       {{- if .Values.global.enable_basicAuth }}
       - name: ironic-basic-auth
         secret:
