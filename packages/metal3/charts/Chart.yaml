@@ -10,6 +10,7 @@ dependencies:
   repository: file://./charts/ironic
   version: 0.8.0
 - alias: metal3-mariadb
+  condition: global.enable_mariadb
   name: mariadb
   repository: file://./charts/mariadb
   version: 0.5.4

@@ -6,6 +6,9 @@ global:
   # IP on which the Ironic services will be exposed
   ironicIP: ""
 
+  # whether to enable mariadb (default is sqlite)
+  enable_mariadb: false
+
   # whether to enable media server.
   enable_metal3_media_server: false
 

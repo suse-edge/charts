@@ -114,11 +114,13 @@ spec:
               name: ironic-basic-auth
               key: htpasswd
         {{- end }}
+        {{- if .Values.global.enable_mariadb }}
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
               key: password
               name: ironic-mariadb
+        {{- end }}
         livenessProbe:
           exec:
             command: ["/bin/ironic-liveness"]
