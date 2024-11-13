@@ -1,14 +1,6 @@
 --- charts-original/values.yaml
 +++ charts/values.yaml
-@@ -1,6 +1,6 @@
- rancherTurtles:
-   image: registry.rancher.com/rancher/rancher/turtles
--  imageVersion: sha256:2d209340a584171c39ad91ccf6301733a66690473f21860836688b61db5ca942
-+  imageVersion: v0.11.0
-   imagePullPolicy: IfNotPresent
-   namespace: rancher-turtles-system
-   managerArguments: []
-@@ -8,12 +8,12 @@
+@@ -9,12 +9,12 @@
    features:
      cluster-api-operator:
        cleanup: true
@@ -25,51 +17,31 @@
      rancher-kubeconfigs:
        label: false
      managementv3-cluster:
-@@ -30,6 +30,10 @@
-   enabled: true
-   cert-manager:
-     enabled: false
-+  image:
-+    manager:
-+      repository: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-operator"
-+      tag: 0.12.0
-   volumes:
-     - name: cert
-       secret:
-@@ -53,7 +57,7 @@
-       defaultName: capi-env-variables
-     core:
-       namespace: capi-system
--      imageUrl: ""
-+      imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-controller:1.7.5"
-       fetchConfig:
-         url: ""
-         selector: ""
-@@ -62,13 +66,25 @@
+@@ -66,13 +66,25 @@
        version: ""
        bootstrap:
          namespace: rke2-bootstrap-system
 -        imageUrl: ""
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-bootstrap:0.7.1"
++        imageUrl: "registry.rancher.com/rancher/cluster-api-provider-rke2-bootstrap:v0.8.0"
          fetchConfig:
            url: ""
            selector: ""
        controlPlane:
          namespace: rke2-control-plane-system
 -        imageUrl: ""
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-rke2-controlplane:0.7.1"
-         fetchConfig:
-           url: ""
-           selector: ""
++        imageUrl: "registry.rancher.com/rancher/cluster-api-provider-rke2-controlplane:v0.8.0"
++        fetchConfig:
++          url: ""
++          selector: ""
 +    metal3:
 +      enabled: true
 +      version: ""
 +      infrastructure:
 +        namespace: capm3-system
 +        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-metal3:1.7.1"
-+        fetchConfig:
-+          url: ""
-+          selector: ""
+         fetchConfig:
+           url: ""
+           selector: ""
 +      ipam:
 +        namespace: capm3-system
 +        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/ip-address-manager:1.7.1"

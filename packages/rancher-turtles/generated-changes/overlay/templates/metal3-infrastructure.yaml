@@ -2,6 +2,17 @@
 {{- $namespace := index .Values "cluster-api-operator" "cluster-api" "metal3" "infrastructure" "namespace" }}
 {{- if not (lookup "v1" "Namespace" "" $namespace) }}
 ---
+apiVersion: turtles-capi.cattle.io/v1alpha1
+kind: ClusterctlConfig
+metadata:
+  name: clusterctl-config
+  namespace: rancher-turtles-system
+spec:
+  providers:
+  - name: metal3
+    url: "https://github.com/metal3-io/cluster-api-provider-metal3/releases/v1.7.1/infrastructure-components.yaml"
+    type: InfrastructureProvider
+---
 apiVersion: v1
 kind: Namespace
 metadata:
