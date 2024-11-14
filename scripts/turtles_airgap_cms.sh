@@ -4,9 +4,9 @@ set -eux
 # Script to generate the ConfigMap resources described in 
 # https://turtles.docs.rancher.com/getting-started/air-gapped-environment
 
-CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.7.5"}"
-CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.7.1"}"
-CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.7.1"}"
+CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.7.7"}"
+CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.7.2"}"
+CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.8.0"}"
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PACKAGE_CHARTS_DIR="../packages/rancher-turtles-airgap-resources/charts/templates"
