@@ -38,10 +38,10 @@
 +      version: ""
 +      infrastructure:
 +        namespace: capm3-system
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-metal3:1.7.1"
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-metal3:1.7.2"
          fetchConfig:
            url: ""
            selector: ""
 +      ipam:
 +        namespace: capm3-system
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/ip-address-manager:1.7.1"
++        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/ip-address-manager:1.7.2"
