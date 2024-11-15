@@ -18,8 +18,8 @@
 +  resourcePrefix: "rancher.io"
    cniBinPath: "/opt/cni/bin"
    clusterType: "kubernetes"
-   admissionControllers:
-@@ -77,9 +80,9 @@
+   metricsExporter:
+@@ -85,9 +88,9 @@
          #      -----END EC PRIVATE KEY-----
  sriovOperatorConfig:
    # deploy sriovOperatorConfig CR with the below values
@@ -31,40 +31,53 @@
    # log level for both operator and sriov-network-config-daemon
    logLevel: 2
    # disable node draining when configuring SR-IOV, set to true in case of a single node
-@@ -91,12 +94,31 @@
+@@ -99,16 +102,41 @@
  supportedExtraNICs: []
  # Image URIs for sriov-network-operator components
  images:
--  operator: ghcr.io/k8snetworkplumbingwg/sriov-network-operator:v1.3.0
--  sriovConfigDaemon: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-config-daemon:v1.3.0
--  sriovCni: ghcr.io/k8snetworkplumbingwg/sriov-cni:v2.8.0
+-  operator: ghcr.io/k8snetworkplumbingwg/sriov-network-operator:v1.4.0
+-  sriovConfigDaemon: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-config-daemon:v1.4.0
+-  sriovCni: ghcr.io/k8snetworkplumbingwg/sriov-cni:v2.8.1
 -  ibSriovCni: ghcr.io/k8snetworkplumbingwg/ib-sriov-cni:v1.1.1
--  ovsCni: ghcr.io/k8snetworkplumbingwg/ovs-cni-plugin:v0.34.0
+-  ovsCni: ghcr.io/k8snetworkplumbingwg/ovs-cni-plugin:v0.34.2
+-  rdmaCni: ghcr.io/k8snetworkplumbingwg/rdma-cni:v1.2.0
 -  sriovDevicePlugin: ghcr.io/k8snetworkplumbingwg/sriov-network-device-plugin:v3.7.0
 -  resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.6.0
--  webhook: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-webhook:v1.3.0
+-  webhook: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-webhook:v1.4.0
+-  metricsExporter: ghcr.io/k8snetworkplumbingwg/sriov-network-metrics-exporter:v1.1.0
+-  metricsExporterKubeRbacProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.15.0
 +  operator:
 +    repository: rancher/hardened-sriov-network-operator
-+    tag: v1.3.0-build20240816
++    tag: v1.4.0-build20241113
 +  sriovConfigDaemon:
 +    repository: rancher/hardened-sriov-network-config-daemon
-+    tag: v1.3.0-build20240816
++    tag: v1.4.0-build20241113
 +  sriovCni:
 +    repository: rancher/hardened-sriov-cni
-+    tag: v2.8.1-build20240820
++    tag: v2.8.1-build20241113
 +  ibSriovCni: 
 +    repository: rancher/hardened-ib-sriov-cni
-+    tag: v1.1.1-build20240816
++    tag: v1.1.1-build20241113
++  rdmaCni:
++    repository: ghcr.io/k8snetworkplumbingwg/rdma-cni
++    tag: v1.2.0
 +  sriovDevicePlugin: 
 +    repository: rancher/hardened-sriov-network-device-plugin
-+    tag: v3.7.0-build20240816
++    tag: v3.8.0-build20241114
 +  resourcesInjector: 
 +    repository: rancher/hardened-sriov-network-resources-injector
-+    tag: v1.6.0-build20240816
++    tag: v1.6.0-build20241113
 +  webhook:
 +    repository: rancher/hardened-sriov-network-webhook
-+    tag: v1.3.0-build20240816
++    tag: v1.4.0-build20241113
++  metricsExporter:
++    repository: ghcr.io/k8snetworkplumbingwg/sriov-network-metrics-exporter
++    tag: v1.1.0
++  metricsExporterKubeRbacProxy:
++    repository: gcr.io/kubebuilder/kube-rbac-proxy
++    tag: v0.15.0
  imagePullSecrets: []
+ extraDeploy: []
 +global:
 +  cattle:
 +    systemDefaultRegistry: ""
