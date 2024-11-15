@@ -10,7 +10,7 @@
    nodeSelector: {}
    affinity:
      nodeAffinity:
-@@ -24,7 +27,7 @@
+@@ -24,17 +27,9 @@
                  values: [""]
    nameOverride: ""
    fullnameOverride: ""
@@ -18,8 +18,18 @@
 +  resourcePrefix: "rancher.io"
    cniBinPath: "/opt/cni/bin"
    clusterType: "kubernetes"
-   metricsExporter:
-@@ -85,9 +88,9 @@
+-  metricsExporter:
+-    port: "9110"
+-    certificates:
+-      secretName: "metrics-exporter-cert"
+-    prometheusOperator:
+-      enabled: false
+-      serviceAccount: "prometheus-k8s"
+-      namespace: "monitoring"
+   admissionControllers:
+     enabled: false
+     certificates:
+@@ -85,9 +80,9 @@
          #      -----END EC PRIVATE KEY-----
  sriovOperatorConfig:
    # deploy sriovOperatorConfig CR with the below values
@@ -31,7 +41,7 @@
    # log level for both operator and sriov-network-config-daemon
    logLevel: 2
    # disable node draining when configuring SR-IOV, set to true in case of a single node
-@@ -99,16 +102,38 @@
+@@ -99,16 +94,32 @@
  supportedExtraNICs: []
  # Image URIs for sriov-network-operator components
  images:
@@ -67,12 +77,6 @@
 +  webhook:
 +    repository: rancher/hardened-sriov-network-webhook
 +    tag: v1.4.0-build20241113
-+  metricsExporter:
-+    repository: ghcr.io/k8snetworkplumbingwg/sriov-network-metrics-exporter
-+    tag: v1.1.0
-+  metricsExporterKubeRbacProxy:
-+    repository: gcr.io/kubebuilder/kube-rbac-proxy
-+    tag: v0.15.0
  imagePullSecrets: []
  extraDeploy: []
 +global:
