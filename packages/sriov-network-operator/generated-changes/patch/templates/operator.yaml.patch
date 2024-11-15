@@ -22,7 +22,7 @@
            command:
              - sriov-network-operator
            resources:
-@@ -55,31 +60,29 @@
+@@ -55,31 +60,27 @@
                  fieldRef:
                    fieldPath: metadata.namespace
              - name: SRIOV_CNI_IMAGE
@@ -32,10 +32,9 @@
 -              value: {{ .Values.images.ibSriovCni }}
 -            - name: OVS_CNI_IMAGE
 -              value: {{ .Values.images.ovsCni }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.ibSriovCni.repository }}:{{ .Values.images.ibSriovCni.tag }}
-             - name: RDMA_CNI_IMAGE
+-            - name: RDMA_CNI_IMAGE
 -              value: {{ .Values.images.rdmaCni }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.rdmaCni.repository }}:{{ .Values.images.rdmaCni.tag }}
++              value: {{ include "system_default_registry" . }}{{ .Values.images.ibSriovCni.repository }}:{{ .Values.images.ibSriovCni.tag }}
              - name: SRIOV_DEVICE_PLUGIN_IMAGE
 -              value: {{ .Values.images.sriovDevicePlugin }}
 +              value: {{ include "system_default_registry" . }}{{ .Values.images.sriovDevicePlugin.repository }}:{{ .Values.images.sriovDevicePlugin.tag }}
