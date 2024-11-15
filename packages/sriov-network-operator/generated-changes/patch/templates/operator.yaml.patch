@@ -13,7 +13,7 @@
    labels:
    {{- include "sriov-network-operator.labels" . | nindent 4 }}
  spec:
-@@ -40,7 +45,7 @@
+@@ -42,7 +47,7 @@
        {{- end }}
        containers:
          - name: {{ include "sriov-network-operator.fullname" . }}
@@ -22,7 +22,7 @@
            command:
              - sriov-network-operator
            resources:
-@@ -53,21 +58,19 @@
+@@ -55,31 +60,29 @@
                  fieldRef:
                    fieldPath: metadata.namespace
              - name: SRIOV_CNI_IMAGE
@@ -33,6 +33,9 @@
 -            - name: OVS_CNI_IMAGE
 -              value: {{ .Values.images.ovsCni }}
 +              value: {{ include "system_default_registry" . }}{{ .Values.images.ibSriovCni.repository }}:{{ .Values.images.ibSriovCni.tag }}
+             - name: RDMA_CNI_IMAGE
+-              value: {{ .Values.images.rdmaCni }}
++              value: {{ include "system_default_registry" . }}{{ .Values.images.rdmaCni.repository }}:{{ .Values.images.rdmaCni.tag }}
              - name: SRIOV_DEVICE_PLUGIN_IMAGE
 -              value: {{ .Values.images.sriovDevicePlugin }}
 +              value: {{ include "system_default_registry" . }}{{ .Values.images.sriovDevicePlugin.repository }}:{{ .Values.images.sriovDevicePlugin.tag }}
@@ -47,6 +50,16 @@
              - name: SRIOV_NETWORK_WEBHOOK_IMAGE
 -              value: {{ .Values.images.webhook }}
 +              value: {{ include "system_default_registry" . }}{{ .Values.images.webhook.repository }}:{{ .Values.images.webhook.tag }}
-             - name: RESOURCE_PREFIX
-               value: {{ .Values.operator.resourcePrefix }}
-             - name: IMAGE_PULL_SECRETS
+             - name: METRICS_EXPORTER_IMAGE
+-              value: {{ .Values.images.metricsExporter }}
++              value: {{ include "system_default_registry" . }}{{ .Values.images.metricsExporter.repository }}:{{ .Values.images.metricsExporter.tag }}
+             - name: METRICS_EXPORTER_PORT
+               value: "{{ .Values.operator.metricsExporter.port }}"
+             - name: METRICS_EXPORTER_SECRET_NAME
+               value: {{ .Values.operator.metricsExporter.certificates.secretName }}
+             - name: METRICS_EXPORTER_KUBE_RBAC_PROXY_IMAGE
+-              value: {{ .Values.images.metricsExporterKubeRbacProxy }}
++              value: {{ include "system_default_registry" . }}{{ .Values.images.metricsExporterKubeRbacProxy.repository }}:{{ .Values.images.metricsExporterKubeRbacProxy.tag }}
+             {{- if .Values.operator.metricsExporter.prometheusOperator.enabled }}
+             - name: METRICS_EXPORTER_PROMETHEUS_OPERATOR_ENABLED
+               value: {{ .Values.operator.metricsExporter.prometheusOperator.enabled | quote}}
