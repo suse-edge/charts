@@ -36,8 +36,8 @@ metadata:
 spec:
   name: metal3
   type: infrastructure
-{{- if index .Values  "cluster-api-operator" "cluster-api" "rke2" "version" }}
-  version: {{ index .Values "cluster-api-operator" "cluster-api" "rke2" "version" }}
+{{- if index .Values  "cluster-api-operator" "cluster-api" "metal3" "version" }}
+  version: {{ index .Values "cluster-api-operator" "cluster-api" "metal3" "version" }}
 {{- end }}
   configSecret:
 {{- if index .Values "cluster-api-operator" "cluster-api" "configSecret" "name" }}
