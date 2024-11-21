@@ -17,8 +17,25 @@
      rancher-kubeconfigs:
        label: false
      managementv3-cluster:
-@@ -66,13 +66,25 @@
-       version: ""
+@@ -52,27 +52,40 @@
+         readOnly: true
+   cluster-api:
+     enabled: true
++    version: "v1.7.7"
+     configSecret:
+       name: ""
+       defaultName: capi-env-variables
+     core:
+       namespace: capi-system
+-      imageUrl: ""
++      imageUrl: "registry.rancher.com/rancher/cluster-api-controller:v1.7.7"
+       fetchConfig:
+         url: ""
+         selector: ""
+     rke2:
+       enabled: true
+-      version: ""
++      version: "v0.8.0"
        bootstrap:
          namespace: rke2-bootstrap-system
 -        imageUrl: ""
@@ -35,7 +52,7 @@
 +          selector: ""
 +    metal3:
 +      enabled: true
-+      version: ""
++      version: "v1.7.2"
 +      infrastructure:
 +        namespace: capm3-system
 +        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-metal3:1.7.2"
