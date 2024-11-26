@@ -1393,6 +1393,40 @@ entries:
       catalog.cattle.io/scope: management
       catalog.cattle.io/type: cluster-tool
     apiVersion: v2
+    appVersion: 0.13.0
+    created: "2024-11-26T18:35:02.215237988+02:00"
+    dependencies:
+    - condition: cluster-api-operator.enabled
+      name: cluster-api-operator
+      repository: file://./charts/cluster-api-operator
+      version: 0.14.0
+    description: Rancher Turtles is an extension to Rancher that brings full Cluster
+      API integration to Rancher.
+    digest: 2ef42f19906bfd4f1a2c2ca3598a9ae566f1f4e7f97769d49e7355120900a0af
+    home: https://github.com/rancher/turtles/
+    icon: https://raw.githubusercontent.com/rancher/turtles/main/logos/capi.svg
+    keywords:
+    - rancher
+    - cluster-api
+    - capi
+    - provisioning
+    name: rancher-turtles
+    type: application
+    urls:
+    - assets/rancher-turtles/rancher-turtles-0.4.0+up0.13.0.tgz
+    version: 0.4.0+up0.13.0
+  - annotations:
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/display-name: Rancher Turtles - the Cluster API Extension
+      catalog.cattle.io/kube-version: '>= 1.23.0-0'
+      catalog.cattle.io/namespace: rancher-turtles-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/permits-os: linux
+      catalog.cattle.io/rancher-version: '>= 2.9.0-1'
+      catalog.cattle.io/release-name: rancher-turtles
+      catalog.cattle.io/scope: management
+      catalog.cattle.io/type: cluster-tool
+    apiVersion: v2
     appVersion: 0.11.0
     created: "2024-10-30T15:15:10.309054Z"
     dependencies:
@@ -1586,6 +1620,18 @@ entries:
     - assets/rancher-turtles/rancher-turtles-0.1.0+up0.9.1.tgz
     version: 0.1.0+up0.9.1
   rancher-turtles-airgap-resources:
+  - apiVersion: v2
+    appVersion: 0.13.0
+    created: "2024-11-26T18:35:02.540863188+02:00"
+    description: Rancher Turtles utility chart for airgap scenarios
+    digest: 96faabcdf99bf8efd9244ff7e05451828dacc5c97e6998641f1614bac39bb62b
+    home: https://github.com/rancher/turtles/
+    icon: https://raw.githubusercontent.com/rancher/turtles/main/logos/capi.svg
+    name: rancher-turtles-airgap-resources
+    type: application
+    urls:
+    - assets/rancher-turtles-airgap-resources/rancher-turtles-airgap-resources-0.4.0.tgz
+    version: 0.4.0
   - apiVersion: v2
     appVersion: 0.11.0
     created: "2024-10-30T15:15:10.494633Z"

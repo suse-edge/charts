@@ -1,0 +1,91 @@
+rancherTurtles:
+  image: registry.rancher.com/rancher/rancher/turtles
+  imageVersion: v0.13.0
+  imagePullPolicy: IfNotPresent
+  namespace: rancher-turtles-system
+  managerArguments: []
+  imagePullSecrets: []
+  rancherInstalled: true
+  features:
+    cluster-api-operator:
+      cleanup: true
+      kubectlImage: rancher/kubectl:v1.30.3
+    embedded-capi:
+      disabled: false
+    rancher-webhook:
+      cleanup: false
+      kubectlImage: rancher/kubectl:v1.30.3
+    rancher-kubeconfigs:
+      label: false
+    managementv3-cluster:
+      enabled: true
+    managementv3-cluster-migration:
+      enabled: false
+    propagate-labels:
+      enabled: false
+    etcd-snapshot-restore:
+      enabled: false
+    addon-provider-fleet:
+      enabled: false
+cluster-api-operator:
+  enabled: true
+  cert-manager:
+    enabled: false
+  volumes:
+    - name: cert
+      secret:
+        defaultMode: 420
+        secretName: capi-operator-webhook-service-cert
+    - name: clusterctl-config
+      configMap:
+        name: clusterctl-config
+  image:
+    manager:
+      repository: registry.rancher.com/rancher/cluster-api-operator
+  volumeMounts:
+    manager:
+      - mountPath: /tmp/k8s-webhook-server/serving-certs
+        name: cert
+        readOnly: true
+      - mountPath: /config
+        name: clusterctl-config
+        readOnly: true
+  cluster-api:
+    enabled: true
+    version: "v1.7.7"
+    configSecret:
+      name: ""
+      defaultName: capi-env-variables
+    core:
+      namespace: capi-system
+      imageUrl: "registry.rancher.com/rancher/cluster-api-controller:v1.7.7"
+      fetchConfig:
+        url: ""
+        selector: ""
+    rke2:
+      enabled: true
+      version: "v0.8.0"
+      bootstrap:
+        namespace: rke2-bootstrap-system
+        imageUrl: "registry.rancher.com/rancher/cluster-api-provider-rke2-bootstrap:v0.8.0"
+        fetchConfig:
+          url: ""
+          selector: ""
+      controlPlane:
+        namespace: rke2-control-plane-system
+        imageUrl: "registry.rancher.com/rancher/cluster-api-provider-rke2-controlplane:v0.8.0"
+        fetchConfig:
+          url: ""
+          selector: ""
+    metal3:
+      enabled: true
+      version: "v1.7.2"
+      infrastructure:
+        namespace: capm3-system
+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-metal3:1.7.2"
+        fetchConfig:
+          url: ""
+          selector: ""
+      ipam:
+        namespace: capm3-system
+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/ip-address-manager:1.7.2"
