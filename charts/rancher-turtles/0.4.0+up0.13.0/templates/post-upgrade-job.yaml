@@ -1,0 +1,78 @@
+{{- if eq (index .Values "rancherTurtles" "features" "managementv3-cluster-migration" "enabled") true }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: post-upgrade-job
+  namespace: rancher-turtles-system
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "1"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: post-upgrade-job-delete-clusters
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "1"
+rules:
+- apiGroups:
+  - provisioning.cattle.io
+  resources:
+  - clusters
+  verbs:
+  - list
+  - delete
+- apiGroups:
+  - management.cattle.io
+  resources:
+  - clusters
+  verbs:
+  - list
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: post-upgrade-job-delete-clusters
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "1"
+subjects:
+  - kind: ServiceAccount
+    name: post-upgrade-job
+    namespace: rancher-turtles-system
+roleRef:
+  kind: ClusterRole
+  name: post-upgrade-job-delete-clusters
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: post-upgrade-delete-clusters
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "2"
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      serviceAccountName: post-upgrade-job
+      containers:
+        - name: post-upgrade-delete-clusters
+          image: {{ index .Values "rancherTurtles" "features" "rancher-webhook" "kubectlImage" }}
+          args:
+          - delete
+          {{- if eq (index .Values "rancherTurtles" "features" "managementv3-cluster" "enabled") true }}
+          - clusters.provisioning.cattle.io
+          {{- else }}
+          - clusters.management.cattle.io
+          {{- end }}
+          - --selector=cluster-api.cattle.io/owned
+          - -A
+          - --ignore-not-found=true
+          - --wait
+      restartPolicy: OnFailure
+{{- end }}
