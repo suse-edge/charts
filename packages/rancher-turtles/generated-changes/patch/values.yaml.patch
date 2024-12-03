@@ -17,48 +17,38 @@
      rancher-kubeconfigs:
        label: false
      managementv3-cluster:
-@@ -52,27 +52,40 @@
-         readOnly: true
-   cluster-api:
-     enabled: true
-+    version: "v1.7.7"
-     configSecret:
-       name: ""
+@@ -60,22 +60,30 @@
        defaultName: capi-env-variables
      core:
        namespace: capi-system
 -      imageUrl: ""
-+      imageUrl: "registry.rancher.com/rancher/cluster-api-controller:v1.7.7"
        fetchConfig:
          url: ""
          selector: ""
      rke2:
        enabled: true
 -      version: ""
-+      version: "v0.8.0"
        bootstrap:
          namespace: rke2-bootstrap-system
 -        imageUrl: ""
-+        imageUrl: "registry.rancher.com/rancher/cluster-api-provider-rke2-bootstrap:v0.8.0"
          fetchConfig:
            url: ""
            selector: ""
        controlPlane:
          namespace: rke2-control-plane-system
 -        imageUrl: ""
-+        imageUrl: "registry.rancher.com/rancher/cluster-api-provider-rke2-controlplane:v0.8.0"
-+        fetchConfig:
-+          url: ""
-+          selector: ""
-+    metal3:
-+      enabled: true
-+      version: "v1.7.2"
-+      infrastructure:
-+        namespace: capm3-system
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/cluster-api-provider-metal3:1.7.2"
          fetchConfig:
            url: ""
            selector: ""
++    metal3:
++      enabled: true
++      version: "v1.8.2"
++      infrastructure:
++        namespace: capm3-system
++        imageUrl: "registry.rancher.com/rancher/cluster-api-metal3-controller:v1.8.2"
++        fetchConfig:
++          url: ""
++          selector: ""
 +      ipam:
 +        namespace: capm3-system
-+        imageUrl: "registry.opensuse.org/isv/suse/edge/clusterapi/containers/images/ip-address-manager:1.7.2"
++        imageUrl: "registry.rancher.com/rancher/cluster-api-metal3-ipam-controller:v1.8.1"
