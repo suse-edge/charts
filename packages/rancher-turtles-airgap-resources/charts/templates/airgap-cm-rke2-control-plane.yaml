@@ -32,7 +32,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: rke2-control-plane-webhook-service
               namespace: rke2-control-plane-system
@@ -2620,7 +2619,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: rke2-control-plane-webhook-service
               namespace: rke2-control-plane-system
@@ -4295,7 +4293,7 @@ data:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.8.0
+            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.9.0
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -4331,6 +4329,7 @@ data:
               privileged: false
               runAsGroup: 65532
               runAsUser: 65532
+            terminationMessagePolicy: FallbackToLogsOnError
             volumeMounts:
             - mountPath: /tmp/k8s-webhook-server/serving-certs
               name: cert
@@ -4512,10 +4511,13 @@ data:
       - major: 0
         minor: 8
         contract: v1beta1
+      - major: 0
+        minor: 9
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.8.0
+  name: v0.9.0
   namespace: rke2-control-plane-system
   labels:
     provider-components: rke2-control-plane

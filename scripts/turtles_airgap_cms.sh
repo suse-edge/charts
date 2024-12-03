@@ -4,9 +4,9 @@ set -eux
 # Script to generate the ConfigMap resources described in 
 # https://turtles.docs.rancher.com/getting-started/air-gapped-environment
 
-CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.7.7"}"
-CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.7.2"}"
-CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.8.0"}"
+CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.8.4"}"
+CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.8.2"}"
+CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.9.0"}"
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PACKAGE_CHARTS_DIR="../packages/rancher-turtles-airgap-resources/charts/templates"
@@ -17,8 +17,8 @@ mkdir -p ${CAPI_TMPDIR}
 rm -f ${CAPI_TMPDIR}/*.yaml
 
 # Core cluster-api components
-curl -L https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CAPI_CORE_VERSION}/core-components.yaml -o ${CAPI_TMPDIR}/core-components.yaml
-curl -L https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CAPI_CORE_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/core-metadata.yaml
+curl -L https://github.com/rancher-sandbox/cluster-api/releases/download/v${CAPI_CORE_VERSION}/core-components.yaml -o ${CAPI_TMPDIR}/core-components.yaml
+curl -L https://github.com/rancher-sandbox/cluster-api/releases/download/v${CAPI_CORE_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/core-metadata.yaml
 
 # CAPI core components are too large to fit into the CM/annotation
 # https://turtles.docs.rancher.com/getting-started/air-gapped-environment#situation-when-manifests-do-not-fit-into-configmap
@@ -39,8 +39,8 @@ EOF
 cat ${CAPI_TMPDIR}/airgap-cm-core.yaml >> ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-core.yaml
 
 # infrastructure-components (infrastructure-metal3)
-curl -L https://github.com/metal3-io/cluster-api-provider-metal3/releases/download/v${CAPI_CAPM3_VERSION}/infrastructure-components.yaml -o ${CAPI_TMPDIR}/metal3-components.yaml
-curl -L https://github.com/metal3-io/cluster-api-provider-metal3/releases/download/v${CAPI_CAPM3_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/metal3-metadata.yaml
+curl -L https://github.com/rancher-sandbox/cluster-api-provider-metal3/releases/download/v${CAPI_CAPM3_VERSION}/infrastructure-components.yaml -o ${CAPI_TMPDIR}/metal3-components.yaml
+curl -L https://github.com/rancher-sandbox/cluster-api-provider-metal3/releases/download/v${CAPI_CAPM3_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/metal3-metadata.yaml
 kubectl create configmap v${CAPI_CAPM3_VERSION} --namespace=capm3-system --from-file=components=${CAPI_TMPDIR}/metal3-components.yaml --from-file=metadata=${CAPI_TMPDIR}/metal3-metadata.yaml --dry-run=client -o yaml > ${CAPI_TMPDIR}/airgap-cm-metal3.yaml
 yq eval -i '.metadata.labels += {"provider-components": "metal3"}' ${CAPI_TMPDIR}/airgap-cm-metal3.yaml
 cat > ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-metal3.yaml <<EOF

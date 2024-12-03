@@ -35,7 +35,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: ipam-webhook-service
               namespace: capm3-system
@@ -208,7 +207,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: ipam-webhook-service
               namespace: capm3-system
@@ -369,7 +367,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: ipam-webhook-service
               namespace: capm3-system
@@ -536,7 +533,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -706,13 +702,97 @@ data:
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
+      name: metal3clustertemplates.infrastructure.cluster.x-k8s.io
+    spec:
+      group: infrastructure.cluster.x-k8s.io
+      names:
+        categories:
+        - cluster-api
+        kind: Metal3ClusterTemplate
+        listKind: Metal3ClusterTemplateList
+        plural: metal3clustertemplates
+        shortNames:
+        - m3ct
+        singular: metal3clustertemplate
+      scope: Namespaced
+      versions:
+      - name: v1beta1
+        schema:
+          openAPIV3Schema:
+            description: Metal3ClusterTemplate is the Schema for the metal3clustertemplates
+              API.
+            properties:
+              apiVersion:
+                description: 'APIVersion defines the versioned schema of this representation
+                  of an object. Servers should convert recognized schemas to the latest
+                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                type: string
+              kind:
+                description: 'Kind is a string value representing the REST resource this
+                  object represents. Servers may infer this from the endpoint the client
+                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                type: string
+              metadata:
+                type: object
+              spec:
+                description: Metal3ClusterTemplateSpec defines the desired state of Metal3ClusterTemplate.
+                properties:
+                  template:
+                    description: Metal3ClusterTemplateResource describes the data for
+                      creating a Metal3Cluster from a template.
+                    properties:
+                      spec:
+                        description: Metal3ClusterSpec defines the desired state of Metal3Cluster.
+                        properties:
+                          controlPlaneEndpoint:
+                            description: ControlPlaneEndpoint represents the endpoint
+                              used to communicate with the control plane.
+                            properties:
+                              host:
+                                description: Host is the hostname on which the API server
+                                  is serving.
+                                type: string
+                              port:
+                                description: Port is the port on which the API server
+                                  is serving.
+                                type: integer
+                            required:
+                            - host
+                            - port
+                            type: object
+                          noCloudProvider:
+                            description: Determines if the cluster is not to be deployed
+                              with an external cloud provider. If set to true, CAPM3 will
+                              use node labels to set providerID on the kubernetes nodes.
+                              If set to false, providerID is set on nodes by other entities
+                              and CAPM3 uses the value of the providerID on the m3m resource.
+                            type: boolean
+                        type: object
+                    required:
+                    - spec
+                    type: object
+                required:
+                - template
+                type: object
+            type: object
+        served: true
+        storage: true
+    ---
+    apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    metadata:
+      annotations:
+        cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
+        controller-gen.kubebuilder.io/version: v0.13.0
+      labels:
+        cluster.x-k8s.io/provider: infrastructure-metal3
+        cluster.x-k8s.io/v1beta1: v1beta1
       name: metal3dataclaims.infrastructure.cluster.x-k8s.io
     spec:
       conversion:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -868,7 +948,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -1064,7 +1143,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -2078,7 +2156,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -2150,6 +2227,17 @@ data:
                     - metadata
                     - disabled
                     type: string
+                  customDeploy:
+                    description: A custom deploy procedure.
+                    properties:
+                      method:
+                        description: Custom deploy method name. This name is specific
+                          to the deploy ramdisk used. If you don't have a custom deploy
+                          ramdisk, you shouldn't use CustomDeploy.
+                        type: string
+                    required:
+                    - method
+                    type: object
                   dataTemplate:
                     description: MetadataTemplate is a reference to a Metal3DataTemplate
                       object containing a template of metadata to be rendered. Metadata
@@ -2302,8 +2390,6 @@ data:
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
-                required:
-                - image
                 type: object
               status:
                 description: Metal3MachineStatus defines the observed state of Metal3Machine.
@@ -2521,7 +2607,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -2591,6 +2676,17 @@ data:
                             - metadata
                             - disabled
                             type: string
+                          customDeploy:
+                            description: A custom deploy procedure.
+                            properties:
+                              method:
+                                description: Custom deploy method name. This name is specific
+                                  to the deploy ramdisk used. If you don't have a custom
+                                  deploy ramdisk, you shouldn't use CustomDeploy.
+                                type: string
+                            required:
+                            - method
+                            type: object
                           dataTemplate:
                             description: MetadataTemplate is a reference to a Metal3DataTemplate
                               object containing a template of metadata to be rendered.
@@ -2745,8 +2841,6 @@ data:
                                 type: string
                             type: object
                             x-kubernetes-map-type: atomic
-                        required:
-                        - image
                         type: object
                     required:
                     - spec
@@ -2774,7 +2868,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -2889,7 +2982,6 @@ data:
         strategy: Webhook
         webhook:
           clientConfig:
-            caBundle: Cg==
             service:
               name: capm3-webhook-service
               namespace: capm3-system
@@ -3174,6 +3266,12 @@ data:
       - update
       - watch
     - apiGroups:
+      - ""
+      resources:
+      - pods
+      verbs:
+      - list
+    - apiGroups:
       - infrastructure.cluster.x-k8s.io
       resources:
       - metal3clusters
@@ -3391,6 +3489,13 @@ data:
       - get
       - patch
       - update
+    - apiGroups:
+      - storage.k8s.io
+      resources:
+      - volumeattachments
+      verbs:
+      - list
+      - watch
     ---
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
@@ -3634,7 +3739,7 @@ data:
           containers:
           - args:
             - --webhook-port=9443
-            - --enableBMHNameBasedPreallocation=${enableBMHNameBasedPreallocation:=false}
+            - --enableBMHNameBasedPreallocation=${ENABLE_BMH_NAME_BASED_PREALLOCATION:=false}
             - --diagnostics-address=${CAPM3_DIAGNOSTICS_ADDRESS:=:8443}
             - --insecure-diagnostics=${CAPM3_INSECURE_DIAGNOSTICS:=false}
             command:
@@ -3647,7 +3752,7 @@ data:
             envFrom:
             - configMapRef:
                 name: capm3-capm3fasttrack-configmap
-            image: quay.io/metal3-io/cluster-api-provider-metal3:v1.7.2
+            image: registry.rancher.com/rancher/cluster-api-provider-metal3:v1.8.2
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -3676,6 +3781,7 @@ data:
               privileged: false
               runAsGroup: 65532
               runAsUser: 65532
+            terminationMessagePolicy: FallbackToLogsOnError
             volumeMounts:
             - mountPath: /tmp/k8s-webhook-server/serving-certs
               name: cert
@@ -3731,7 +3837,7 @@ data:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            image: quay.io/metal3-io/ip-address-manager:v1.7.2
+            image: quay.io/metal3-io/ip-address-manager:v1.8.1
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -3760,6 +3866,7 @@ data:
               privileged: false
               runAsGroup: 65532
               runAsUser: 65532
+            terminationMessagePolicy: FallbackToLogsOnError
             volumeMounts:
             - mountPath: /tmp/k8s-webhook-server/serving-certs
               name: cert
@@ -3863,6 +3970,28 @@ data:
         - UPDATE
         resources:
         - metal3clusters
+      sideEffects: None
+    - admissionReviewVersions:
+      - v1
+      - v1beta1
+      clientConfig:
+        service:
+          name: capm3-webhook-service
+          namespace: capm3-system
+          path: /mutate-infrastructure-cluster-x-k8s-io-v1beta1-metal3clustertemplate
+      failurePolicy: Fail
+      matchPolicy: Equivalent
+      name: default.metal3clustertemplate.infrastructure.cluster.x-k8s.io
+      rules:
+      - apiGroups:
+        - infrastructure.cluster.x-k8s.io
+        apiVersions:
+        - v1beta1
+        operations:
+        - CREATE
+        - UPDATE
+        resources:
+        - metal3clustertemplates
       sideEffects: None
     - admissionReviewVersions:
       - v1
@@ -4133,6 +4262,28 @@ data:
         service:
           name: capm3-webhook-service
           namespace: capm3-system
+          path: /validate-infrastructure-cluster-x-k8s-io-v1beta1-metal3clustertemplate
+      failurePolicy: Fail
+      matchPolicy: Equivalent
+      name: validation.metal3clustertemplate.infrastructure.cluster.x-k8s.io
+      rules:
+      - apiGroups:
+        - infrastructure.cluster.x-k8s.io
+        apiVersions:
+        - v1beta1
+        operations:
+        - CREATE
+        - UPDATE
+        resources:
+        - metal3clustertemplates
+      sideEffects: None
+    - admissionReviewVersions:
+      - v1
+      - v1beta1
+      clientConfig:
+        service:
+          name: capm3-webhook-service
+          namespace: capm3-system
           path: /validate-infrastructure-cluster-x-k8s-io-v1beta1-metal3data
       failurePolicy: Fail
       matchPolicy: Equivalent
@@ -4361,6 +4512,9 @@ data:
     kind: Metadata
     releaseSeries:
     - major: 1
+      minor: 8
+      contract: v1beta1
+    - major: 1
       minor: 7
       contract: v1beta1
     - major: 1
@@ -4384,7 +4538,7 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v1.7.2
+  name: v1.8.2
   namespace: capm3-system
   labels:
     provider-components: metal3
