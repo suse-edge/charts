@@ -10,7 +10,7 @@
    nodeSelector: {}
    affinity:
      nodeAffinity:
-@@ -24,17 +27,9 @@
+@@ -24,22 +27,13 @@
                  values: [""]
    nameOverride: ""
    fullnameOverride: ""
@@ -18,6 +18,10 @@
 +  resourcePrefix: "rancher.io"
    cniBinPath: "/opt/cni/bin"
    clusterType: "kubernetes"
+   # minimal amount of time (in minutes) the operator will wait before removing
+   # stale SriovNetworkNodeState objects (objects that doesn't match node with the daemon)
+   # "0" means no extra delay, in this case the CR will be removed by the next reconcilation cycle (may take up to 5 minutes)
+   staleNodeStateCleanupDelayMinutes: "30"
 -  metricsExporter:
 -    port: "9110"
 -    certificates:
@@ -26,57 +30,58 @@
 -      enabled: false
 -      serviceAccount: "prometheus-k8s"
 -      namespace: "monitoring"
+-      deployRules: false
    admissionControllers:
      enabled: false
      certificates:
-@@ -85,9 +80,9 @@
+@@ -90,9 +84,9 @@
          #      -----END EC PRIVATE KEY-----
  sriovOperatorConfig:
    # deploy sriovOperatorConfig CR with the below values
 -  deploy: false
 +  deploy: true
-   # node slectors for sriov-network-config-daemon
+   # node selectors for sriov-network-config-daemon
 -  configDaemonNodeSelector: {}
 +  configDaemonNodeSelector: {feature.node.kubernetes.io/network-sriov.capable: 'true'}
    # log level for both operator and sriov-network-config-daemon
    logLevel: 2
    # disable node draining when configuring SR-IOV, set to true in case of a single node
-@@ -99,16 +94,32 @@
+@@ -106,16 +100,32 @@
  supportedExtraNICs: []
  # Image URIs for sriov-network-operator components
  images:
--  operator: ghcr.io/k8snetworkplumbingwg/sriov-network-operator:v1.4.0
--  sriovConfigDaemon: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-config-daemon:v1.4.0
--  sriovCni: ghcr.io/k8snetworkplumbingwg/sriov-cni:v2.8.1
--  ibSriovCni: ghcr.io/k8snetworkplumbingwg/ib-sriov-cni:v1.1.1
--  ovsCni: ghcr.io/k8snetworkplumbingwg/ovs-cni-plugin:v0.34.2
--  rdmaCni: ghcr.io/k8snetworkplumbingwg/rdma-cni:v1.2.0
--  sriovDevicePlugin: ghcr.io/k8snetworkplumbingwg/sriov-network-device-plugin:v3.7.0
--  resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.6.0
--  webhook: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-webhook:v1.4.0
--  metricsExporter: ghcr.io/k8snetworkplumbingwg/sriov-network-metrics-exporter:v1.1.0
+-  operator: ghcr.io/k8snetworkplumbingwg/sriov-network-operator:v1.5.0
+-  sriovConfigDaemon: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-config-daemon:v1.5.0
+-  sriovCni: ghcr.io/k8snetworkplumbingwg/sriov-cni:v2.9.0
+-  ibSriovCni: ghcr.io/k8snetworkplumbingwg/ib-sriov-cni:v1.2.0
+-  ovsCni: ghcr.io/k8snetworkplumbingwg/ovs-cni-plugin:v0.38.0
+-  rdmaCni: ghcr.io/k8snetworkplumbingwg/rdma-cni:v1.2.1
+-  sriovDevicePlugin: ghcr.io/k8snetworkplumbingwg/sriov-network-device-plugin:v3.9.0
+-  resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.1
+-  webhook: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-webhook:v1.5.0
+-  metricsExporter: ghcr.io/k8snetworkplumbingwg/sriov-network-metrics-exporter:v1.1.1
 -  metricsExporterKubeRbacProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.15.0
 +  operator:
 +    repository: rancher/hardened-sriov-network-operator
-+    tag: v1.4.0-build20241113
++    tag: v1.5.0-build20250402
 +  sriovConfigDaemon:
 +    repository: rancher/hardened-sriov-network-config-daemon
-+    tag: v1.4.0-build20241113
++    tag: v1.5.0-build20250402
 +  sriovCni:
 +    repository: rancher/hardened-sriov-cni
-+    tag: v2.8.1-build20241113
++    tag: v2.9.0-build20250402
 +  ibSriovCni: 
 +    repository: rancher/hardened-ib-sriov-cni
-+    tag: v1.1.1-build20241113
++    tag: v1.2.0-build20250402
 +  sriovDevicePlugin: 
 +    repository: rancher/hardened-sriov-network-device-plugin
-+    tag: v3.8.0-build20241114
++    tag: v3.9.0-build20250402
 +  resourcesInjector: 
 +    repository: rancher/hardened-sriov-network-resources-injector
-+    tag: v1.6.0-build20241113
++    tag: v1.7.1-build20250402
 +  webhook:
 +    repository: rancher/hardened-sriov-network-webhook
-+    tag: v1.4.0-build20241113
++    tag: v1.5.0-build20250402
  imagePullSecrets: []
  extraDeploy: []
 +global:
