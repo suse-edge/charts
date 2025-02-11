@@ -22,7 +22,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: rke2-control-plane-system/rke2-control-plane-serving-cert
-        controller-gen.kubebuilder.io/version: v0.14.0
+        controller-gen.kubebuilder.io/version: v0.16.1
       labels:
         cluster.x-k8s.io/provider: control-plane-rke2
         cluster.x-k8s.io/v1beta1: v1alpha1_v1beta1
@@ -154,7 +154,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -300,7 +299,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -418,7 +416,6 @@ data:
                           the event) or if no container name is specified "spec.containers[2]" (container with
                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                           referencing a part of an object.
-                          TODO: this design is not final and this field is subject to change in the future.
                         type: string
                       kind:
                         description: |-
@@ -464,7 +461,6 @@ data:
                           the event) or if no container name is specified "spec.containers[2]" (container with
                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                           referencing a part of an object.
-                          TODO: this design is not final and this field is subject to change in the future.
                         type: string
                       kind:
                         description: |-
@@ -537,7 +533,6 @@ data:
                                     the event) or if no container name is specified "spec.containers[2]" (container with
                                     index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                     referencing a part of an object.
-                                    TODO: this design is not final and this field is subject to change in the future.
                                   type: string
                                 kind:
                                   description: |-
@@ -593,7 +588,6 @@ data:
                                         the event) or if no container name is specified "spec.containers[2]" (container with
                                         index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                         referencing a part of an object.
-                                        TODO: this design is not final and this field is subject to change in the future.
                                       type: string
                                     kind:
                                       description: |-
@@ -727,7 +721,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -804,7 +797,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -935,7 +927,6 @@ data:
                                           the event) or if no container name is specified "spec.containers[2]" (container with
                                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                           referencing a part of an object.
-                                          TODO: this design is not final and this field is subject to change in the future.
                                         type: string
                                       kind:
                                         description: |-
@@ -980,6 +971,7 @@ data:
                                     description: |-
                                       S3CredentialSecret is a reference to a Secret containing the Access Key and Secret Key necessary to access the target S3 Bucket.
                                       The Secret must contain the following keys: "aws_access_key_id" and "aws_secret_access_key".
+                                      If empty, the controller will default to IAM authentication
                                     properties:
                                       apiVersion:
                                         description: API version of the referent.
@@ -993,7 +985,6 @@ data:
                                           the event) or if no container name is specified "spec.containers[2]" (container with
                                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                           referencing a part of an object.
-                                          TODO: this design is not final and this field is subject to change in the future.
                                         type: string
                                       kind:
                                         description: |-
@@ -1024,7 +1015,6 @@ data:
                                     x-kubernetes-map-type: atomic
                                 required:
                                 - endpoint
-                                - s3CredentialSecret
                                 type: object
                               scheduleCron:
                                 description: 'ScheduleCron Snapshot interval time in cron
@@ -1201,20 +1191,20 @@ data:
                           description: |-
                             The reason for the condition's last transition in CamelCase.
                             The specific API may choose whether or not this field is considered a guaranteed API.
-                            This field may not be empty.
+                            This field may be empty.
                           type: string
                         severity:
                           description: |-
-                            Severity provides an explicit classification of Reason code, so the users or machines can immediately
+                            severity provides an explicit classification of Reason code, so the users or machines can immediately
                             understand the current situation and act accordingly.
                             The Severity field MUST be set only when Status=False.
                           type: string
                         status:
-                          description: Status of the condition, one of True, False, Unknown.
+                          description: status of the condition, one of True, False, Unknown.
                           type: string
                         type:
                           description: |-
-                            Type of condition in CamelCase or in foo.example.com/CamelCase.
+                            type of condition in CamelCase or in foo.example.com/CamelCase.
                             Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
                             can be useful (see .node.status.conditions), the ability to deconflict is important.
                           type: string
@@ -1387,7 +1377,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -1538,7 +1527,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -1640,6 +1628,7 @@ data:
                     description: |-
                       InfrastructureRef is a required reference to a custom resource
                       offered by an infrastructure provider.
+                      This field is deprecated. Use `.machineTemplate.infrastructureRef` instead.
                     properties:
                       apiVersion:
                         description: API version of the referent.
@@ -1653,7 +1642,6 @@ data:
                           the event) or if no container name is specified "spec.containers[2]" (container with
                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                           referencing a part of an object.
-                          TODO: this design is not final and this field is subject to change in the future.
                         type: string
                       kind:
                         description: |-
@@ -1704,7 +1692,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -1742,7 +1729,7 @@ data:
                             additionalProperties:
                               type: string
                             description: |-
-                              Annotations is an unstructured key value map stored with a resource that may be
+                              annotations is an unstructured key value map stored with a resource that may be
                               set by external tools to store and retrieve arbitrary metadata. They are not
                               queryable and should be preserved when modifying objects.
                               More info: http://kubernetes.io/docs/user-guide/annotations
@@ -1783,7 +1770,6 @@ data:
                           the event) or if no container name is specified "spec.containers[2]" (container with
                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                           referencing a part of an object.
-                          TODO: this design is not final and this field is subject to change in the future.
                         type: string
                       kind:
                         description: |-
@@ -1817,6 +1803,7 @@ data:
                       NodeDrainTimeout is the total amount of time that the controller will spend on draining a controlplane node
                       The default value is 0, meaning that the node can be drained without any time limitations.
                       NOTE: NodeDrainTimeout is different from `kubectl drain --timeout`
+                      This field is deprecated. Use `.machineTemplate.nodeDrainTimeout` instead.
                     type: string
                   postRKE2Commands:
                     description: PostRKE2Commands specifies extra commands to run after
@@ -1856,7 +1843,6 @@ data:
                                     the event) or if no container name is specified "spec.containers[2]" (container with
                                     index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                     referencing a part of an object.
-                                    TODO: this design is not final and this field is subject to change in the future.
                                   type: string
                                 kind:
                                   description: |-
@@ -1912,7 +1898,6 @@ data:
                                         the event) or if no container name is specified "spec.containers[2]" (container with
                                         index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                         referencing a part of an object.
-                                        TODO: this design is not final and this field is subject to change in the future.
                                       type: string
                                     kind:
                                       description: |-
@@ -2043,7 +2028,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -2120,7 +2104,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -2251,7 +2234,6 @@ data:
                                           the event) or if no container name is specified "spec.containers[2]" (container with
                                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                           referencing a part of an object.
-                                          TODO: this design is not final and this field is subject to change in the future.
                                         type: string
                                       kind:
                                         description: |-
@@ -2296,6 +2278,7 @@ data:
                                     description: |-
                                       S3CredentialSecret is a reference to a Secret containing the Access Key and Secret Key necessary to access the target S3 Bucket.
                                       The Secret must contain the following keys: "aws_access_key_id" and "aws_secret_access_key".
+                                      If empty, the controller will default to IAM authentication
                                     properties:
                                       apiVersion:
                                         description: API version of the referent.
@@ -2309,7 +2292,6 @@ data:
                                           the event) or if no container name is specified "spec.containers[2]" (container with
                                           index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                           referencing a part of an object.
-                                          TODO: this design is not final and this field is subject to change in the future.
                                         type: string
                                       kind:
                                         description: |-
@@ -2340,7 +2322,6 @@ data:
                                     x-kubernetes-map-type: atomic
                                 required:
                                 - endpoint
-                                - s3CredentialSecret
                                 type: object
                               scheduleCron:
                                 description: 'ScheduleCron Snapshot interval time in cron
@@ -2490,7 +2471,6 @@ data:
                     pattern: (v\d\.\d{2}\.\d+\+rke2r\d)|^$
                     type: string
                 required:
-                - infrastructureRef
                 - rolloutStrategy
                 type: object
               status:
@@ -2524,20 +2504,20 @@ data:
                           description: |-
                             The reason for the condition's last transition in CamelCase.
                             The specific API may choose whether or not this field is considered a guaranteed API.
-                            This field may not be empty.
+                            This field may be empty.
                           type: string
                         severity:
                           description: |-
-                            Severity provides an explicit classification of Reason code, so the users or machines can immediately
+                            severity provides an explicit classification of Reason code, so the users or machines can immediately
                             understand the current situation and act accordingly.
                             The Severity field MUST be set only when Status=False.
                           type: string
                         status:
-                          description: Status of the condition, one of True, False, Unknown.
+                          description: status of the condition, one of True, False, Unknown.
                           type: string
                         type:
                           description: |-
-                            Type of condition in CamelCase or in foo.example.com/CamelCase.
+                            type of condition in CamelCase or in foo.example.com/CamelCase.
                             Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
                             can be useful (see .node.status.conditions), the ability to deconflict is important.
                           type: string
@@ -2609,7 +2589,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: rke2-control-plane-system/rke2-control-plane-serving-cert
-        controller-gen.kubebuilder.io/version: v0.14.0
+        controller-gen.kubebuilder.io/version: v0.16.1
       labels:
         cluster.x-k8s.io/provider: control-plane-rke2
         cluster.x-k8s.io/v1beta1: v1alpha1_v1beta1
@@ -2796,7 +2776,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -2955,7 +2934,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -3058,6 +3036,7 @@ data:
                             description: |-
                               InfrastructureRef is a required reference to a custom resource
                               offered by an infrastructure provider.
+                              This field is deprecated. Use `.machineTemplate.infrastructureRef` instead.
                             properties:
                               apiVersion:
                                 description: API version of the referent.
@@ -3071,7 +3050,6 @@ data:
                                   the event) or if no container name is specified "spec.containers[2]" (container with
                                   index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                   referencing a part of an object.
-                                  TODO: this design is not final and this field is subject to change in the future.
                                 type: string
                               kind:
                                 description: |-
@@ -3122,7 +3100,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -3160,7 +3137,7 @@ data:
                                     additionalProperties:
                                       type: string
                                     description: |-
-                                      Annotations is an unstructured key value map stored with a resource that may be
+                                      annotations is an unstructured key value map stored with a resource that may be
                                       set by external tools to store and retrieve arbitrary metadata. They are not
                                       queryable and should be preserved when modifying objects.
                                       More info: http://kubernetes.io/docs/user-guide/annotations
@@ -3201,7 +3178,6 @@ data:
                                   the event) or if no container name is specified "spec.containers[2]" (container with
                                   index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                   referencing a part of an object.
-                                  TODO: this design is not final and this field is subject to change in the future.
                                 type: string
                               kind:
                                 description: |-
@@ -3235,6 +3211,7 @@ data:
                               NodeDrainTimeout is the total amount of time that the controller will spend on draining a controlplane node
                               The default value is 0, meaning that the node can be drained without any time limitations.
                               NOTE: NodeDrainTimeout is different from `kubectl drain --timeout`
+                              This field is deprecated. Use `.machineTemplate.nodeDrainTimeout` instead.
                             type: string
                           postRKE2Commands:
                             description: PostRKE2Commands specifies extra commands to
@@ -3275,7 +3252,6 @@ data:
                                             the event) or if no container name is specified "spec.containers[2]" (container with
                                             index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                             referencing a part of an object.
-                                            TODO: this design is not final and this field is subject to change in the future.
                                           type: string
                                         kind:
                                           description: |-
@@ -3331,7 +3307,6 @@ data:
                                                 the event) or if no container name is specified "spec.containers[2]" (container with
                                                 index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                                 referencing a part of an object.
-                                                TODO: this design is not final and this field is subject to change in the future.
                                               type: string
                                             kind:
                                               description: |-
@@ -3466,7 +3441,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -3545,7 +3519,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -3679,7 +3652,6 @@ data:
                                                   the event) or if no container name is specified "spec.containers[2]" (container with
                                                   index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                                   referencing a part of an object.
-                                                  TODO: this design is not final and this field is subject to change in the future.
                                                 type: string
                                               kind:
                                                 description: |-
@@ -3724,6 +3696,7 @@ data:
                                             description: |-
                                               S3CredentialSecret is a reference to a Secret containing the Access Key and Secret Key necessary to access the target S3 Bucket.
                                               The Secret must contain the following keys: "aws_access_key_id" and "aws_secret_access_key".
+                                              If empty, the controller will default to IAM authentication
                                             properties:
                                               apiVersion:
                                                 description: API version of the referent.
@@ -3737,7 +3710,6 @@ data:
                                                   the event) or if no container name is specified "spec.containers[2]" (container with
                                                   index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                                   referencing a part of an object.
-                                                  TODO: this design is not final and this field is subject to change in the future.
                                                 type: string
                                               kind:
                                                 description: |-
@@ -3768,7 +3740,6 @@ data:
                                             x-kubernetes-map-type: atomic
                                         required:
                                         - endpoint
-                                        - s3CredentialSecret
                                         type: object
                                       scheduleCron:
                                         description: 'ScheduleCron Snapshot interval time
@@ -3927,7 +3898,6 @@ data:
                             pattern: (v\d\.\d{2}\.\d+\+rke2r\d)|^$
                             type: string
                         required:
-                        - infrastructureRef
                         - rolloutStrategy
                         type: object
                     required:
@@ -3967,20 +3937,20 @@ data:
                           description: |-
                             The reason for the condition's last transition in CamelCase.
                             The specific API may choose whether or not this field is considered a guaranteed API.
-                            This field may not be empty.
+                            This field may be empty.
                           type: string
                         severity:
                           description: |-
-                            Severity provides an explicit classification of Reason code, so the users or machines can immediately
+                            severity provides an explicit classification of Reason code, so the users or machines can immediately
                             understand the current situation and act accordingly.
                             The Severity field MUST be set only when Status=False.
                           type: string
                         status:
-                          description: Status of the condition, one of True, False, Unknown.
+                          description: status of the condition, one of True, False, Unknown.
                           type: string
                         type:
                           description: |-
-                            Type of condition in CamelCase or in foo.example.com/CamelCase.
+                            type of condition in CamelCase or in foo.example.com/CamelCase.
                             Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
                             can be useful (see .node.status.conditions), the ability to deconflict is important.
                           type: string
@@ -4293,7 +4263,7 @@ data:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.9.0
+            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.11.0
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -4348,7 +4318,7 @@ data:
           volumes:
           - name: cert
             secret:
-              secretName: rke2-control-plane-webhook-service-cert
+              secretName: rke2-controlplane-webhook-service-cert
     ---
     apiVersion: cert-manager.io/v1
     kind: Certificate
@@ -4364,7 +4334,7 @@ data:
       issuerRef:
         kind: Issuer
         name: rke2-control-plane-selfsigned-issuer
-      secretName: rke2-control-plane-webhook-service-cert
+      secretName: rke2-controlplane-webhook-service-cert
       subject:
         organizations:
         - Rancher by SUSE
@@ -4514,10 +4484,16 @@ data:
       - major: 0
         minor: 9
         contract: v1beta1
+      - major: 0
+        minor: 10
+        contract: v1beta1
+      - major: 0
+        minor: 11
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.9.0
+  name: v0.11.0
   namespace: rke2-control-plane-system
   labels:
     provider-components: rke2-control-plane

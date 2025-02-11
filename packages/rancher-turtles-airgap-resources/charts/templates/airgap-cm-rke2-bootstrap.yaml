@@ -22,7 +22,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: rke2-bootstrap-system/rke2-bootstrap-serving-cert
-        controller-gen.kubebuilder.io/version: v0.14.0
+        controller-gen.kubebuilder.io/version: v0.16.1
       labels:
         cluster.x-k8s.io/provider: bootstrap-rke2
         cluster.x-k8s.io/v1beta1: v1alpha1_v1beta1
@@ -154,7 +154,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -300,7 +299,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -439,7 +437,6 @@ data:
                                     the event) or if no container name is specified "spec.containers[2]" (container with
                                     index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                     referencing a part of an object.
-                                    TODO: this design is not final and this field is subject to change in the future.
                                   type: string
                                 kind:
                                   description: |-
@@ -495,7 +492,6 @@ data:
                                         the event) or if no container name is specified "spec.containers[2]" (container with
                                         index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                         referencing a part of an object.
-                                        TODO: this design is not final and this field is subject to change in the future.
                                       type: string
                                     kind:
                                       description: |-
@@ -582,20 +578,20 @@ data:
                           description: |-
                             The reason for the condition's last transition in CamelCase.
                             The specific API may choose whether or not this field is considered a guaranteed API.
-                            This field may not be empty.
+                            This field may be empty.
                           type: string
                         severity:
                           description: |-
-                            Severity provides an explicit classification of Reason code, so the users or machines can immediately
+                            severity provides an explicit classification of Reason code, so the users or machines can immediately
                             understand the current situation and act accordingly.
                             The Severity field MUST be set only when Status=False.
                           type: string
                         status:
-                          description: Status of the condition, one of True, False, Unknown.
+                          description: status of the condition, one of True, False, Unknown.
                           type: string
                         type:
                           description: |-
-                            Type of condition in CamelCase or in foo.example.com/CamelCase.
+                            type of condition in CamelCase or in foo.example.com/CamelCase.
                             Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
                             can be useful (see .node.status.conditions), the ability to deconflict is important.
                           type: string
@@ -742,7 +738,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -893,7 +888,6 @@ data:
                               the event) or if no container name is specified "spec.containers[2]" (container with
                               index 2 in this pod). This syntax is chosen only to have some well-defined way of
                               referencing a part of an object.
-                              TODO: this design is not final and this field is subject to change in the future.
                             type: string
                           kind:
                             description: |-
@@ -1029,7 +1023,6 @@ data:
                                     the event) or if no container name is specified "spec.containers[2]" (container with
                                     index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                     referencing a part of an object.
-                                    TODO: this design is not final and this field is subject to change in the future.
                                   type: string
                                 kind:
                                   description: |-
@@ -1085,7 +1078,6 @@ data:
                                         the event) or if no container name is specified "spec.containers[2]" (container with
                                         index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                         referencing a part of an object.
-                                        TODO: this design is not final and this field is subject to change in the future.
                                       type: string
                                     kind:
                                       description: |-
@@ -1172,20 +1164,20 @@ data:
                           description: |-
                             The reason for the condition's last transition in CamelCase.
                             The specific API may choose whether or not this field is considered a guaranteed API.
-                            This field may not be empty.
+                            This field may be empty.
                           type: string
                         severity:
                           description: |-
-                            Severity provides an explicit classification of Reason code, so the users or machines can immediately
+                            severity provides an explicit classification of Reason code, so the users or machines can immediately
                             understand the current situation and act accordingly.
                             The Severity field MUST be set only when Status=False.
                           type: string
                         status:
-                          description: Status of the condition, one of True, False, Unknown.
+                          description: status of the condition, one of True, False, Unknown.
                           type: string
                         type:
                           description: |-
-                            Type of condition in CamelCase or in foo.example.com/CamelCase.
+                            type of condition in CamelCase or in foo.example.com/CamelCase.
                             Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
                             can be useful (see .node.status.conditions), the ability to deconflict is important.
                           type: string
@@ -1226,7 +1218,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: rke2-bootstrap-system/rke2-bootstrap-serving-cert
-        controller-gen.kubebuilder.io/version: v0.14.0
+        controller-gen.kubebuilder.io/version: v0.16.1
       labels:
         cluster.x-k8s.io/provider: bootstrap-rke2
         cluster.x-k8s.io/v1beta1: v1alpha1_v1beta1
@@ -1369,7 +1361,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -1523,7 +1514,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -1664,7 +1654,6 @@ data:
                                             the event) or if no container name is specified "spec.containers[2]" (container with
                                             index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                             referencing a part of an object.
-                                            TODO: this design is not final and this field is subject to change in the future.
                                           type: string
                                         kind:
                                           description: |-
@@ -1720,7 +1709,6 @@ data:
                                                 the event) or if no container name is specified "spec.containers[2]" (container with
                                                 index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                                 referencing a part of an object.
-                                                TODO: this design is not final and this field is subject to change in the future.
                                               type: string
                                             kind:
                                               description: |-
@@ -1920,7 +1908,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -2079,7 +2066,6 @@ data:
                                       the event) or if no container name is specified "spec.containers[2]" (container with
                                       index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                       referencing a part of an object.
-                                      TODO: this design is not final and this field is subject to change in the future.
                                     type: string
                                   kind:
                                     description: |-
@@ -2217,7 +2203,6 @@ data:
                                             the event) or if no container name is specified "spec.containers[2]" (container with
                                             index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                             referencing a part of an object.
-                                            TODO: this design is not final and this field is subject to change in the future.
                                           type: string
                                         kind:
                                           description: |-
@@ -2273,7 +2258,6 @@ data:
                                                 the event) or if no container name is specified "spec.containers[2]" (container with
                                                 index 2 in this pod). This syntax is chosen only to have some well-defined way of
                                                 referencing a part of an object.
-                                                TODO: this design is not final and this field is subject to change in the future.
                                               type: string
                                             kind:
                                               description: |-
@@ -2543,7 +2527,7 @@ data:
             - --insecure-diagnostics=${CAPRKE2_INSECURE_DIAGNOSTICS:=false}
             command:
             - /manager
-            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.9.0
+            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.11.0
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -2757,10 +2741,16 @@ data:
       - major: 0
         minor: 9
         contract: v1beta1
+      - major: 0
+        minor: 10
+        contract: v1beta1
+      - major: 0
+        minor: 11
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.9.0
+  name: v0.11.0
   namespace: rke2-bootstrap-system
   labels:
     provider-components: rke2-bootstrap

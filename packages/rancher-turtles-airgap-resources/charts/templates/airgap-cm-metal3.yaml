@@ -22,7 +22,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/ipam-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1alpha2: v1alpha2
@@ -72,14 +72,19 @@ data:
             description: IPAddress is the Schema for the ipaddresses API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -97,33 +102,39 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -145,33 +156,39 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -194,7 +211,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/ipam-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1alpha2: v1alpha2
@@ -244,14 +261,19 @@ data:
             description: IPClaim is the Schema for the ipclaims API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -265,33 +287,39 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -309,33 +337,39 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -354,7 +388,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/ipam-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1alpha2: v1alpha2
@@ -408,14 +442,19 @@ data:
             description: IPPool is the Schema for the ippools API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -445,8 +484,9 @@ data:
                   pools:
                     description: Pools contains the list of IP addresses pools
                     items:
-                      description: MetaDataIPAddress contains the info to render th ip
-                        address. It is IP-version agnostic.
+                      description: |-
+                        MetaDataIPAddress contains the info to render th ip address. It is IP-version
+                        agnostic.
                       properties:
                         dnsServers:
                           description: DNSServers is the list of dns servers
@@ -456,8 +496,9 @@ data:
                             type: string
                           type: array
                         end:
-                          description: End is the last IP address that can be rendered.
-                            It is used as a validation that the rendered IP is in bound.
+                          description: |-
+                            End is the last IP address that can be rendered. It is used as a validation
+                            that the rendered IP is in bound.
                           pattern: ((^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$)|(^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))$))
                           type: string
                         gateway:
@@ -474,10 +515,10 @@ data:
                           pattern: ((^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$)|(^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))$))
                           type: string
                         subnet:
-                          description: Subnet is used to validate that the rendered IP
-                            is in bounds. In case the Start value is not given, it is
-                            derived from the subnet ip incremented by 1 (`192.168.0.1`
-                            for `192.168.0.0/24`)
+                          description: |-
+                            Subnet is used to validate that the rendered IP is in bounds. In case the
+                            Start value is not given, it is derived from the subnet ip incremented by 1
+                            (`192.168.0.1` for `192.168.0.0/24`)
                           pattern: ((^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))/([0-9]|[1-2][0-9]|3[0-2])$)|(^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))/([0-9]|[0-9][0-9]|1[0-1][0-9]|12[0-8])$))
                           type: string
                       type: object
@@ -523,7 +564,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -583,14 +624,19 @@ data:
             description: Metal3Cluster is the Schema for the metal3clusters API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -612,11 +658,10 @@ data:
                     - port
                     type: object
                   noCloudProvider:
-                    description: Determines if the cluster is not to be deployed with
-                      an external cloud provider. If set to true, CAPM3 will use node
-                      labels to set providerID on the kubernetes nodes. If set to false,
-                      providerID is set on nodes by other entities and CAPM3 uses the
-                      value of the providerID on the m3m resource.
+                    description: |-
+                      Determines if the cluster is not to be deployed with an external cloud provider.
+                      If set to true, CAPM3 will use node labels to set providerID on the kubernetes nodes.
+                      If set to false, providerID is set on nodes by other entities and CAPM3 uses the value of the providerID on the m3m resource.
                     type: boolean
                 type: object
               status:
@@ -629,37 +674,37 @@ data:
                         operational state.
                       properties:
                         lastTransitionTime:
-                          description: Last time the condition transitioned from one status
-                            to another. This should be when the underlying condition changed.
-                            If that is not known, then using the time when the API field
-                            changed is acceptable.
+                          description: |-
+                            Last time the condition transitioned from one status to another.
+                            This should be when the underlying condition changed. If that is not known, then using the time when
+                            the API field changed is acceptable.
                           format: date-time
                           type: string
                         message:
-                          description: A human readable message indicating details about
-                            the transition. This field may be empty.
+                          description: |-
+                            A human readable message indicating details about the transition.
+                            This field may be empty.
                           type: string
                         reason:
-                          description: The reason for the condition's last transition
-                            in CamelCase. The specific API may choose whether or not this
-                            field is considered a guaranteed API. This field may not be
-                            empty.
+                          description: |-
+                            The reason for the condition's last transition in CamelCase.
+                            The specific API may choose whether or not this field is considered a guaranteed API.
+                            This field may be empty.
                           type: string
                         severity:
-                          description: Severity provides an explicit classification of
-                            Reason code, so the users or machines can immediately understand
-                            the current situation and act accordingly. The Severity field
-                            MUST be set only when Status=False.
+                          description: |-
+                            severity provides an explicit classification of Reason code, so the users or machines can immediately
+                            understand the current situation and act accordingly.
+                            The Severity field MUST be set only when Status=False.
                           type: string
                         status:
-                          description: Status of the condition, one of True, False, Unknown.
+                          description: status of the condition, one of True, False, Unknown.
                           type: string
                         type:
-                          description: Type of condition in CamelCase or in foo.example.com/CamelCase.
-                            Many .condition.type values are consistent across resources
-                            like Available, but because arbitrary conditions can be useful
-                            (see .node.status.conditions), the ability to deconflict is
-                            important.
+                          description: |-
+                            type of condition in CamelCase or in foo.example.com/CamelCase.
+                            Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
+                            can be useful (see .node.status.conditions), the ability to deconflict is important.
                           type: string
                       required:
                       - lastTransitionTime
@@ -668,23 +713,26 @@ data:
                       type: object
                     type: array
                   failureMessage:
-                    description: FailureMessage indicates that there is a fatal problem
-                      reconciling the state, and will be set to a descriptive error message.
+                    description: |-
+                      FailureMessage indicates that there is a fatal problem reconciling the
+                      state, and will be set to a descriptive error message.
                     type: string
                   failureReason:
-                    description: FailureReason indicates that there is a fatal problem
-                      reconciling the state, and will be set to a token value suitable
-                      for programmatic interpretation.
+                    description: |-
+                      FailureReason indicates that there is a fatal problem reconciling the
+                      state, and will be set to a token value suitable for
+                      programmatic interpretation.
                     type: string
                   lastUpdated:
                     description: LastUpdated identifies when this status was last observed.
                     format: date-time
                     type: string
                   ready:
-                    description: Ready denotes that the Metal3 cluster (infrastructure)
-                      is ready. In Baremetal case, it does not mean anything for now as
-                      no infrastructure steps need to be performed. Required by Cluster
-                      API. Set to True by the metal3Cluster controller after creation.
+                    description: |-
+                      Ready denotes that the Metal3 cluster (infrastructure) is ready. In
+                      Baremetal case, it does not mean anything for now as no infrastructure
+                      steps need to be performed. Required by Cluster API. Set to True by the
+                      metal3Cluster controller after creation.
                     type: boolean
                 type: object
             type: object
@@ -698,7 +746,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -723,14 +771,19 @@ data:
               API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -761,11 +814,10 @@ data:
                             - port
                             type: object
                           noCloudProvider:
-                            description: Determines if the cluster is not to be deployed
-                              with an external cloud provider. If set to true, CAPM3 will
-                              use node labels to set providerID on the kubernetes nodes.
-                              If set to false, providerID is set on nodes by other entities
-                              and CAPM3 uses the value of the providerID on the m3m resource.
+                            description: |-
+                              Determines if the cluster is not to be deployed with an external cloud provider.
+                              If set to true, CAPM3 will use node labels to set providerID on the kubernetes nodes.
+                              If set to false, providerID is set on nodes by other entities and CAPM3 uses the value of the providerID on the m3m resource.
                             type: boolean
                         type: object
                     required:
@@ -783,7 +835,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -827,14 +879,19 @@ data:
             description: Metal3DataClaim is the Schema for the metal3datas API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -849,33 +906,39 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -895,33 +958,39 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -938,7 +1007,7 @@ data:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
         clusterctl.cluster.x-k8s.io/skip-crd-name-preflight-check: ""
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -982,14 +1051,19 @@ data:
             description: Metal3Data is the Schema for the metal3datas API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -1004,33 +1078,39 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
@@ -1072,40 +1152,47 @@ data:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
                   templateReference:
-                    description: TemplateReference refers to the Template the Metal3MachineTemplate
-                      refers to. It can be matched against the key or it may also point
-                      to the name of the template Metal3Data refers to
+                    description: |-
+                      TemplateReference refers to the Template the Metal3MachineTemplate refers to.
+                      It can be matched against the key or it may also point to the name of the template
+                      Metal3Data refers to
                     type: string
                 required:
                 - claim
@@ -1133,7 +1220,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -1182,14 +1269,19 @@ data:
               API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -1232,12 +1324,13 @@ data:
                           type: object
                         type: array
                       fromAnnotations:
-                        description: FromAnnotations is the list of metadata items to
-                          be fetched from object Annotations
+                        description: |-
+                          FromAnnotations is the list of metadata items to be fetched from object
+                          Annotations
                         items:
-                          description: MetaDataFromAnnotation contains the information
-                            to fetch an annotation content, if the label does not exist,
-                            it is rendered as empty string.
+                          description: |-
+                            MetaDataFromAnnotation contains the information to fetch an annotation
+                            content, if the label does not exist, it is rendered as empty string.
                           properties:
                             annotation:
                               description: Annotation is the key of the Annotation to
@@ -1262,16 +1355,17 @@ data:
                           type: object
                         type: array
                       fromHostInterfaces:
-                        description: FromHostInterfaces is the list of metadata items
-                          to be rendered as MAC addresses of the host interfaces.
+                        description: |-
+                          FromHostInterfaces is the list of metadata items to be rendered as MAC
+                          addresses of the host interfaces.
                         items:
                           description: MetaDataHostInterface contains the information
                             to render the object name.
                           properties:
                             interface:
-                              description: Interface is the name of the interface in the
-                                BareMetalHost Status Hardware Details list of interfaces
-                                from which to fetch the MAC address.
+                              description: |-
+                                Interface is the name of the interface in the BareMetalHost Status Hardware
+                                Details list of interfaces from which to fetch the MAC address.
                               type: string
                             key:
                               description: Key will be used as the key to set in the metadata
@@ -1286,9 +1380,9 @@ data:
                         description: FromLabels is the list of metadata items to be fetched
                           from object labels
                         items:
-                          description: MetaDataFromLabel contains the information to fetch
-                            a label content, if the label does not exist, it is rendered
-                            as empty string.
+                          description: |-
+                            MetaDataFromLabel contains the information to fetch a label content, if the
+                            label does not exist, it is rendered as empty string.
                           properties:
                             key:
                               description: Key will be used as the key to set in the metadata
@@ -1338,8 +1432,9 @@ data:
                           type: object
                         type: array
                       indexes:
-                        description: Indexes is the list of metadata items to be rendered
-                          from the index of the Metal3Data
+                        description: |-
+                          Indexes is the list of metadata items to be rendered from the index of the
+                          Metal3Data
                         items:
                           description: MetaDataIndex contains the information to render
                             the index.
@@ -1408,8 +1503,9 @@ data:
                           type: object
                         type: array
                       objectNames:
-                        description: ObjectNames is the list of metadata items to be rendered
-                          from the name of objects.
+                        description: |-
+                          ObjectNames is the list of metadata items to be rendered from the name
+                          of objects.
                         items:
                           description: MetaDataObjectName contains the information to
                             render the object name.
@@ -1478,8 +1574,9 @@ data:
                         type: array
                     type: object
                   networkData:
-                    description: NetworkData contains the information needed to generate
-                      the networkdata secret
+                    description: |-
+                      NetworkData contains the information needed to generate the networkdata
+                      secret
                     properties:
                       links:
                         description: Links is a structure containing lists of different
@@ -1498,9 +1595,9 @@ data:
                                     type: string
                                   type: array
                                 bondMode:
-                                  description: BondMode is the mode of bond used. It can
-                                    be one of balance-rr, active-backup, balance-xor,
-                                    broadcast, balance-tlb, balance-alb, 802.3ad
+                                  description: |-
+                                    BondMode is the mode of bond used. It can be one of
+                                    balance-rr, active-backup, balance-xor, broadcast, balance-tlb, balance-alb, 802.3ad
                                   enum:
                                   - balance-rr
                                   - active-backup
@@ -1523,12 +1620,14 @@ data:
                                     naming)
                                   type: string
                                 macAddress:
-                                  description: MACAddress is the MAC address of the interface,
-                                    containing the object used to render it.
+                                  description: |-
+                                    MACAddress is the MAC address of the interface, containing the object
+                                    used to render it.
                                   properties:
                                     fromAnnotation:
-                                      description: FromAnnotation references an object
-                                        Annotation to retrieve the MAC address from
+                                      description: |-
+                                        FromAnnotation references an object Annotation to retrieve the
+                                        MAC address from
                                       properties:
                                         annotation:
                                           description: Annotation is the key of the Annotation
@@ -1547,9 +1646,9 @@ data:
                                       - object
                                       type: object
                                     fromHostInterface:
-                                      description: FromHostInterface contains the name
-                                        of the interface in the BareMetalHost Introspection
-                                        details from which to fetch the MAC address
+                                      description: |-
+                                        FromHostInterface contains the name of the interface in the BareMetalHost
+                                        Introspection details from which to fetch the MAC address
                                       type: string
                                     string:
                                       description: String contains the MAC address given
@@ -1578,12 +1677,14 @@ data:
                                     naming)
                                   type: string
                                 macAddress:
-                                  description: MACAddress is the MAC address of the interface,
-                                    containing the object used to render it.
+                                  description: |-
+                                    MACAddress is the MAC address of the interface, containing the object
+                                    used to render it.
                                   properties:
                                     fromAnnotation:
-                                      description: FromAnnotation references an object
-                                        Annotation to retrieve the MAC address from
+                                      description: |-
+                                        FromAnnotation references an object Annotation to retrieve the
+                                        MAC address from
                                       properties:
                                         annotation:
                                           description: Annotation is the key of the Annotation
@@ -1602,9 +1703,9 @@ data:
                                       - object
                                       type: object
                                     fromHostInterface:
-                                      description: FromHostInterface contains the name
-                                        of the interface in the BareMetalHost Introspection
-                                        details from which to fetch the MAC address
+                                      description: |-
+                                        FromHostInterface contains the name of the interface in the BareMetalHost
+                                        Introspection details from which to fetch the MAC address
                                       type: string
                                     string:
                                       description: String contains the MAC address given
@@ -1617,9 +1718,9 @@ data:
                                   maximum: 9000
                                   type: integer
                                 type:
-                                  description: 'Type is the type of the ethernet link.
-                                    It can be one of: bridge, dvs, hw_veb, hyperv, ovs,
-                                    tap, vhostuser, vif, phy'
+                                  description: |-
+                                    Type is the type of the ethernet link. It can be one of:
+                                    bridge, dvs, hw_veb, hyperv, ovs, tap, vhostuser, vif, phy
                                   enum:
                                   - bridge
                                   - dvs
@@ -1648,12 +1749,14 @@ data:
                                     naming)
                                   type: string
                                 macAddress:
-                                  description: MACAddress is the MAC address of the interface,
-                                    containing the object used to render it.
+                                  description: |-
+                                    MACAddress is the MAC address of the interface, containing the object
+                                    used to render it.
                                   properties:
                                     fromAnnotation:
-                                      description: FromAnnotation references an object
-                                        Annotation to retrieve the MAC address from
+                                      description: |-
+                                        FromAnnotation references an object Annotation to retrieve the
+                                        MAC address from
                                       properties:
                                         annotation:
                                           description: Annotation is the key of the Annotation
@@ -1672,9 +1775,9 @@ data:
                                       - object
                                       type: object
                                     fromHostInterface:
-                                      description: FromHostInterface contains the name
-                                        of the interface in the BareMetalHost Introspection
-                                        details from which to fetch the MAC address
+                                      description: |-
+                                        FromHostInterface contains the name of the interface in the BareMetalHost
+                                        Introspection details from which to fetch the MAC address
                                       type: string
                                     string:
                                       description: String contains the MAC address given
@@ -1717,9 +1820,9 @@ data:
                                     to allocate an address from.
                                   properties:
                                     apiGroup:
-                                      description: APIGroup is the group for the resource
-                                        being referenced. If APIGroup is not specified,
-                                        the specified Kind must be in the core API group.
+                                      description: |-
+                                        APIGroup is the group for the resource being referenced.
+                                        If APIGroup is not specified, the specified Kind must be in the core API group.
                                         For any other third-party types, APIGroup is required.
                                       type: string
                                     kind:
@@ -1878,9 +1981,9 @@ data:
                                     to allocate an address from.
                                   properties:
                                     apiGroup:
-                                      description: APIGroup is the group for the resource
-                                        being referenced. If APIGroup is not specified,
-                                        the specified Kind must be in the core API group.
+                                      description: |-
+                                        APIGroup is the group for the resource being referenced.
+                                        If APIGroup is not specified, the specified Kind must be in the core API group.
                                         For any other third-party types, APIGroup is required.
                                       type: string
                                     kind:
@@ -2115,9 +2218,10 @@ data:
                         type: object
                     type: object
                   templateReference:
-                    description: TemplateReference refers to the Template the Metal3MachineTemplate
-                      refers to. It can be matched against the key or it may also point
-                      to the name of the template Metal3Data refers to
+                    description: |-
+                      TemplateReference refers to the Template the Metal3MachineTemplate refers to.
+                      It can be matched against the key or it may also point to the name of the template
+                      Metal3Data refers to
                     type: string
                 required:
                 - clusterName
@@ -2146,7 +2250,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -2206,14 +2310,19 @@ data:
             description: Metal3Machine is the Schema for the metal3machines API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -2221,8 +2330,9 @@ data:
                 description: Metal3MachineSpec defines the desired state of Metal3Machine.
                 properties:
                   automatedCleaningMode:
-                    description: When set to disabled, automated cleaning of host disks
-                      will be skipped during provisioning and deprovisioning.
+                    description: |-
+                      When set to disabled, automated cleaning of host disks will be skipped
+                      during provisioning and deprovisioning.
                     enum:
                     - metadata
                     - disabled
@@ -2231,57 +2341,65 @@ data:
                     description: A custom deploy procedure.
                     properties:
                       method:
-                        description: Custom deploy method name. This name is specific
-                          to the deploy ramdisk used. If you don't have a custom deploy
-                          ramdisk, you shouldn't use CustomDeploy.
+                        description: |-
+                          Custom deploy method name.
+                          This name is specific to the deploy ramdisk used. If you don't have
+                          a custom deploy ramdisk, you shouldn't use CustomDeploy.
                         type: string
                     required:
                     - method
                     type: object
                   dataTemplate:
-                    description: MetadataTemplate is a reference to a Metal3DataTemplate
-                      object containing a template of metadata to be rendered. Metadata
-                      keys defined in the metadataTemplate take precedence over keys defined
-                      in metadata field.
+                    description: |-
+                      MetadataTemplate is a reference to a Metal3DataTemplate object containing
+                      a template of metadata to be rendered. Metadata keys defined in the
+                      metadataTemplate take precedence over keys defined in metadata field.
                     properties:
                       apiVersion:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
                   hostSelector:
-                    description: HostSelector specifies matching criteria for labels on
-                      BareMetalHosts. This is used to limit the set of BareMetalHost objects
-                      considered for claiming for a metal3machine.
+                    description: |-
+                      HostSelector specifies matching criteria for labels on BareMetalHosts.
+                      This is used to limit the set of BareMetalHost objects considered for
+                      claiming for a metal3machine.
                     properties:
                       matchExpressions:
                         description: Label match expressions that must be true on a chosen
@@ -2291,9 +2409,9 @@ data:
                             key:
                               type: string
                             operator:
-                              description: Operator represents a key/field's relationship
-                                to value(s). See labels.Requirement and fields.Requirement
-                                for more details.
+                              description: |-
+                                Operator represents a key/field's relationship to value(s).
+                                See labels.Requirement and fields.Requirement for more details.
                               type: string
                             values:
                               items:
@@ -2320,7 +2438,8 @@ data:
                           or a URL to retrieve one.
                         type: string
                       checksumType:
-                        description: ChecksumType is the checksum algorithm for the image.
+                        description: |-
+                          ChecksumType is the checksum algorithm for the image.
                           e.g md5, sha256, sha512
                         enum:
                         - md5
@@ -2344,8 +2463,9 @@ data:
                     - url
                     type: object
                   metaData:
-                    description: MetaData is an object storing the reference to the secret
-                      containing the Metadata given by the user.
+                    description: |-
+                      MetaData is an object storing the reference to the secret containing the
+                      Metadata given by the user.
                     properties:
                       name:
                         description: name is unique within a namespace to reference a
@@ -2358,8 +2478,9 @@ data:
                     type: object
                     x-kubernetes-map-type: atomic
                   networkData:
-                    description: NetworkData is an object storing the reference to the
-                      secret containing the network data given by the user.
+                    description: |-
+                      NetworkData is an object storing the reference to the secret containing the
+                      network data given by the user.
                     properties:
                       name:
                         description: name is unique within a namespace to reference a
@@ -2372,13 +2493,15 @@ data:
                     type: object
                     x-kubernetes-map-type: atomic
                   providerID:
-                    description: ProviderID will be the Metal3 machine in ProviderID format
+                    description: |-
+                      ProviderID will be the Metal3 machine in ProviderID format
                       (metal3://<bmh-uuid>)
                     type: string
                   userData:
-                    description: UserData references the Secret that holds user data needed
-                      by the bare metal operator. The Namespace is optional; it will default
-                      to the metal3machine's namespace if not specified.
+                    description: |-
+                      UserData references the Secret that holds user data needed by the bare metal
+                      operator. The Namespace is optional; it will default to the metal3machine's
+                      namespace if not specified.
                     properties:
                       name:
                         description: name is unique within a namespace to reference a
@@ -2395,7 +2518,8 @@ data:
                 description: Metal3MachineStatus defines the observed state of Metal3Machine.
                 properties:
                   addresses:
-                    description: Addresses is a list of addresses assigned to the machine.
+                    description: |-
+                      Addresses is a list of addresses assigned to the machine.
                       This field is copied from the infrastructure provider reference.
                     items:
                       description: MachineAddress contains information for the node's
@@ -2420,37 +2544,37 @@ data:
                         operational state.
                       properties:
                         lastTransitionTime:
-                          description: Last time the condition transitioned from one status
-                            to another. This should be when the underlying condition changed.
-                            If that is not known, then using the time when the API field
-                            changed is acceptable.
+                          description: |-
+                            Last time the condition transitioned from one status to another.
+                            This should be when the underlying condition changed. If that is not known, then using the time when
+                            the API field changed is acceptable.
                           format: date-time
                           type: string
                         message:
-                          description: A human readable message indicating details about
-                            the transition. This field may be empty.
+                          description: |-
+                            A human readable message indicating details about the transition.
+                            This field may be empty.
                           type: string
                         reason:
-                          description: The reason for the condition's last transition
-                            in CamelCase. The specific API may choose whether or not this
-                            field is considered a guaranteed API. This field may not be
-                            empty.
+                          description: |-
+                            The reason for the condition's last transition in CamelCase.
+                            The specific API may choose whether or not this field is considered a guaranteed API.
+                            This field may be empty.
                           type: string
                         severity:
-                          description: Severity provides an explicit classification of
-                            Reason code, so the users or machines can immediately understand
-                            the current situation and act accordingly. The Severity field
-                            MUST be set only when Status=False.
+                          description: |-
+                            severity provides an explicit classification of Reason code, so the users or machines can immediately
+                            understand the current situation and act accordingly.
+                            The Severity field MUST be set only when Status=False.
                           type: string
                         status:
-                          description: Status of the condition, one of True, False, Unknown.
+                          description: status of the condition, one of True, False, Unknown.
                           type: string
                         type:
-                          description: Type of condition in CamelCase or in foo.example.com/CamelCase.
-                            Many .condition.type values are consistent across resources
-                            like Available, but because arbitrary conditions can be useful
-                            (see .node.status.conditions), the ability to deconflict is
-                            important.
+                          description: |-
+                            type of condition in CamelCase or in foo.example.com/CamelCase.
+                            Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
+                            can be useful (see .node.status.conditions), the ability to deconflict is important.
                           type: string
                       required:
                       - lastTransitionTime
@@ -2459,44 +2583,51 @@ data:
                       type: object
                     type: array
                   failureMessage:
-                    description: "FailureMessage will be set in the event that there is
-                      a terminal problem reconciling the metal3machine and will contain
-                      a more verbose string suitable for logging and human consumption.
-                      \n This field should not be set for transitive errors that a controller
-                      faces that are expected to be fixed automatically over time (like
-                      service outages), but instead indicate that something is fundamentally
-                      wrong with the metal3machine's spec or the configuration of the
-                      controller, and that manual intervention is required. Examples of
-                      terminal errors would be invalid combinations of settings in the
-                      spec, values that are unsupported by the controller, or the responsible
-                      controller itself being critically misconfigured. \n Any transient
-                      errors that occur during the reconciliation of metal3machines can
-                      be added as events to the metal3machine object and/or logged in
-                      the controller's output."
+                    description: |-
+                      FailureMessage will be set in the event that there is a terminal problem
+                      reconciling the metal3machine and will contain a more verbose string suitable
+                      for logging and human consumption.
+
+                      This field should not be set for transitive errors that a controller
+                      faces that are expected to be fixed automatically over
+                      time (like service outages), but instead indicate that something is
+                      fundamentally wrong with the metal3machine's spec or the configuration of
+                      the controller, and that manual intervention is required. Examples
+                      of terminal errors would be invalid combinations of settings in the
+                      spec, values that are unsupported by the controller, or the
+                      responsible controller itself being critically misconfigured.
+
+                      Any transient errors that occur during the reconciliation of
+                      metal3machines can be added as events to the metal3machine object
+                      and/or logged in the controller's output.
                     type: string
                   failureReason:
-                    description: "FailureReason will be set in the event that there is
-                      a terminal problem reconciling the metal3machine and will contain
-                      a succinct value suitable for machine interpretation. \n This field
-                      should not be set for transitive errors that a controller faces
-                      that are expected to be fixed automatically over time (like service
-                      outages), but instead indicate that something is fundamentally wrong
-                      with the metal3machine's spec or the configuration of the controller,
-                      and that manual intervention is required. Examples of terminal errors
-                      would be invalid combinations of settings in the spec, values that
-                      are unsupported by the controller, or the responsible controller
-                      itself being critically misconfigured. \n Any transient errors that
-                      occur during the reconciliation of metal3machines can be added as
-                      events to the metal3machine object and/or logged in the controller's
-                      output."
+                    description: |-
+                      FailureReason will be set in the event that there is a terminal problem
+                      reconciling the metal3machine and will contain a succinct value suitable
+                      for machine interpretation.
+
+                      This field should not be set for transitive errors that a controller
+                      faces that are expected to be fixed automatically over
+                      time (like service outages), but instead indicate that something is
+                      fundamentally wrong with the metal3machine's spec or the configuration of
+                      the controller, and that manual intervention is required. Examples
+                      of terminal errors would be invalid combinations of settings in the
+                      spec, values that are unsupported by the controller, or the
+                      responsible controller itself being critically misconfigured.
+
+                      Any transient errors that occur during the reconciliation of
+                      metal3machines can be added as events to the metal3machine object
+                      and/or logged in the controller's output.
                     type: string
                   lastUpdated:
                     description: LastUpdated identifies when this status was last observed.
                     format: date-time
                     type: string
                   metaData:
-                    description: MetaData is an object storing the reference to the secret
-                      containing the Metadata used to deploy the BareMetalHost.
+                    description: |-
+                      MetaData is an object storing the reference to the secret containing the
+                      Metadata used to deploy the BareMetalHost.
                     properties:
                       name:
                         description: name is unique within a namespace to reference a
@@ -2509,8 +2640,9 @@ data:
                     type: object
                     x-kubernetes-map-type: atomic
                   networkData:
-                    description: NetworkData is an object storing the reference to the
-                      secret containing the network data used to deploy the BareMetalHost.
+                    description: |-
+                      NetworkData is an object storing the reference to the secret containing the
+                      network data used to deploy the BareMetalHost.
                     properties:
                       name:
                         description: name is unique within a namespace to reference a
@@ -2523,57 +2655,66 @@ data:
                     type: object
                     x-kubernetes-map-type: atomic
                   phase:
-                    description: Phase represents the current phase of machine actuation.
+                    description: |-
+                      Phase represents the current phase of machine actuation.
                       E.g. Pending, Running, Terminating, Failed etc.
                     type: string
                   ready:
-                    description: 'Ready is the state of the metal3. TODO : Document the
-                      variable : mhrivnak: " it would be good to document what this means,
-                      how to interpret it, under what circumstances the value changes,
-                      etc."'
+                    description: |-
+                      Ready is the state of the metal3.
+                      mhrivnak: " it would be good to document what this means, how to interpret
+                      it, under what circumstances the value changes, etc."
                     type: boolean
                   renderedData:
-                    description: RenderedData is a reference to a rendered Metal3Data
-                      object containing the references to metaData and networkData secrets.
+                    description: |-
+                      RenderedData is a reference to a rendered Metal3Data object containing
+                      the references to metaData and networkData secrets.
                     properties:
                       apiVersion:
                         description: API version of the referent.
                         type: string
                       fieldPath:
-                        description: 'If referring to a piece of an object instead of
-                          an entire object, this string should contain a valid JSON/Go
-                          field access statement, such as desiredState.manifest.containers[2].
-                          For example, if the object reference is to a container within
-                          a pod, this would take on a value like: "spec.containers{name}"
-                          (where "name" refers to the name of the container that triggered
-                          the event) or if no container name is specified "spec.containers[2]"
-                          (container with index 2 in this pod). This syntax is chosen
-                          only to have some well-defined way of referencing a part of
-                          an object. TODO: this design is not final and this field is
-                          subject to change in the future.'
+                        description: |-
+                          If referring to a piece of an object instead of an entire object, this string
+                          should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                          For example, if the object reference is to a container within a pod, this would take on a value like:
+                          "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                          the event) or if no container name is specified "spec.containers[2]" (container with
+                          index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                          referencing a part of an object.
                         type: string
                       kind:
-                        description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                        description: |-
+                          Kind of the referent.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                         type: string
                       name:
-                        description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                         type: string
                       namespace:
-                        description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                        description: |-
+                          Namespace of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                         type: string
                       resourceVersion:
-                        description: 'Specific resourceVersion to which this reference
-                          is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                        description: |-
+                          Specific resourceVersion to which this reference is made, if any.
+                          More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                         type: string
                       uid:
-                        description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                        description: |-
+                          UID of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                         type: string
                     type: object
                     x-kubernetes-map-type: atomic
                   userData:
-                    description: UserData references the Secret that holds user data needed
-                      by the bare metal operator. The Namespace is optional; it will default
-                      to the metal3machine's namespace if not specified.
+                    description: |-
+                      UserData references the Secret that holds user data needed by the bare metal
+                      operator. The Namespace is optional; it will default to the metal3machine's
+                      namespace if not specified.
                     properties:
                       name:
                         description: name is unique within a namespace to reference a
@@ -2597,7 +2738,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -2642,14 +2783,19 @@ data:
               API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -2658,8 +2804,9 @@ data:
                 properties:
                   nodeReuse:
                     default: false
-                    description: When set to True, CAPM3 Machine controller will pick
-                      the same pool of BMHs' that were released during the upgrade operation.
+                    description: |-
+                      When set to True, CAPM3 Machine controller will
+                      pick the same pool of BMHs' that were released during the upgrade operation.
                     type: boolean
                   template:
                     description: Metal3MachineTemplateResource describes the data needed
@@ -2670,8 +2817,9 @@ data:
                           of the machine.
                         properties:
                           automatedCleaningMode:
-                            description: When set to disabled, automated cleaning of host
-                              disks will be skipped during provisioning and deprovisioning.
+                            description: |-
+                              When set to disabled, automated cleaning of host disks will be skipped
+                              during provisioning and deprovisioning.
                             enum:
                             - metadata
                             - disabled
@@ -2680,58 +2828,65 @@ data:
                             description: A custom deploy procedure.
                             properties:
                               method:
-                                description: Custom deploy method name. This name is specific
-                                  to the deploy ramdisk used. If you don't have a custom
-                                  deploy ramdisk, you shouldn't use CustomDeploy.
+                                description: |-
+                                  Custom deploy method name.
+                                  This name is specific to the deploy ramdisk used. If you don't have
+                                  a custom deploy ramdisk, you shouldn't use CustomDeploy.
                                 type: string
                             required:
                             - method
                             type: object
                           dataTemplate:
-                            description: MetadataTemplate is a reference to a Metal3DataTemplate
-                              object containing a template of metadata to be rendered.
-                              Metadata keys defined in the metadataTemplate take precedence
-                              over keys defined in metadata field.
+                            description: |-
+                              MetadataTemplate is a reference to a Metal3DataTemplate object containing
+                              a template of metadata to be rendered. Metadata keys defined in the
+                              metadataTemplate take precedence over keys defined in metadata field.
                             properties:
                               apiVersion:
                                 description: API version of the referent.
                                 type: string
                               fieldPath:
-                                description: 'If referring to a piece of an object instead
-                                  of an entire object, this string should contain a valid
-                                  JSON/Go field access statement, such as desiredState.manifest.containers[2].
-                                  For example, if the object reference is to a container
-                                  within a pod, this would take on a value like: "spec.containers{name}"
-                                  (where "name" refers to the name of the container that
-                                  triggered the event) or if no container name is specified
-                                  "spec.containers[2]" (container with index 2 in this
-                                  pod). This syntax is chosen only to have some well-defined
-                                  way of referencing a part of an object. TODO: this design
-                                  is not final and this field is subject to change in
-                                  the future.'
+                                description: |-
+                                  If referring to a piece of an object instead of an entire object, this string
+                                  should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                                  For example, if the object reference is to a container within a pod, this would take on a value like:
+                                  "spec.containers{name}" (where "name" refers to the name of the container that triggered
+                                  the event) or if no container name is specified "spec.containers[2]" (container with
+                                  index 2 in this pod). This syntax is chosen only to have some well-defined way of
+                                  referencing a part of an object.
                                 type: string
                               kind:
-                                description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                description: |-
+                                  Kind of the referent.
+                                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                description: |-
+                                  Name of the referent.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               namespace:
-                                description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                                description: |-
+                                  Namespace of the referent.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                                 type: string
                               resourceVersion:
-                                description: 'Specific resourceVersion to which this reference
-                                  is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                                description: |-
+                                  Specific resourceVersion to which this reference is made, if any.
+                                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
                                 type: string
                               uid:
-                                description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                                description: |-
+                                  UID of the referent.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
                                 type: string
                             type: object
                             x-kubernetes-map-type: atomic
                           hostSelector:
-                            description: HostSelector specifies matching criteria for
-                              labels on BareMetalHosts. This is used to limit the set
-                              of BareMetalHost objects considered for claiming for a metal3machine.
+                            description: |-
+                              HostSelector specifies matching criteria for labels on BareMetalHosts.
+                              This is used to limit the set of BareMetalHost objects considered for
+                              claiming for a metal3machine.
                             properties:
                               matchExpressions:
                                 description: Label match expressions that must be true
@@ -2741,9 +2896,9 @@ data:
                                     key:
                                       type: string
                                     operator:
-                                      description: Operator represents a key/field's relationship
-                                        to value(s). See labels.Requirement and fields.Requirement
-                                        for more details.
+                                      description: |-
+                                        Operator represents a key/field's relationship to value(s).
+                                        See labels.Requirement and fields.Requirement for more details.
                                       type: string
                                     values:
                                       items:
@@ -2770,8 +2925,9 @@ data:
                                   value or a URL to retrieve one.
                                 type: string
                               checksumType:
-                                description: ChecksumType is the checksum algorithm for
-                                  the image. e.g md5, sha256, sha512
+                                description: |-
+                                  ChecksumType is the checksum algorithm for the image.
+                                  e.g md5, sha256, sha512
                                 enum:
                                 - md5
                                 - sha256
@@ -2794,8 +2950,9 @@ data:
                             - url
                             type: object
                           metaData:
-                            description: MetaData is an object storing the reference to
-                              the secret containing the Metadata given by the user.
+                            description: |-
+                              MetaData is an object storing the reference to the secret containing the
+                              Metadata given by the user.
                             properties:
                               name:
                                 description: name is unique within a namespace to reference
@@ -2808,8 +2965,9 @@ data:
                             type: object
                             x-kubernetes-map-type: atomic
                           networkData:
-                            description: NetworkData is an object storing the reference
-                              to the secret containing the network data given by the user.
+                            description: |-
+                              NetworkData is an object storing the reference to the secret containing the
+                              network data given by the user.
                             properties:
                               name:
                                 description: name is unique within a namespace to reference
@@ -2822,14 +2980,15 @@ data:
                             type: object
                             x-kubernetes-map-type: atomic
                           providerID:
-                            description: ProviderID will be the Metal3 machine in ProviderID
-                              format (metal3://<bmh-uuid>)
+                            description: |-
+                              ProviderID will be the Metal3 machine in ProviderID format
+                              (metal3://<bmh-uuid>)
                             type: string
                           userData:
-                            description: UserData references the Secret that holds user
-                              data needed by the bare metal operator. The Namespace is
-                              optional; it will default to the metal3machine's namespace
-                              if not specified.
+                            description: |-
+                              UserData references the Secret that holds user data needed by the bare metal
+                              operator. The Namespace is optional; it will default to the metal3machine's
+                              namespace if not specified.
                             properties:
                               name:
                                 description: name is unique within a namespace to reference
@@ -2858,7 +3017,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -2917,14 +3076,19 @@ data:
             description: Metal3Remediation is the Schema for the metal3remediations API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -2953,11 +3117,13 @@ data:
                     format: date-time
                     type: string
                   phase:
-                    description: Phase represents the current phase of machine remediation.
+                    description: |-
+                      Phase represents the current phase of machine remediation.
                       E.g. Pending, Running, Done etc.
                     type: string
                   retryCount:
-                    description: RetryCount can be used as a counter during the remediation.
+                    description: |-
+                      RetryCount can be used as a counter during the remediation.
                       Field can hold number of reboots etc.
                     type: integer
                 type: object
@@ -2972,7 +3138,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: capm3-system/capm3-serving-cert
-        controller-gen.kubebuilder.io/version: v0.13.0
+        controller-gen.kubebuilder.io/version: v0.16.5
       labels:
         cluster.x-k8s.io/provider: infrastructure-metal3
         cluster.x-k8s.io/v1beta1: v1beta1
@@ -3012,14 +3178,19 @@ data:
               API.
             properties:
               apiVersion:
-                description: 'APIVersion defines the versioned schema of this representation
-                  of an object. Servers should convert recognized schemas to the latest
-                  internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                description: |-
+                  APIVersion defines the versioned schema of this representation of an object.
+                  Servers should convert recognized schemas to the latest internal value, and
+                  may reject unrecognized values.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
                 type: string
               kind:
-                description: 'Kind is a string value representing the REST resource this
-                  object represents. Servers may infer this from the endpoint the client
-                  submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                description: |-
+                  Kind is a string value representing the REST resource this object represents.
+                  Servers may infer this from the endpoint the client submits requests to.
+                  Cannot be updated.
+                  In CamelCase.
+                  More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
                 type: string
               metadata:
                 type: object
@@ -3069,11 +3240,13 @@ data:
                         format: date-time
                         type: string
                       phase:
-                        description: Phase represents the current phase of machine remediation.
+                        description: |-
+                          Phase represents the current phase of machine remediation.
                           E.g. Pending, Running, Done etc.
                         type: string
                       retryCount:
-                        description: RetryCount can be used as a counter during the remediation.
+                        description: |-
+                          RetryCount can be used as a counter during the remediation.
                           Field can hold number of reboots etc.
                         type: integer
                     type: object
@@ -3165,6 +3338,23 @@ data:
     - apiGroups:
       - ""
       resources:
+      - nodes
+      verbs:
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      verbs:
+      - list
+    - apiGroups:
+      - ""
+      resources:
       - secrets
       verbs:
       - create
@@ -3190,52 +3380,17 @@ data:
       - cluster.x-k8s.io
       resources:
       - clusters
+      - clusters/status
+      - machinesets
       verbs:
       - get
       - list
       - watch
-    - apiGroups:
-      - cluster.x-k8s.io
-      resources:
-      - clusters
-      - clusters/status
-      verbs:
-      - get
-      - list
-      - watch
-    - apiGroups:
-      - cluster.x-k8s.io
-      resources:
-      - clusters/status
-      verbs:
-      - get
     - apiGroups:
       - cluster.x-k8s.io
       resources:
       - kubeadmcontrolplanes
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - cluster.x-k8s.io
-      resources:
       - machinedeployments
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - cluster.x-k8s.io
-      resources:
       - machines
       - machines/status
       verbs:
@@ -3247,145 +3402,14 @@ data:
       - update
       - watch
     - apiGroups:
-      - cluster.x-k8s.io
-      resources:
-      - machinesets
-      verbs:
-      - get
-      - list
-      - watch
-    - apiGroups:
-      - ""
-      resources:
-      - nodes
-      verbs:
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - ""
-      resources:
-      - pods
-      verbs:
-      - list
-    - apiGroups:
       - infrastructure.cluster.x-k8s.io
       resources:
       - metal3clusters
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
-      - metal3clusters/status
-      verbs:
-      - get
-      - patch
-      - update
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
       - metal3dataclaims
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
-      - metal3dataclaims/status
-      verbs:
-      - get
-      - patch
-      - update
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
       - metal3datas
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
-      - metal3datas/status
-      verbs:
-      - get
-      - patch
-      - update
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
       - metal3datatemplates
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
-      - metal3datatemplates/status
-      verbs:
-      - get
-      - patch
-      - update
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
       - metal3machines
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
-      - metal3machines/status
-      verbs:
-      - get
-      - patch
-      - update
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
       - metal3machinetemplates
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - infrastructure.cluster.x-k8s.io
-      resources:
       - metal3remediations
       verbs:
       - create
@@ -3398,6 +3422,11 @@ data:
     - apiGroups:
       - infrastructure.cluster.x-k8s.io
       resources:
+      - metal3clusters/status
+      - metal3dataclaims/status
+      - metal3datas/status
+      - metal3datatemplates/status
+      - metal3machines/status
       - metal3remediations/status
       verbs:
       - get
@@ -3424,19 +3453,6 @@ data:
       - watch
     - apiGroups:
       - ipam.cluster.x-k8s.io
-      resources:
-      - ipaddresses
-      verbs:
-      - get
-      - list
-      - watch
-    - apiGroups:
-      - ipam.cluster.x-k8s.io
-      resources:
-      - ipaddresses/status
-      verbs:
-      - get
-    - apiGroups:
       - ipam.metal3.io
       resources:
       - ipaddresses
@@ -3445,6 +3461,7 @@ data:
       - list
       - watch
     - apiGroups:
+      - ipam.cluster.x-k8s.io
       - ipam.metal3.io
       resources:
       - ipaddresses/status
@@ -3557,45 +3574,7 @@ data:
       - ipam.metal3.io
       resources:
       - ipaddresses
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - ipam.metal3.io
-      resources:
-      - ipaddresses/status
-      verbs:
-      - get
-      - patch
-      - update
-    - apiGroups:
-      - ipam.metal3.io
-      resources:
       - ipclaims
-      verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - ipam.metal3.io
-      resources:
-      - ipclaims/status
-      verbs:
-      - get
-      - patch
-      - update
-    - apiGroups:
-      - ipam.metal3.io
-      resources:
       - ippools
       verbs:
       - create
@@ -3608,6 +3587,8 @@ data:
     - apiGroups:
       - ipam.metal3.io
       resources:
+      - ipaddresses/status
+      - ipclaims/status
       - ippools/status
       verbs:
       - get
@@ -3742,6 +3723,7 @@ data:
             - --enableBMHNameBasedPreallocation=${ENABLE_BMH_NAME_BASED_PREALLOCATION:=false}
             - --diagnostics-address=${CAPM3_DIAGNOSTICS_ADDRESS:=:8443}
             - --insecure-diagnostics=${CAPM3_INSECURE_DIAGNOSTICS:=false}
+            - --tls-min-version=${TLS_MIN_VERSION:=VersionTLS13}
             command:
             - /manager
             env:
@@ -3752,7 +3734,7 @@ data:
             envFrom:
             - configMapRef:
                 name: capm3-capm3fasttrack-configmap
-            image: registry.rancher.com/rancher/cluster-api-provider-metal3:v1.8.2
+            image: registry.rancher.com/rancher/cluster-api-provider-metal3:v1.9.2
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -3830,6 +3812,7 @@ data:
             - --webhook-port=9443
             - --diagnostics-address=${IPAM_DIAGNOSTICS_ADDRESS:=:8443}
             - --insecure-diagnostics=${IPAM_INSECURE_DIAGNOSTICS:=false}
+            - --tls-min-version=${TLS_MIN_VERSION:=VersionTLS13}
             command:
             - /manager
             env:
@@ -3837,7 +3820,7 @@ data:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            image: quay.io/metal3-io/ip-address-manager:v1.8.1
+            image: quay.io/metal3-io/ip-address-manager:v1.9.3
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -4512,6 +4495,9 @@ data:
     kind: Metadata
     releaseSeries:
     - major: 1
+      minor: 9
+      contract: v1beta1
+    - major: 1
       minor: 8
       contract: v1beta1
     - major: 1
@@ -4538,7 +4524,7 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v1.8.2
+  name: v1.9.2
   namespace: capm3-system
   labels:
     provider-components: metal3
