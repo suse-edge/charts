@@ -1279,17 +1279,7 @@ spec:
       name: virt-operator
     spec:
       affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: kubevirt.io
-                      operator: In
-                      values:
-                        - virt-operator
-                topologyKey: kubernetes.io/hostname
-              weight: 1
+{{- .Values.operator.affinity | toYaml | nindent 8 }}
       containers:
         - args:
             - --port
@@ -1325,9 +1315,7 @@ spec:
             initialDelaySeconds: 5
             timeoutSeconds: 10
           resources:
-            requests:
-              cpu: 10m
-              memory: 450Mi
+{{- .Values.operator.resources | toYaml | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:

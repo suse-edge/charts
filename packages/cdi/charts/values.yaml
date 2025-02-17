@@ -8,6 +8,22 @@ deployment:
   uploadserverImage: registry.suse.com/suse/sles/15.6/cdi-uploadserver
   uploadproxyImage: registry.suse.com/suse/sles/15.6/cdi-uploadproxy
   pullPolicy: IfNotPresent
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: cdi.kubevirt.io
+                  operator: In
+                  values:
+                    - cdi-operator
+            topologyKey: kubernetes.io/hostname
+          weight: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 150Mi
 
 cdi:
   config:

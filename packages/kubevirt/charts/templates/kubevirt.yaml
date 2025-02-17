@@ -20,6 +20,10 @@ spec:
   {{- if .Values.kubevirt.uninstallStrategy }}
   uninstallStrategy: {{ .Values.kubevirt.uninstallStrategy }}
   {{- end }}
+  {{- with .Values.kubevirt.workloads }}
+  workloads:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
   {{- with .Values.kubevirt.workloadUpdateStrategy }}
   workloadUpdateStrategy:
   {{- toYaml . | nindent 4 }}
