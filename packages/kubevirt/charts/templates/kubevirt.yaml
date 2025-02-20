@@ -1,3 +1,4 @@
+{{- if ( .Values.kubevirt.enabled | ne false ) }}
 apiVersion: kubevirt.io/v1
 kind: KubeVirt
 metadata:
@@ -30,3 +31,4 @@ spec:
   {{- if .Values.kubevirt.monitorAccount }}
   monitorAccount: {{ .Values.kubevirt.monitorAccount }}
   {{- end }}
+{{- end }}

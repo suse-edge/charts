@@ -606,17 +606,7 @@ spec:
         prometheus.cdi.kubevirt.io: "true"
     spec:
       affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: cdi.kubevirt.io
-                      operator: In
-                      values:
-                        - cdi-operator
-                topologyKey: kubernetes.io/hostname
-              weight: 1
+{{- .Values.deployment.affinity | toYaml | nindent 8 }}
       containers:
         - env:
             - name: DEPLOY_CLUSTER_RESOURCES
@@ -650,9 +640,7 @@ spec:
               name: metrics
               protocol: TCP
           resources:
-            requests:
-              cpu: 100m
-              memory: 150Mi
+{{- .Values.deployment.resources | toYaml | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:

@@ -1,3 +1,4 @@
+{{- if ( .Values.cdi.enabled | ne false ) }}
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: CDI
 metadata:
@@ -19,3 +20,4 @@ spec:
   workload:
   {{- toYaml . | nindent 4 }}
   {{- end }}
+{{- end }}
