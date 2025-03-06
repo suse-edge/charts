@@ -6,6 +6,6 @@ metadata:
     {{- include "baremetal-operator.labels" . | nindent 4 }}
 rules:
 - nonResourceURLs:
-  - /metrics
+  - "/metrics"
   verbs:
   - get
