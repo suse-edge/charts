@@ -1,4 +1,4 @@
 url: https://github.com/metallb/frr-k8s.git
+subdirectory: charts/frr-k8s/charts/crds
 commit: bdd853ac06f344b776a57c22295a334c9b10ab0d
-subdirectory: charts/frr-k8s
-doNotRelease: true
+ignoreDependencies: []
