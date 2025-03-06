@@ -1484,6 +1484,31 @@ entries:
     urls:
     - assets/metallb/metallb-0.13.10.tgz
     version: 0.13.10
+  - apiVersion: v2
+    appVersion: v0.14.9
+    created: "2025-03-06T14:54:41.010724+02:00"
+    dependencies:
+    - condition: crds.enabled
+      name: crds
+      repository: file://./charts/crds
+      version: 0.14.9
+    - condition: frrk8s.enabled
+      name: frr-k8s
+      repository: file://./charts/frr-k8s
+      version: 0.0.16
+    description: A network load-balancer implementation for Kubernetes using standard
+      routing protocols
+    digest: b66e250a1946997e6319ae744e92c0e1d39abc4cf72c283ff493457d8b1b0e67
+    home: https://metallb.universe.tf
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    kubeVersion: '>= 1.19.0-0'
+    name: metallb
+    sources:
+    - https://github.com/metallb/metallb
+    type: application
+    urls:
+    - assets/metallb/metallb-0.1.0+up0.14.9.tgz
+    version: 0.1.0+up0.14.9
   rancher-turtles:
   - annotations:
       catalog.cattle.io/certified: rancher
