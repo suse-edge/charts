@@ -1,0 +1,32 @@
+--- charts-original/README.md
++++ charts/README.md
+@@ -29,15 +29,15 @@
+ | frrk8s.disableCertRotation | bool | `false` |  |
+ | frrk8s.frr.acceptIncomingBGPConnections | bool | `false` |  |
+ | frrk8s.frr.image.pullPolicy | string | `nil` |  |
+-| frrk8s.frr.image.repository | string | `"quay.io/frrouting/frr"` |  |
+-| frrk8s.frr.image.tag | string | `"9.1.0"` |  |
++| frrk8s.frr.image.repository | string | `"registry.opensuse.org/isv/suse/edge/metallb/images/frr"` |  |
++| frrk8s.frr.image.tag | string | `"8.4"` |  |
+ | frrk8s.frr.metricsBindAddress | string | `"127.0.0.1"` |  |
+ | frrk8s.frr.metricsPort | int | `7573` |  |
+ | frrk8s.frr.resources | object | `{}` |  |
+ | frrk8s.frr.secureMetricsPort | int | `9141` |  |
+ | frrk8s.frrMetrics.resources | object | `{}` |  |
+ | frrk8s.image.pullPolicy | string | `nil` |  |
+-| frrk8s.image.repository | string | `"quay.io/metallb/frr-k8s"` |  |
++| frrk8s.image.repository | string | `"registry.opensuse.org/isv/suse/edge/metallb/images/frr-k8s"` |  |
+ | frrk8s.image.tag | string | `nil` |  |
+ | frrk8s.labels.app | string | `"frr-k8s"` |  |
+ | frrk8s.livenessProbe.enabled | bool | `true` |  |
+@@ -77,8 +77,8 @@
+ | prometheus.namespace | string | `""` |  |
+ | prometheus.rbacPrometheus | bool | `false` |  |
+ | prometheus.rbacProxy.pullPolicy | string | `nil` |  |
+-| prometheus.rbacProxy.repository | string | `"gcr.io/kubebuilder/kube-rbac-proxy"` |  |
+-| prometheus.rbacProxy.tag | string | `"v0.12.0"` |  |
++| prometheus.rbacProxy.repository | string | `"registry.opensuse.org/isv/suse/edge/metallb/images/kube-rbac-proxy"` |  |
++| prometheus.rbacProxy.tag | string | `"v0.18.0"` |  |
+ | prometheus.scrapeAnnotations | bool | `false` |  |
+ | prometheus.secureMetricsPort | int | `9140` |  |
+ | prometheus.serviceAccount | string | `""` |  |

@@ -1,0 +1,52 @@
+--- charts-original/values.yaml
++++ charts/values.yaml
+@@ -9,6 +9,10 @@
+   # create specifies whether to install and use RBAC rules.
+   create: true
+ 
++podSecurityContext: 
++  seccompProfile:
++    type: RuntimeDefault
++
+ prometheus:
+   # scrape annotations specifies whether to add Prometheus metric
+   # auto-collection annotations to pods. See
+@@ -48,9 +52,9 @@
+ 
+   # the image to be used for the kuberbacproxy container
+   rbacProxy:
+-    repository: gcr.io/kubebuilder/kube-rbac-proxy
+-    tag: v0.12.0
+-    pullPolicy:
++    repository: "registry.opensuse.org/isv/suse/edge/metallb/images/kube-rbac-proxy"
++    tag: "v0.18.0"
++    pullPolicy: IfNotPresent
+ 
+   # Prometheus Operator ServiceMonitors.
+   serviceMonitor:
+@@ -93,9 +97,9 @@
+   logLevel: info
+   tolerateMaster: true
+   image:
+-    repository: quay.io/metallb/frr-k8s
+-    tag:
+-    pullPolicy:
++    repository: "registry.opensuse.org/isv/suse/edge/metallb/images/frr-k8s"
++    tag: "v0.0.16"
++    pullPolicy: IfNotPresent
+   ## @param controller.updateStrategy.type FRR-K8s controller daemonset strategy type
+   ## ref: https://kubernetes.io/docs/tasks/manage-daemon/update-daemon-set/
+   ##
+@@ -156,9 +160,9 @@
+   # frr contains configuration specific to the FRR container,
+   frr:
+     image:
+-      repository: quay.io/frrouting/frr
+-      tag: 9.1.0
+-      pullPolicy:
++      repository: "registry.opensuse.org/isv/suse/edge/metallb/images/frr"
++      tag: "8.4"
++      pullPolicy: IfNotPresent
+     metricsBindAddress: 127.0.0.1
+     metricsPort: 7573
+     resources: {}

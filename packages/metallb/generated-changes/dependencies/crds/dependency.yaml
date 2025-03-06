@@ -1,4 +1,4 @@
 url: https://github.com/metallb/metallb.git
+subdirectory: charts/metallb/charts/crds
 commit: 5765ee504d21a3a237d9dab223ca707661269ecd
-subdirectory: charts/metallb
-version: 0.1.0
+ignoreDependencies: []
