@@ -1,4 +1,4 @@
 workingDir: ""
-url: https://github.com/kubernetes-sigs/cluster-api-operator/releases/download/v0.14.0/cluster-api-operator-0.14.0.tgz
+url: https://github.com/kubernetes-sigs/cluster-api-operator/releases/download/v0.17.0/cluster-api-operator-0.17.0.tgz
 ignoreDependencies: []
 replacePaths: []
