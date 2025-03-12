@@ -23,4 +23,8 @@ cluster-api-operator:
       infrastructure:
         fetchConfig:
           selector: "{\"matchLabels\": {\"provider-components\": \"metal3\"}}"
+    fleet:
+      addon:
+        fetchConfig:
+          selector: "{\"matchLabels\": {\"provider-components\": \"fleet\"}}"
 ```

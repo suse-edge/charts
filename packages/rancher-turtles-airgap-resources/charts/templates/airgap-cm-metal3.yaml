@@ -3734,7 +3734,7 @@ data:
             envFrom:
             - configMapRef:
                 name: capm3-capm3fasttrack-configmap
-            image: registry.rancher.com/rancher/cluster-api-provider-metal3:v1.9.2
+            image: registry.rancher.com/rancher/cluster-api-provider-metal3:v1.9.3
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -3820,7 +3820,7 @@ data:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            image: quay.io/metal3-io/ip-address-manager:v1.9.3
+            image: quay.io/metal3-io/ip-address-manager:v1.9.4
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -4524,7 +4524,7 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v1.9.2
+  name: v1.9.3
   namespace: capm3-system
   labels:
     provider-components: metal3
