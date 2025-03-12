@@ -4,9 +4,10 @@ set -eux
 # Script to generate the ConfigMap resources described in 
 # https://turtles.docs.rancher.com/getting-started/air-gapped-environment
 
-CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.9.4"}"
-CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.9.2"}"
-CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.11.0"}"
+CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.9.5"}"
+CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.9.3"}"
+CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.12.0"}"
+CAPI_FLEET_VERSION="${CAPI_FLEET_VERSION:-"0.6.0"}"
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PACKAGE_CHARTS_DIR="../packages/rancher-turtles-airgap-resources/charts/templates"
@@ -88,3 +89,10 @@ metadata:
 ---
 EOF
 cat ${CAPI_TMPDIR}/airgap-cm-rke2-control-plane.yaml >> ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-rke2-control-plane.yaml
+
+# add-on providers (fleet)
+curl -L https://github.com/rancher-sandbox/cluster-api-addon-provider-fleet/releases/v${CAPI_FLEET_VERSION}/addon-components.yaml -o ${CAPI_TMPDIR}/fleet-addon-components.yaml
+curl -L https://github.com/rancher-sandbox/cluster-api-addon-provider-fleet/releases/v${CAPI_FLEET_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/fleet-addon-metadata.yaml
+kubectl create configmap v${CAPI_FLEET_VERSION} --namespace=rancher-turtles-system --from-file=components=${CAPI_TMPDIR}/fleet-addon-components.yaml --from-file=metadata=${CAPI_TMPDIR}/fleet-addon-metadata.yaml --dry-run=client -o yaml > ${CAPI_TMPDIR}/airgap-cm-fleet-addon.yaml
+yq eval -i '.metadata.labels += {"provider-components": "fleet"}' ${CAPI_TMPDIR}/airgap-cm-fleet-addon.yaml
+cp ${CAPI_TMPDIR}/airgap-cm-fleet-addon.yaml ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-fleet-addon.yaml

@@ -1,20 +1,18 @@
 --- charts-original/questions.yml
 +++ charts/questions.yml
-@@ -25,7 +25,7 @@
-         label: "Enable RKE2 Provider"
-         type: boolean
-       - variable: rancherTurtles.features.addon-provider-fleet.enabled
--        default: true
-+        default: false
-         description: "[BETA] Enable Fleet Addon Provider functionality in Rancher Turtles"
-         type: boolean
-         label: Seamless integration with Fleet and CAPI
-@@ -37,7 +37,7 @@
+@@ -42,7 +42,7 @@
          label: Enable Agent TLS Mode
          group: "Rancher Turtles Features Settings"
        - variable: rancherTurtles.kubectlImage
 -        default: "registry.k8s.io/kubernetes/kubectl:v1.30.0"
 +        default: "registry.suse.com/edge/3.2/kubectl:1.30.3"
-         description: "Specify the image to use when running kubectl in jobs"
+         description: "Specify the image to use when running kubectl in jobs."
          type: string
          label: Kubectl Image
+@@ -57,4 +57,4 @@
+         description: "[ALPHA] Enable ETCD Backup and Restore functionality in Rancher Turtles."
+         type: boolean
+         group: "ETCD Backup and Restore Settings"
+-        show_if: "rancherTurtles.features.day2operations.enabled"
+\ No newline at end of file
++        show_if: "rancherTurtles.features.day2operations.enabled"
