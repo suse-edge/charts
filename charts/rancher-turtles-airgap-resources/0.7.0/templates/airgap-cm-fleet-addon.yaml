@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  components: Not Found
+  metadata: Not Found
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: v0.6.0
+  namespace: rancher-turtles-system
+  labels:
+    provider-components: fleet
