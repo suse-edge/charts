@@ -122,7 +122,7 @@ Kubernetes: `>= 1.19.0-0`
 | speaker.frr.enabled | bool | `true` |  |
 | speaker.frr.image.pullPolicy | string | `nil` |  |
 | speaker.frr.image.repository | string | `"registry.opensuse.org/isv/suse/edge/metallb/images/frr"` |  |
-| speaker.frr.image.tag | string | `"8.4"` |  |
+| speaker.frr.image.tag | string | `"8.5.6"` |  |
 | speaker.frr.metricsPort | int | `7473` |  |
 | speaker.frr.resources | object | `{}` |  |
 | speaker.frrMetrics.resources | object | `{}` |  |
