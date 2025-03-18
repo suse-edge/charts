@@ -161,7 +161,7 @@ frrk8s:
   frr:
     image:
       repository: "registry.opensuse.org/isv/suse/edge/metallb/images/frr"
-      tag: "8.4"
+      tag: "8.5.6"
       pullPolicy: IfNotPresent
     metricsBindAddress: 127.0.0.1
     metricsPort: 7573

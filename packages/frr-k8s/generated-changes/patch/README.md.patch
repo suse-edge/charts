@@ -7,7 +7,7 @@
 -| frrk8s.frr.image.repository | string | `"quay.io/frrouting/frr"` |  |
 -| frrk8s.frr.image.tag | string | `"9.1.0"` |  |
 +| frrk8s.frr.image.repository | string | `"registry.opensuse.org/isv/suse/edge/metallb/images/frr"` |  |
-+| frrk8s.frr.image.tag | string | `"8.4"` |  |
++| frrk8s.frr.image.tag | string | `"8.5.6"` |  |
  | frrk8s.frr.metricsBindAddress | string | `"127.0.0.1"` |  |
  | frrk8s.frr.metricsPort | int | `7573` |  |
  | frrk8s.frr.resources | object | `{}` |  |
