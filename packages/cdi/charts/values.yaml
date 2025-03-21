@@ -1,5 +1,5 @@
 deployment:
-  version: 1.60.1-150600.3.9.1
+  version: 1.61.0-150600.3.12.1
   operatorImage: registry.suse.com/suse/sles/15.6/cdi-operator
   controllerImage: registry.suse.com/suse/sles/15.6/cdi-controller
   importerImage: registry.suse.com/suse/sles/15.6/cdi-importer
@@ -9,7 +9,7 @@ deployment:
   uploadproxyImage: registry.suse.com/suse/sles/15.6/cdi-uploadproxy
   pullPolicy: IfNotPresent
   affinity:
-    podAntiAffinity:
+    podAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
         - podAffinityTerm:
             labelSelector:
