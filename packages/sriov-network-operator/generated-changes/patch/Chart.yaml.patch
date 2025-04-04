@@ -7,9 +7,9 @@
 +  catalog.cattle.io/namespace: cattle-sriov-system
 +  catalog.cattle.io/os: linux
 +  catalog.cattle.io/permits-os: linux
-+  catalog.cattle.io/upstream-version: 1.4.0
++  catalog.cattle.io/upstream-version: 1.5.0
  apiVersion: v2
- appVersion: v1.4.0
+ appVersion: v1.5.0
  dependencies:
 @@ -8,10 +15,11 @@
  description: SR-IOV network operator configures and manages SR-IOV networks in the
@@ -18,7 +18,7 @@
 +icon: https://charts.rancher.io/assets/logos/sr-iov.svg
  keywords:
  - sriov
- kubeVersion: '>= 1.16.0-0'
+ kubeVersion: '>= 1.24.0-0'
 -name: sriov-network-operator-chart
 +name: sriov-network-operator
  sources:

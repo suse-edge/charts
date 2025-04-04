@@ -1,6 +1,6 @@
 --- charts-original/templates/clusterrole.yaml
 +++ charts/templates/clusterrole.yaml
-@@ -58,3 +58,54 @@
+@@ -52,3 +52,54 @@
    - apiGroups: [ "config.openshift.io" ]
      resources: [ "infrastructures" ]
      verbs: [ "get", "list", "watch" ]
