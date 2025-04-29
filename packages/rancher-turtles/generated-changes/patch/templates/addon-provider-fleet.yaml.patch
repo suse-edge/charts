@@ -1,0 +1,30 @@
+--- charts-original/templates/addon-provider-fleet.yaml
++++ charts/templates/addon-provider-fleet.yaml
+@@ -10,6 +10,12 @@
+     "helm.sh/hook-weight": "2"
+ spec:
+   type: addon
++  deployment:
++    containers:
++    - name: manager
++      imageUrl: "registry.rancher.com/rancher/cluster-api-addon-provider-fleet:v0.8.1"
++    - name: helm-manager
++      imageUrl: "registry.rancher.com/rancher/cluster-api-addon-provider-fleet:v0.8.1"
+   additionalManifests:
+     name: fleet-addon-config
+     namespace: '{{ .Values.rancherTurtles.namespace }}'
+@@ -31,14 +37,12 @@
+     spec:
+       config:
+         featureGates:
+-        {{- if index .Values "rancherTurtles" "rancherInstalled" }}
+           configMap:
+             ref:
+               kind: ConfigMap
+               apiVersion: v1
+               name: rancher-config
+               namespace: cattle-system
+-        {{- end }}
+           experimentalOciStorage: true
+           experimentalHelmOps: true
+       clusterClass:

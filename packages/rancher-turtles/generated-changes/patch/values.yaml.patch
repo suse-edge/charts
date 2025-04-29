@@ -1,19 +1,20 @@
 --- charts-original/values.yaml
 +++ charts/values.yaml
-@@ -8,8 +8,8 @@
-   namespace: rancher-turtles-system
-   managerArguments: []
+@@ -20,9 +20,9 @@
+   # imagePullSecrets: Secrets for private registries.
    imagePullSecrets: []
+   # rancherInstalled: True if Rancher already installed is in the cluster, this is the preferred installation way.
 -  rancherInstalled: true
--  kubectlImage: registry.k8s.io/kubernetes/kubectl:v1.30.0
 +  rancherInstalled: false
+   # kubectlImage: Image for kubectl tasks.
+-  kubectlImage: registry.k8s.io/kubernetes/kubectl:v1.30.0
 +  kubectlImage: registry.suse.com/edge/3.2/kubectl:1.30.3
+   # features: Optional and experimental features.
    features:
-     day2operations:
-       enabled: false
-@@ -79,3 +79,15 @@
-         fetchConfig:
+     # day2operations: Alpha feature.
+@@ -148,3 +148,15 @@
            url: ""
+           # selector: Config selector.
            selector: ""
 +    metal3:
 +      enabled: true
