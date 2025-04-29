@@ -1744,11 +1744,22 @@ data:
                               More info: http://kubernetes.io/docs/user-guide/labels
                             type: object
                         type: object
+                      nodeDeletionTimeout:
+                        description: |-
+                          nodeDeletionTimeout defines how long the machine controller will attempt to delete the Node that the Machine
+                          hosts after the Machine is marked for deletion. A duration of 0 will retry deletion indefinitely.
+                          If no value is provided, the default value for this property of the Machine resource will be used.
+                        type: string
                       nodeDrainTimeout:
                         description: |-
                           NodeDrainTimeout is the total amount of time that the controller will spend on draining a controlplane node
                           The default value is 0, meaning that the node can be drained without any time limitations.
                           NOTE: NodeDrainTimeout is different from `kubectl drain --timeout`
+                        type: string
+                      nodeVolumeDetachTimeout:
+                        description: |-
+                          nodeVolumeDetachTimeout is the total amount of time that the controller will spend on waiting for all volumes
+                          to be detached. The default value is 0, meaning that the volumes can be detached without any time limitations.
                         type: string
                     required:
                     - infrastructureRef
@@ -2185,9 +2196,15 @@ data:
                               - rke2-coredns
                               - rke2-ingress-nginx
                               - rke2-metrics-server
+                              - rke2-snapshot-controller
+                              - rke2-snapshot-controller-crd
+                              - rke2-snapshot-validation-webhook
                               type: string
                             type: array
                         type: object
+                      embeddedRegistry:
+                        description: EmbeddedRegistry enables the embedded registry.
+                        type: boolean
                       etcd:
                         description: Etcd defines optional custom configuration of ETCD.
                         properties:
@@ -2547,8 +2564,12 @@ data:
                     format: int64
                     type: integer
                   ready:
-                    description: Ready indicates the BootstrapData field is ready to be
-                      consumed.
+                    description: |-
+                      Ready denotes that the RKE2ControlPlane API Server became ready during initial provisioning
+                      to receive requests.
+                      NOTE: this field is part of the Cluster API contract and it is used to orchestrate provisioning.
+                      The value of this field is never updated after provisioning is completed. Please use conditions
+                      to check the operational state of the control plane.
                     type: boolean
                   readyReplicas:
                     description: ReadyReplicas is the number of replicas current attached
@@ -3152,11 +3173,22 @@ data:
                                       More info: http://kubernetes.io/docs/user-guide/labels
                                     type: object
                                 type: object
+                              nodeDeletionTimeout:
+                                description: |-
+                                  nodeDeletionTimeout defines how long the machine controller will attempt to delete the Node that the Machine
+                                  hosts after the Machine is marked for deletion. A duration of 0 will retry deletion indefinitely.
+                                  If no value is provided, the default value for this property of the Machine resource will be used.
+                                type: string
                               nodeDrainTimeout:
                                 description: |-
                                   NodeDrainTimeout is the total amount of time that the controller will spend on draining a controlplane node
                                   The default value is 0, meaning that the node can be drained without any time limitations.
                                   NOTE: NodeDrainTimeout is different from `kubectl drain --timeout`
+                                type: string
+                              nodeVolumeDetachTimeout:
+                                description: |-
+                                  nodeVolumeDetachTimeout is the total amount of time that the controller will spend on waiting for all volumes
+                                  to be detached. The default value is 0, meaning that the volumes can be detached without any time limitations.
                                 type: string
                             required:
                             - infrastructureRef
@@ -3601,9 +3633,15 @@ data:
                                       - rke2-coredns
                                       - rke2-ingress-nginx
                                       - rke2-metrics-server
+                                      - rke2-snapshot-controller
+                                      - rke2-snapshot-controller-crd
+                                      - rke2-snapshot-validation-webhook
                                       type: string
                                     type: array
                                 type: object
+                              embeddedRegistry:
+                                description: EmbeddedRegistry enables the embedded registry.
+                                type: boolean
                               etcd:
                                 description: Etcd defines optional custom configuration
                                   of ETCD.
@@ -3980,8 +4018,12 @@ data:
                     format: int64
                     type: integer
                   ready:
-                    description: Ready indicates the BootstrapData field is ready to be
-                      consumed.
+                    description: |-
+                      Ready denotes that the RKE2ControlPlane API Server became ready during initial provisioning
+                      to receive requests.
+                      NOTE: this field is part of the Cluster API contract and it is used to orchestrate provisioning.
+                      The value of this field is never updated after provisioning is completed. Please use conditions
+                      to check the operational state of the control plane.
                     type: boolean
                   readyReplicas:
                     description: ReadyReplicas is the number of replicas current attached
@@ -4263,7 +4305,7 @@ data:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.12.0
+            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.14.0
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -4493,10 +4535,16 @@ data:
       - major: 0
         minor: 12
         contract: v1beta1
+      - major: 0
+        minor: 13
+        contract: v1beta1
+      - major: 0
+        minor: 14
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.12.0
+  name: v0.14.0
   namespace: rke2-control-plane-system
   labels:
     provider-components: rke2-control-plane
