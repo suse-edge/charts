@@ -2525,9 +2525,10 @@ data:
             - --leader-elect
             - --diagnostics-address=${CAPRKE2_DIAGNOSTICS_ADDRESS:=:8443}
             - --insecure-diagnostics=${CAPRKE2_INSECURE_DIAGNOSTICS:=false}
+            - --feature-gates=MachinePool=${EXP_MACHINE_POOL:=true}
             command:
             - /manager
-            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.12.0
+            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.14.0
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -2750,10 +2751,16 @@ data:
       - major: 0
         minor: 12
         contract: v1beta1
+      - major: 0
+        minor: 13
+        contract: v1beta1
+      - major: 0
+        minor: 14
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.12.0
+  name: v0.14.0
   namespace: rke2-bootstrap-system
   labels:
     provider-components: rke2-bootstrap

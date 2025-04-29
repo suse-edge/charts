@@ -6,8 +6,8 @@ set -eux
 
 CAPI_CORE_VERSION="${CAPI_CORE_VERSION:-"1.9.5"}"
 CAPI_CAPM3_VERSION="${CAPI_CAPM3_VERSION:-"1.9.3"}"
-CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.12.0"}"
-CAPI_FLEET_VERSION="${CAPI_FLEET_VERSION:-"0.6.0"}"
+CAPI_RKE2_VERSION="${CAPI_RKE2_VERSION:-"0.14.0"}"
+CAPI_FLEET_VERSION="${CAPI_FLEET_VERSION:-"0.8.1"}"
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PACKAGE_CHARTS_DIR="../packages/rancher-turtles-airgap-resources/charts/templates"
@@ -57,8 +57,8 @@ EOF
 cat ${CAPI_TMPDIR}/airgap-cm-metal3.yaml >> ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-metal3.yaml
 
 # boostrap-components (boostrap-rke2)
-curl -L https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/bootstrap-components.yaml -o ${CAPI_TMPDIR}/rke2-bootstrap-components.yaml
-curl -L https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/rke2-bootstrap-metadata.yaml
+curl -L https://github.com/rancher/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/bootstrap-components.yaml -o ${CAPI_TMPDIR}/rke2-bootstrap-components.yaml
+curl -L https://github.com/rancher/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/rke2-bootstrap-metadata.yaml
 kubectl create configmap v${CAPI_RKE2_VERSION} --namespace=rke2-bootstrap-system --from-file=components=${CAPI_TMPDIR}/rke2-bootstrap-components.yaml --from-file=metadata=${CAPI_TMPDIR}/rke2-bootstrap-metadata.yaml --dry-run=client -o yaml > ${CAPI_TMPDIR}/airgap-cm-rke2-bootstrap.yaml
 yq eval -i '.metadata.labels += {"provider-components": "rke2-bootstrap"}' ${CAPI_TMPDIR}/airgap-cm-rke2-bootstrap.yaml
 cat > ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-rke2-bootstrap.yaml <<EOF
@@ -74,8 +74,8 @@ EOF
 cat ${CAPI_TMPDIR}/airgap-cm-rke2-bootstrap.yaml >> ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-rke2-bootstrap.yaml 
 
 # control-plane-components (control-plane-rke2)
-curl -L https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/control-plane-components.yaml -o ${CAPI_TMPDIR}/rke2-control-plane-components.yaml
-curl -L https://github.com/rancher-sandbox/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/rke2-control-plane-metadata.yaml
+curl -L https://github.com/rancher/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/control-plane-components.yaml -o ${CAPI_TMPDIR}/rke2-control-plane-components.yaml
+curl -L https://github.com/rancher/cluster-api-provider-rke2/releases/download/v${CAPI_RKE2_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/rke2-control-plane-metadata.yaml
 kubectl create configmap v${CAPI_RKE2_VERSION} --namespace=rke2-control-plane-system --from-file=components=${CAPI_TMPDIR}/rke2-control-plane-components.yaml --from-file=metadata=${CAPI_TMPDIR}/rke2-control-plane-metadata.yaml --dry-run=client -o yaml > ${CAPI_TMPDIR}/airgap-cm-rke2-control-plane.yaml
 yq eval -i '.metadata.labels += {"provider-components": "rke2-control-plane"}' ${CAPI_TMPDIR}/airgap-cm-rke2-control-plane.yaml
 cat > ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-rke2-control-plane.yaml <<EOF
@@ -91,8 +91,8 @@ EOF
 cat ${CAPI_TMPDIR}/airgap-cm-rke2-control-plane.yaml >> ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-rke2-control-plane.yaml
 
 # add-on providers (fleet)
-curl -L https://github.com/rancher-sandbox/cluster-api-addon-provider-fleet/releases/v${CAPI_FLEET_VERSION}/addon-components.yaml -o ${CAPI_TMPDIR}/fleet-addon-components.yaml
-curl -L https://github.com/rancher-sandbox/cluster-api-addon-provider-fleet/releases/v${CAPI_FLEET_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/fleet-addon-metadata.yaml
+curl -L https://github.com/rancher/cluster-api-addon-provider-fleet/releases/download/v${CAPI_FLEET_VERSION}/addon-components.yaml -o ${CAPI_TMPDIR}/fleet-addon-components.yaml
+curl -L https://github.com/rancher/cluster-api-addon-provider-fleet/releases/download/v${CAPI_FLEET_VERSION}/metadata.yaml -o ${CAPI_TMPDIR}/fleet-addon-metadata.yaml
 kubectl create configmap v${CAPI_FLEET_VERSION} --namespace=rancher-turtles-system --from-file=components=${CAPI_TMPDIR}/fleet-addon-components.yaml --from-file=metadata=${CAPI_TMPDIR}/fleet-addon-metadata.yaml --dry-run=client -o yaml > ${CAPI_TMPDIR}/airgap-cm-fleet-addon.yaml
 yq eval -i '.metadata.labels += {"provider-components": "fleet"}' ${CAPI_TMPDIR}/airgap-cm-fleet-addon.yaml
 cp ${CAPI_TMPDIR}/airgap-cm-fleet-addon.yaml ${SCRIPTDIR}/${PACKAGE_CHARTS_DIR}/airgap-cm-fleet-addon.yaml
