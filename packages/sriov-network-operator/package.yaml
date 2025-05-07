@@ -1,4 +1,5 @@
 url: oci://ghcr.io/k8snetworkplumbingwg/sriov-network-operator-chart:1.5.0
+packageVersion: 01
 additionalCharts:
   - workingDir: charts-crd
     crdOptions:
