@@ -1,0 +1,11 @@
+--- charts-original/templates/pre-delete-webooks.yaml
++++ charts/templates/pre-delete-webooks.yaml
+@@ -22,7 +22,7 @@
+       {{- end }}      
+       containers:
+         - name: cleanup
+-          image: {{ .Values.images.operator }}
++          image: {{ include "system_default_registry" . }}{{ .Values.images.operator.repository }}:{{ .Values.images.operator.tag }}
+           command:
+             - sriov-network-operator-config-cleanup
+           args:
