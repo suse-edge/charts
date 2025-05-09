@@ -2214,6 +2214,22 @@ entries:
       catalog.cattle.io/release-name: sriov-crd
     apiVersion: v2
     appVersion: v1.5.0
+    created: "2025-05-09T02:56:25.548595175-06:00"
+    description: Installs the CRDs for the SR-IOV operator
+    digest: 8afcea9757eeaca1ca2fff2d467b6a8909f619b40faed6349bdcdf739d738c23
+    name: sriov-crd
+    type: application
+    urls:
+    - assets/sriov-crd/sriov-crd-1.5.2+up1.5.0.tgz
+    version: 1.5.2+up1.5.0
+  - annotations:
+      catalog.cattle.io/experimental: "true"
+      catalog.cattle.io/hidden: "true"
+      catalog.cattle.io/namespace: cattle-sriov-system
+      catalog.cattle.io/permits-os: linux
+      catalog.cattle.io/release-name: sriov-crd
+    apiVersion: v2
+    appVersion: v1.5.0
     created: "2025-05-05T16:40:18.120280227-06:00"
     description: Installs the CRDs for the SR-IOV operator
     digest: 9d990bac077ff08ebffa086bdd66678fadff75b2561bd593948b98eea377ff67
@@ -2335,6 +2351,36 @@ entries:
     - assets/sriov-crd/sriov-crd-1.1.0+up0.1.0.tgz
     version: 1.1.0+up0.1.0
   sriov-network-operator:
+  - annotations:
+      catalog.cattle.io/auto-install: sriov-crd=match
+      catalog.cattle.io/experimental: "true"
+      catalog.cattle.io/namespace: cattle-sriov-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/permits-os: linux
+      catalog.cattle.io/upstream-version: 1.5.0
+    apiVersion: v2
+    appVersion: v1.5.0
+    created: "2025-05-09T02:56:25.599954006-06:00"
+    dependencies:
+    - condition: sriov-nfd.enabled
+      name: sriov-nfd
+      repository: file://./charts/sriov-nfd
+      version: 0.15.7
+    description: SR-IOV network operator configures and manages SR-IOV networks in
+      the kubernetes cluster
+    digest: 96d60b02567be4857ef5258626de5fac611c5680ec64f5acdb08752656c5c690
+    home: https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    icon: https://charts.rancher.io/assets/logos/sr-iov.svg
+    keywords:
+    - sriov
+    kubeVersion: '>= 1.24.0-0'
+    name: sriov-network-operator
+    sources:
+    - https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    type: application
+    urls:
+    - assets/sriov-network-operator/sriov-network-operator-1.5.2+up1.5.0.tgz
+    version: 1.5.2+up1.5.0
   - annotations:
       catalog.cattle.io/auto-install: sriov-crd=match
       catalog.cattle.io/experimental: "true"
