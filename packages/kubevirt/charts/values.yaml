@@ -21,6 +21,12 @@ operator:
       memory: 450Mi
 
 kubevirt:
+  # Extra annotations for KubeVirt CR.
+  # Useful for advanced configuration such as:
+  # https://kubevirt.io/user-guide/compute/dedicated_cpu_resources/#compute-nodes-with-smt-enabled
+  annotations: {}
+  # Extra labels for KubeVirt CR.
+  labels: {}
   # Holds kubevirt configurations. Same as the virt-configMap.
   configuration: {}
   customizeComponents: {}
