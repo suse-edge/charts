@@ -22,7 +22,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: rke2-bootstrap-system/rke2-bootstrap-serving-cert
-        controller-gen.kubebuilder.io/version: v0.16.1
+        controller-gen.kubebuilder.io/version: v0.17.3
       labels:
         cluster.x-k8s.io/provider: bootstrap-rke2
         cluster.x-k8s.io/v1beta1: v1alpha1_v1beta1
@@ -1218,7 +1218,7 @@ data:
     metadata:
       annotations:
         cert-manager.io/inject-ca-from: rke2-bootstrap-system/rke2-bootstrap-serving-cert
-        controller-gen.kubebuilder.io/version: v0.16.1
+        controller-gen.kubebuilder.io/version: v0.17.3
       labels:
         cluster.x-k8s.io/provider: bootstrap-rke2
         cluster.x-k8s.io/v1beta1: v1alpha1_v1beta1
@@ -2526,9 +2526,10 @@ data:
             - --diagnostics-address=${CAPRKE2_DIAGNOSTICS_ADDRESS:=:8443}
             - --insecure-diagnostics=${CAPRKE2_INSECURE_DIAGNOSTICS:=false}
             - --feature-gates=MachinePool=${EXP_MACHINE_POOL:=true}
+            - --v=${CAPRKE2_DEBUG_LEVEL:=0}
             command:
             - /manager
-            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.14.0
+            image: ghcr.io/rancher/cluster-api-provider-rke2-bootstrap:v0.15.1
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -2757,10 +2758,13 @@ data:
       - major: 0
         minor: 14
         contract: v1beta1
+      - major: 0
+        minor: 15
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.14.0
+  name: v0.15.1
   namespace: rke2-bootstrap-system
   labels:
     provider-components: rke2-bootstrap
