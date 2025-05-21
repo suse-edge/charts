@@ -3,6 +3,14 @@ kind: KubeVirt
 metadata:
   name: kubevirt
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.kubevirt.annotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.kubevirt.labels }}
+  labels:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   {{- with .Values.kubevirt.configuration }}
   configuration:
