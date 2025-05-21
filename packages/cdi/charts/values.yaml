@@ -30,6 +30,7 @@ cdi:
     featureGates:
       - HonorWaitForFirstConsumer
   imagePullPolicy: "IfNotPresent"
+  customizeComponents: {}
   infra:
     nodeSelector:
       kubernetes.io/os: linux

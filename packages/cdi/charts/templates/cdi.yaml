@@ -19,3 +19,7 @@ spec:
   workload:
   {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- with .Values.cdi.customizeComponents }}
+  customizeComponents:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
