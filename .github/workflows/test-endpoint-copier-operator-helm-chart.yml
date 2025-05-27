@@ -123,18 +123,17 @@ jobs:
           type: LoadBalancer
         EOF
 
-    - name: Verify endpoints
+    - name: Verify endpointslices
       run: |
         export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-        # Sleep for 5 seconds in order to give enough time to the operator
         sleep 5
-
-        kubernetes_ip=$(kubectl get endpoints kubernetes -o jsonpath='{.subsets[0].addresses[0].ip}')
-        kubernetes_vip_ip=$(kubectl get endpoints kubernetes-vip -o jsonpath='{.subsets[0].addresses[0].ip}')
-        
+        # Get the first address from EndpointSlice of the default "kubernetes" service
+        kubernetes_ip=$(kubectl get endpointslice -l kubernetes.io/service-name=kubernetes -o jsonpath='{.items[0].endpoints[0].addresses[0]}')
+        # Get the first address from EndpointSlice of the VIP "kubernetes-vip" service
+        kubernetes_vip_ip=$(kubectl get endpointslice -l kubernetes.io/service-name=kubernetes-vip -o jsonpath='{.items[0].endpoints[0].addresses[0]}')
         expected_ports="9345 6443"
-        kubernetes_vip_ports=$(kubectl get endpoints kubernetes-vip -o yaml -o jsonpath='{.subsets[0].ports[*].port}')
-
+        # Get all ports for the kubernetes-vip EndpointSlice
+        kubernetes_vip_ports=$(kubectl get endpointslice -l kubernetes.io/service-name=kubernetes-vip -o jsonpath='{.items[0].ports[*].port}' | tr -s ' ' | sed 's/^ *//;s/ *$//')
         if [ "$kubernetes_ip" != "$kubernetes_vip_ip" ]; then
           echo "Error: The IP addresses do not match. kubernetes: $kubernetes_ip, kubernetes-vip: $kubernetes_vip_ip"
           exit 1
