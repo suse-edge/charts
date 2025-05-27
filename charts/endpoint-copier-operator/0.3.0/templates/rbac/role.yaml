@@ -7,9 +7,9 @@ metadata:
   name: {{ include "endpoint-copier-operator.fullname" . }}
 rules:
 - apiGroups:
-  - ""
+  - "discovery.k8s.io"
   resources:
-  - endpoints
+  - endpointslices
   verbs:
   - create
   - delete
