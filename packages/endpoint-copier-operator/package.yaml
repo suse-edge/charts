@@ -1,3 +1,3 @@
 url: https://github.com/suse-edge/endpoint-copier-operator.git
-commit: 19eb4ecd4f69e3481883b7a93ccab87da9965558
+commit: d49ace38aea4cd75bf172713d32f64bbd78bdf19
 subdirectory: helm/endpoint-copier-operator
