@@ -600,6 +600,36 @@ entries:
     version: 0.1.0
   metal3:
   - apiVersion: v2
+    appVersion: 0.11.4
+    created: "2025-05-28T15:17:46.44861847Z"
+    dependencies:
+    - alias: metal3-baremetal-operator
+      name: baremetal-operator
+      repository: file://./charts/baremetal-operator
+      version: 0.9.2
+    - alias: metal3-ironic
+      name: ironic
+      repository: file://./charts/ironic
+      version: 0.10.4
+    - alias: metal3-mariadb
+      condition: global.enable_mariadb
+      name: mariadb
+      repository: file://./charts/mariadb
+      version: 0.5.4
+    - alias: metal3-media
+      condition: global.enable_metal3_media_server
+      name: media
+      repository: file://./charts/media
+      version: 0.6.1
+    description: A Helm chart that installs all of the dependencies needed for Metal3
+    digest: 275c8d5e9d89d80896a63c72bd454b77892ffe107bca9e37380c52d9d78ce463
+    icon: https://github.com/cncf/artwork/raw/master/projects/metal3/icon/color/metal3-icon-color.svg
+    name: metal3
+    type: application
+    urls:
+    - assets/metal3/metal3-0.11.4.tgz
+    version: 0.11.4
+  - apiVersion: v2
     appVersion: 0.11.3
     created: "2025-05-15T17:05:03.075247628Z"
     dependencies:
