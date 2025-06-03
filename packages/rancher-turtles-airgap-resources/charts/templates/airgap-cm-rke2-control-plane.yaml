@@ -4461,7 +4461,7 @@ data:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.15.1
+            image: ghcr.io/rancher/cluster-api-provider-rke2-controlplane:v0.16.1
             imagePullPolicy: IfNotPresent
             livenessProbe:
               httpGet:
@@ -4700,10 +4700,13 @@ data:
       - major: 0
         minor: 15
         contract: v1beta1
+      - major: 0
+        minor: 16
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.15.1
+  name: v0.16.1
   namespace: rke2-control-plane-system
   labels:
     provider-components: rke2-control-plane
