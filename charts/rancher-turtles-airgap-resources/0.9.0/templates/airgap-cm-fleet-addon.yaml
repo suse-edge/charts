@@ -1,0 +1,900 @@
+apiVersion: v1
+data:
+  components: |
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+        control-plane: controller-manager
+      name: caapf-system
+    ---
+    apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+      name: fleetaddonconfigs.addons.cluster.x-k8s.io
+    spec:
+      group: addons.cluster.x-k8s.io
+      names:
+        categories: []
+        kind: FleetAddonConfig
+        plural: fleetaddonconfigs
+        shortNames: []
+        singular: fleetaddonconfig
+      scope: Cluster
+      versions:
+      - additionalPrinterColumns: []
+        name: v1alpha1
+        schema:
+          openAPIV3Schema:
+            description: Auto-generated derived type for FleetAddonConfigSpec via `CustomResource`
+            properties:
+              spec:
+                description: This provides a config for fleet addon functionality
+                properties:
+                  cluster:
+                    description: |-
+                      Enable Cluster config funtionality.
+
+                      This will create Fleet Cluster for each Cluster with the same name. In case the cluster specifies topology.class, the name of the `ClusterClass` will be added to the Fleet Cluster labels.
+                    nullable: true
+                    properties:
+                      agentEnvVars:
+                        description: '`AgentEnvVars` are extra environment variables to
+                          be added to the agent deployment.'
+                        items:
+                          description: EnvVar represents an environment variable present
+                            in a Container.
+                          properties:
+                            name:
+                              description: Name of the environment variable. Must be a
+                                C_IDENTIFIER.
+                              type: string
+                            value:
+                              description: 'Variable references $(VAR_NAME) are expanded
+                                using the previously defined environment variables in
+                                the container and any service environment variables. If
+                                a variable cannot be resolved, the reference in the input
+                                string will be unchanged. Double $$ are reduced to a single
+                                $, which allows for escaping the $(VAR_NAME) syntax: i.e.
+                                "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)".
+                                Escaped references will never be expanded, regardless
+                                of whether the variable exists or not. Defaults to "".'
+                              nullable: true
+                              type: string
+                            valueFrom:
+                              description: Source for the environment variable's value.
+                                Cannot be used if value is not empty.
+                              nullable: true
+                              properties:
+                                configMapKeyRef:
+                                  description: Selects a key of a ConfigMap.
+                                  nullable: true
+                                  properties:
+                                    key:
+                                      description: The key to select.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. This field is
+                                        effectively required, but due to backwards compatibility
+                                        is allowed to be empty. Instances of this type
+                                        with an empty value here are almost certainly
+                                        wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                      nullable: true
+                                      type: string
+                                    optional:
+                                      description: Specify whether the ConfigMap or its
+                                        key must be defined
+                                      nullable: true
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                fieldRef:
+                                  description: 'Selects a field of the pod: supports metadata.name,
+                                    metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                    `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                    spec.serviceAccountName, status.hostIP, status.podIP,
+                                    status.podIPs.'
+                                  nullable: true
+                                  properties:
+                                    apiVersion:
+                                      description: Version of the schema the FieldPath
+                                        is written in terms of, defaults to "v1".
+                                      nullable: true
+                                      type: string
+                                    fieldPath:
+                                      description: Path of the field to select in the
+                                        specified API version.
+                                      type: string
+                                  required:
+                                  - fieldPath
+                                  type: object
+                                resourceFieldRef:
+                                  description: 'Selects a resource of the container: only
+                                    resources limits and requests (limits.cpu, limits.memory,
+                                    limits.ephemeral-storage, requests.cpu, requests.memory
+                                    and requests.ephemeral-storage) are currently supported.'
+                                  nullable: true
+                                  properties:
+                                    containerName:
+                                      description: 'Container name: required for volumes,
+                                        optional for env vars'
+                                      nullable: true
+                                      type: string
+                                    divisor:
+                                      description: Specifies the output format of the
+                                        exposed resources, defaults to "1"
+                                      nullable: true
+                                      x-kubernetes-int-or-string: true
+                                    resource:
+                                      description: 'Required: resource to select'
+                                      type: string
+                                  required:
+                                  - resource
+                                  type: object
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  nullable: true
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select from.  Must
+                                        be a valid secret key.
+                                      type: string
+                                    name:
+                                      description: 'Name of the referent. This field is
+                                        effectively required, but due to backwards compatibility
+                                        is allowed to be empty. Instances of this type
+                                        with an empty value here are almost certainly
+                                        wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                      nullable: true
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its key
+                                        must be defined
+                                      nullable: true
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        nullable: true
+                        type: array
+                      agentNamespace:
+                        description: Namespace selection for the fleet agent
+                        nullable: true
+                        type: string
+                      agentTolerations:
+                        description: Agent taint toleration settings for every cluster
+                        items:
+                          description: The pod this Toleration is attached to tolerates
+                            any taint that matches the triple <key,value,effect> using
+                            the matching operator <operator>.
+                          properties:
+                            effect:
+                              description: Effect indicates the taint effect to match.
+                                Empty means match all taint effects. When specified, allowed
+                                values are NoSchedule, PreferNoSchedule and NoExecute.
+                              nullable: true
+                              type: string
+                            key:
+                              description: Key is the taint key that the toleration applies
+                                to. Empty means match all taint keys. If the key is empty,
+                                operator must be Exists; this combination means to match
+                                all values and all keys.
+                              nullable: true
+                              type: string
+                            operator:
+                              description: Operator represents a key's relationship to
+                                the value. Valid operators are Exists and Equal. Defaults
+                                to Equal. Exists is equivalent to wildcard for value,
+                                so that a pod can tolerate all taints of a particular
+                                category.
+                              nullable: true
+                              type: string
+                            tolerationSeconds:
+                              description: TolerationSeconds represents the period of
+                                time the toleration (which must be of effect NoExecute,
+                                otherwise this field is ignored) tolerates the taint.
+                                By default, it is not set, which means tolerate the taint
+                                forever (do not evict). Zero and negative values will
+                                be treated as 0 (evict immediately) by the system.
+                              format: int64
+                              nullable: true
+                              type: integer
+                            value:
+                              description: Value is the taint value the toleration matches
+                                to. If the operator is Exists, the value should be empty,
+                                otherwise just a regular string.
+                              nullable: true
+                              type: string
+                          type: object
+                        nullable: true
+                        type: array
+                      applyClassGroup:
+                        description: Apply a `ClusterGroup` for a `ClusterClass` referenced
+                          from a different namespace.
+                        nullable: true
+                        type: boolean
+                      hostNetwork:
+                        description: 'Host network allows to deploy agent configuration
+                          using hostNetwork: true setting which eludes dependency on the
+                          CNI configuration for the cluster.'
+                        nullable: true
+                        type: boolean
+                      namespaceSelector:
+                        description: Namespace label selector. If set, only clusters in
+                          the namespace matching label selector will be imported.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that relates
+                                the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values. If
+                                    the operator is In or NotIn, the values array must
+                                    be non-empty. If the operator is Exists or DoesNotExist,
+                                    the values array must be empty. This array is replaced
+                                    during a strategic merge patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs. A
+                              single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is "key",
+                              the operator is "In", and the values array contains only
+                              "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                      naming:
+                        description: Naming settings for the fleet cluster
+                        nullable: true
+                        properties:
+                          prefix:
+                            description: Specify a prefix for the Cluster name, applied
+                              to created Fleet cluster
+                            nullable: true
+                            type: string
+                          suffix:
+                            description: Specify a suffix for the Cluster name, applied
+                              to created Fleet cluster
+                            nullable: true
+                            type: string
+                        type: object
+                      patchResource:
+                        description: Allow to patch resources, maintaining the desired
+                          state. If is not set, resources will only be re-created in case
+                          of removal.
+                        nullable: true
+                        type: boolean
+                      selector:
+                        description: Cluster label selector. If set, only clusters matching
+                          label selector will be imported.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: A label selector requirement is a selector
+                                that contains values, a key, and an operator that relates
+                                the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: operator represents a key's relationship
+                                    to a set of values. Valid operators are In, NotIn,
+                                    Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: values is an array of string values. If
+                                    the operator is In or NotIn, the values array must
+                                    be non-empty. If the operator is Exists or DoesNotExist,
+                                    the values array must be empty. This array is replaced
+                                    during a strategic merge patch.
+                                  items:
+                                    type: string
+                                  type: array
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: matchLabels is a map of {key,value} pairs. A
+                              single {key,value} in the matchLabels map is equivalent
+                              to an element of matchExpressions, whose key field is "key",
+                              the operator is "In", and the values array contains only
+                              "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                      setOwnerReferences:
+                        description: Setting to disable setting owner references on the
+                          created resources
+                        nullable: true
+                        type: boolean
+                    required:
+                    - namespaceSelector
+                    - selector
+                    type: object
+                  clusterClass:
+                    description: |-
+                      Enable clusterClass controller functionality.
+
+                      This will create Fleet `ClusterGroups` for each `ClusterClaster` with the same name.
+                    nullable: true
+                    properties:
+                      patchResource:
+                        description: Allow to patch resources, maintaining the desired
+                          state. If is not set, resources will only be re-created in case
+                          of removal.
+                        nullable: true
+                        type: boolean
+                      setOwnerReferences:
+                        description: Setting to disable setting owner references on the
+                          created resources
+                        nullable: true
+                        type: boolean
+                    type: object
+                  config:
+                    nullable: true
+                    properties:
+                      bootstrapLocalCluster:
+                        description: Enable auto-installation of a fleet agent in the
+                          local cluster.
+                        nullable: true
+                        type: boolean
+                      featureGates:
+                        description: feature gates controlling experimental features
+                        nullable: true
+                        properties:
+                          configMap:
+                            description: '`FeaturesConfigMap` references a `ConfigMap`
+                              where to apply feature flags. If a `ConfigMap` is referenced,
+                              the controller will update it instead of upgrading the Fleet
+                              chart.'
+                            nullable: true
+                            properties:
+                              ref:
+                                description: ObjectReference contains enough information
+                                  to let you inspect or modify the referred object.
+                                nullable: true
+                                properties:
+                                  apiVersion:
+                                    description: API version of the referent.
+                                    type: string
+                                  fieldPath:
+                                    description: 'If referring to a piece of an object
+                                      instead of an entire object, this string should
+                                      contain a valid JSON/Go field access statement,
+                                      such as desiredState.manifest.containers[2]. For
+                                      example, if the object reference is to a container
+                                      within a pod, this would take on a value like: "spec.containers{name}"
+                                      (where "name" refers to the name of the container
+                                      that triggered the event) or if no container name
+                                      is specified "spec.containers[2]" (container with
+                                      index 2 in this pod). This syntax is chosen only
+                                      to have some well-defined way of referencing a part
+                                      of an object.'
+                                    type: string
+                                  kind:
+                                    description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                    type: string
+                                  namespace:
+                                    description: 'Namespace of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                                    type: string
+                                  resourceVersion:
+                                    description: 'Specific resourceVersion to which this
+                                      reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                                    type: string
+                                  uid:
+                                    description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                                    type: string
+                                type: object
+                            type: object
+                          experimentalHelmOps:
+                            description: Enables experimental Helm operations support.
+                            type: boolean
+                          experimentalOciStorage:
+                            description: Enables experimental OCI  storage support.
+                            type: boolean
+                        required:
+                        - experimentalHelmOps
+                        - experimentalOciStorage
+                        type: object
+                      server:
+                        description: fleet server url configuration options
+                        nullable: true
+                        oneOf:
+                        - required:
+                          - inferLocal
+                        - required:
+                          - custom
+                        properties:
+                          custom:
+                            properties:
+                              apiServerCaConfigRef:
+                                description: ObjectReference contains enough information
+                                  to let you inspect or modify the referred object.
+                                nullable: true
+                                properties:
+                                  apiVersion:
+                                    description: API version of the referent.
+                                    type: string
+                                  fieldPath:
+                                    description: 'If referring to a piece of an object
+                                      instead of an entire object, this string should
+                                      contain a valid JSON/Go field access statement,
+                                      such as desiredState.manifest.containers[2]. For
+                                      example, if the object reference is to a container
+                                      within a pod, this would take on a value like: "spec.containers{name}"
+                                      (where "name" refers to the name of the container
+                                      that triggered the event) or if no container name
+                                      is specified "spec.containers[2]" (container with
+                                      index 2 in this pod). This syntax is chosen only
+                                      to have some well-defined way of referencing a part
+                                      of an object.'
+                                    type: string
+                                  kind:
+                                    description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                    type: string
+                                  namespace:
+                                    description: 'Namespace of the referent. More info:
+                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                                    type: string
+                                  resourceVersion:
+                                    description: 'Specific resourceVersion to which this
+                                      reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                                    type: string
+                                  uid:
+                                    description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                                    type: string
+                                type: object
+                              apiServerUrl:
+                                nullable: true
+                                type: string
+                            type: object
+                          inferLocal:
+                            type: boolean
+                        type: object
+                    type: object
+                  install:
+                    nullable: true
+                    oneOf:
+                    - required:
+                      - followLatest
+                    - required:
+                      - version
+                    properties:
+                      followLatest:
+                        description: Follow the latest version of the chart on install
+                        type: boolean
+                      version:
+                        description: Use specific version to install
+                        type: string
+                    type: object
+                type: object
+              status:
+                nullable: true
+                properties:
+                  conditions:
+                    description: conditions represents the observations of a Fleet addon
+                      current state.
+                    items:
+                      description: Condition contains details for one aspect of the current
+                        state of this API Resource.
+                      properties:
+                        lastTransitionTime:
+                          description: lastTransitionTime is the last time the condition
+                            transitioned from one status to another. This should be when
+                            the underlying condition changed.  If that is not known, then
+                            using the time when the API field changed is acceptable.
+                          format: date-time
+                          type: string
+                        message:
+                          description: message is a human readable message indicating
+                            details about the transition. This may be an empty string.
+                          type: string
+                        observedGeneration:
+                          description: observedGeneration represents the .metadata.generation
+                            that the condition was set based upon. For instance, if .metadata.generation
+                            is currently 12, but the .status.conditions[x].observedGeneration
+                            is 9, the condition is out of date with respect to the current
+                            state of the instance.
+                          format: int64
+                          type: integer
+                        reason:
+                          description: reason contains a programmatic identifier indicating
+                            the reason for the condition's last transition. Producers
+                            of specific condition types may define expected values and
+                            meanings for this field, and whether the values are considered
+                            a guaranteed API. The value should be a CamelCase string.
+                            This field may not be empty.
+                          type: string
+                        status:
+                          description: status of the condition, one of True, False, Unknown.
+                          type: string
+                        type:
+                          description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                          type: string
+                      required:
+                      - lastTransitionTime
+                      - message
+                      - reason
+                      - status
+                      - type
+                      type: object
+                    type: array
+                  installedVersion:
+                    nullable: true
+                    type: string
+                type: object
+            required:
+            - spec
+            title: FleetAddonConfigValidated
+            type: object
+            x-kubernetes-validations:
+            - rule: self.metadata.name == 'fleet-addon-config'
+        served: true
+        storage: true
+        subresources:
+          status: {}
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+      name: caapf-controller-manager
+      namespace: caapf-system
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+      name: caapf-helm-manager
+      namespace: caapf-system
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+      name: caapf-leader-election-role
+      namespace: caapf-system
+    rules:
+    - apiGroups:
+      - ""
+      resources:
+      - configmaps
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - coordination.k8s.io
+      resources:
+      - leases
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - ""
+      resources:
+      - events
+      verbs:
+      - create
+      - patch
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+      name: caapf-manager-role
+    rules:
+    - apiGroups:
+      - addons.cluster.x-k8s.io
+      resources:
+      - fleetaddonconfigs
+      - fleetaddonconfigs/status
+      verbs:
+      - '*'
+    - apiGroups:
+      - ""
+      resources:
+      - namespaces
+      verbs:
+      - list
+      - get
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - namespaces
+      verbs:
+      - create
+    - apiGroups:
+      - events.k8s.io
+      resources:
+      - events
+      verbs:
+      - create
+    - apiGroups:
+      - ""
+      resources:
+      - secrets
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - configmaps
+      verbs:
+      - get
+      - patch
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - endpoints
+      verbs:
+      - get
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - get
+      - watch
+    - apiGroups:
+      - authentication.k8s.io
+      resources:
+      - tokenreviews
+      verbs:
+      - create
+    - apiGroups:
+      - authorization.k8s.io
+      resources:
+      - subjectaccessreviews
+      verbs:
+      - create
+    - apiGroups:
+      - bootstrap.cluster.x-k8s.io
+      - clusterctl.cluster.x-k8s.io
+      - controlplane.cluster.x-k8s.io
+      - infrastructure.cluster.x-k8s.io
+      resources:
+      - '*'
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - cluster.x-k8s.io
+      resources:
+      - clusters
+      - clusterclasses
+      verbs:
+      - get
+      - list
+      - watch
+      - patch
+    - apiGroups:
+      - fleet.cattle.io
+      resources:
+      - clusters
+      - clustergroups
+      - clusterregistrationtokens
+      - bundlenamespacemappings
+      verbs:
+      - create
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    - apiGroups:
+      - fleet.cattle.io
+      resources:
+      - bundlenamespacemappings
+      verbs:
+      - delete
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+      name: caapf-helm-manager-rolebinding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+    - kind: ServiceAccount
+      name: caapf-helm-manager
+      namespace: caapf-system
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+      name: caapf-manager-rolebinding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: caapf-manager-role
+    subjects:
+    - kind: ServiceAccount
+      name: caapf-controller-manager
+      namespace: caapf-system
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      annotations:
+        kubernetes.io/service-account.name: caapf-helm-manager
+      labels:
+        cluster.x-k8s.io/fleet-addon-registration: "true"
+        cluster.x-k8s.io/provider: fleet
+      name: caapf-helm-manager
+      namespace: caapf-system
+    type: kubernetes.io/service-account-token
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        cluster.x-k8s.io/provider: fleet
+        control-plane: controller-manager
+      name: caapf-controller-manager
+      namespace: caapf-system
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          cluster.x-k8s.io/provider: fleet
+          control-plane: controller-manager
+      template:
+        metadata:
+          annotations:
+            kubectl.kubernetes.io/default-container: manager
+          labels:
+            cluster.x-k8s.io/provider: fleet
+            control-plane: controller-manager
+        spec:
+          containers:
+          - image: ghcr.io/rancher-sandbox/cluster-api-addon-provider-fleet:v0.10.0
+            imagePullPolicy: IfNotPresent
+            name: manager
+            ports:
+            - containerPort: 8443
+              name: http
+              protocol: TCP
+            readinessProbe:
+              httpGet:
+                path: /health
+                port: http
+              initialDelaySeconds: 5
+              periodSeconds: 5
+            resources:
+              limits:
+                cpu: 100m
+                memory: 150Mi
+              requests:
+                cpu: 100m
+                memory: 100Mi
+          - args:
+            - --helm-install
+            image: ghcr.io/rancher-sandbox/cluster-api-addon-provider-fleet:v0.10.0
+            name: helm-manager
+            resources:
+              limits:
+                cpu: 100m
+                memory: 150Mi
+              requests:
+                cpu: 100m
+                memory: 100Mi
+            volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: helm-kubeconfig
+              readOnly: true
+          serviceAccountName: caapf-controller-manager
+          terminationGracePeriodSeconds: 10
+          volumes:
+          - name: helm-kubeconfig
+            secret:
+              secretName: caapf-helm-manager
+  metadata: |
+    apiVersion: clusterctl.cluster.x-k8s.io/v1alpha3
+    releaseSeries:
+      - major: 0
+        minor: 1
+        contract: v1beta1
+      - major: 0
+        minor: 2
+        contract: v1beta1
+      - major: 0
+        minor: 3
+        contract: v1beta1
+      - major: 0
+        minor: 4
+        contract: v1beta1
+      - major: 0
+        minor: 5
+        contract: v1beta1
+      - major: 0
+        minor: 6
+        contract: v1beta1
+      - major: 0
+        minor: 7
+        contract: v1beta1
+      - major: 0
+        minor: 8
+        contract: v1beta1
+      - major: 0
+        minor: 9
+        contract: v1beta1
+      - major: 0
+        minor: 10
+        contract: v1beta1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: v0.10.0
+  namespace: rancher-turtles-system
+  labels:
+    provider-components: fleet
