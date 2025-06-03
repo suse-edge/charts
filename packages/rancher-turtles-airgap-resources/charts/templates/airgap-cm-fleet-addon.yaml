@@ -38,12 +38,12 @@ data:
                     description: |-
                       Enable Cluster config funtionality.
 
-                      This will create Fleet Cluster for each Cluster with the same name. In case the cluster specifies topology.class, the name of the ClusterClass will be added to the Fleet Cluster labels.
+                      This will create Fleet Cluster for each Cluster with the same name. In case the cluster specifies topology.class, the name of the `ClusterClass` will be added to the Fleet Cluster labels.
                     nullable: true
                     properties:
                       agentEnvVars:
-                        description: AgentEnvVars are extra environment variables to be
-                          added to the agent deployment.
+                        description: '`AgentEnvVars` are extra environment variables to
+                          be added to the agent deployment.'
                         items:
                           description: EnvVar represents an environment variable present
                             in a Container.
@@ -218,7 +218,7 @@ data:
                         nullable: true
                         type: array
                       applyClassGroup:
-                        description: Apply a ClusterGroup for a ClusterClass referenced
+                        description: Apply a `ClusterGroup` for a `ClusterClass` referenced
                           from a different namespace.
                         nullable: true
                         type: boolean
@@ -352,7 +352,7 @@ data:
                     description: |-
                       Enable clusterClass controller functionality.
 
-                      This will create Fleet ClusterGroups for each ClusterClaster with the same name.
+                      This will create Fleet `ClusterGroups` for each `ClusterClaster` with the same name.
                     nullable: true
                     properties:
                       patchResource:
@@ -370,15 +370,20 @@ data:
                   config:
                     nullable: true
                     properties:
+                      bootstrapLocalCluster:
+                        description: Enable auto-installation of a fleet agent in the
+                          local cluster.
+                        nullable: true
+                        type: boolean
                       featureGates:
                         description: feature gates controlling experimental features
                         nullable: true
                         properties:
                           configMap:
-                            description: FeaturesConfigMap references a ConfigMap where
-                              to apply feature flags. If a ConfigMap is referenced, the
-                              controller will update it instead of upgrading the Fleet
-                              chart.
+                            description: '`FeaturesConfigMap` references a `ConfigMap`
+                              where to apply feature flags. If a `ConfigMap` is referenced,
+                              the controller will update it instead of upgrading the Fleet
+                              chart.'
                             nullable: true
                             properties:
                               ref:
@@ -507,7 +512,6 @@ data:
                         type: string
                     type: object
                 type: object
-                x-kubernetes-validations: []
               status:
                 nullable: true
                 properties:
@@ -565,7 +569,7 @@ data:
                 type: object
             required:
             - spec
-            title: FleetAddonConfig_kube_validation
+            title: FleetAddonConfigValidated
             type: object
             x-kubernetes-validations:
             - rule: self.metadata.name == 'fleet-addon-config'
@@ -813,7 +817,7 @@ data:
             control-plane: controller-manager
         spec:
           containers:
-          - image: ghcr.io/rancher-sandbox/cluster-api-addon-provider-fleet:v0.8.1
+          - image: ghcr.io/rancher-sandbox/cluster-api-addon-provider-fleet:v0.10.0
             imagePullPolicy: IfNotPresent
             name: manager
             ports:
@@ -826,10 +830,24 @@ data:
                 port: http
               initialDelaySeconds: 5
               periodSeconds: 5
+            resources:
+              limits:
+                cpu: 100m
+                memory: 150Mi
+              requests:
+                cpu: 100m
+                memory: 100Mi
           - args:
             - --helm-install
-            image: ghcr.io/rancher-sandbox/cluster-api-addon-provider-fleet:v0.8.1
+            image: ghcr.io/rancher-sandbox/cluster-api-addon-provider-fleet:v0.10.0
             name: helm-manager
+            resources:
+              limits:
+                cpu: 100m
+                memory: 150Mi
+              requests:
+                cpu: 100m
+                memory: 100Mi
             volumeMounts:
             - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
               name: helm-kubeconfig
@@ -867,10 +885,16 @@ data:
       - major: 0
         minor: 8
         contract: v1beta1
+      - major: 0
+        minor: 9
+        contract: v1beta1
+      - major: 0
+        minor: 10
+        contract: v1beta1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: v0.8.1
+  name: v0.10.0
   namespace: rancher-turtles-system
   labels:
     provider-components: fleet
