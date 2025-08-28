@@ -1,0 +1,55 @@
+deployment:
+  version: 1.62.0-150700.9.3.1
+  operatorImage: registry.suse.com/suse/sles/15.7/cdi-operator
+  controllerImage: registry.suse.com/suse/sles/15.7/cdi-controller
+  importerImage: registry.suse.com/suse/sles/15.7/cdi-importer
+  clonerImage: registry.suse.com/suse/sles/15.7/cdi-cloner
+  apiserverImage: registry.suse.com/suse/sles/15.7/cdi-apiserver
+  uploadserverImage: registry.suse.com/suse/sles/15.7/cdi-uploadserver
+  uploadproxyImage: registry.suse.com/suse/sles/15.7/cdi-uploadproxy
+  pullPolicy: IfNotPresent
+  affinity:
+    podAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: cdi.kubevirt.io
+                  operator: In
+                  values:
+                    - cdi-operator
+            topologyKey: kubernetes.io/hostname
+          weight: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 150Mi
+
+cdi:
+  config:
+    featureGates:
+      - HonorWaitForFirstConsumer
+  imagePullPolicy: "IfNotPresent"
+  customizeComponents: {}
+  infra:
+    nodeSelector:
+      kubernetes.io/os: linux
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+  uninstallStrategy: ""
+  workload:
+    nodeSelector:
+      kubernetes.io/os: linux
+
+hookImage: rancher/kubectl:v1.30.2
+hookRestartPolicy: OnFailure
+hookSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
