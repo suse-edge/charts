@@ -1,12 +1,12 @@
 deployment:
-  version: 1.61.0-150600.3.12.1
-  operatorImage: registry.suse.com/suse/sles/15.6/cdi-operator
-  controllerImage: registry.suse.com/suse/sles/15.6/cdi-controller
-  importerImage: registry.suse.com/suse/sles/15.6/cdi-importer
-  clonerImage: registry.suse.com/suse/sles/15.6/cdi-cloner
-  apiserverImage: registry.suse.com/suse/sles/15.6/cdi-apiserver
-  uploadserverImage: registry.suse.com/suse/sles/15.6/cdi-uploadserver
-  uploadproxyImage: registry.suse.com/suse/sles/15.6/cdi-uploadproxy
+  version: 1.62.0-150700.9.3.1
+  operatorImage: registry.suse.com/suse/sles/15.7/cdi-operator
+  controllerImage: registry.suse.com/suse/sles/15.7/cdi-controller
+  importerImage: registry.suse.com/suse/sles/15.7/cdi-importer
+  clonerImage: registry.suse.com/suse/sles/15.7/cdi-cloner
+  apiserverImage: registry.suse.com/suse/sles/15.7/cdi-apiserver
+  uploadserverImage: registry.suse.com/suse/sles/15.7/cdi-uploadserver
+  uploadproxyImage: registry.suse.com/suse/sles/15.7/cdi-uploadproxy
   pullPolicy: IfNotPresent
   affinity:
     podAffinity:
@@ -42,7 +42,7 @@ cdi:
     nodeSelector:
       kubernetes.io/os: linux
 
-hookImage: rancher/kubectl:v1.30.2
+hookImage: rancher/kubectl:v1.33.1
 hookRestartPolicy: OnFailure
 hookSecurityContext:
   seccompProfile:
