@@ -1,0 +1,59 @@
+operator:
+  image: registry.suse.com/suse/sles/15.7/virt-operator
+  version: 1.5.2-150700.3.5.2
+  replicas: 2
+  pullPolicy: IfNotPresent
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: kubevirt.io
+                  operator: In
+                  values:
+                    - virt-operator
+            topologyKey: kubernetes.io/hostname
+          weight: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 450Mi
+
+kubevirt:
+  # Extra annotations for KubeVirt CR.
+  # Useful for advanced configuration such as:
+  # https://kubevirt.io/user-guide/compute/dedicated_cpu_resources/#compute-nodes-with-smt-enabled
+  annotations: {}
+  # Extra labels for KubeVirt CR.
+  labels: {}
+  # Holds kubevirt configurations. Same as the virt-configMap.
+  configuration: {}
+  customizeComponents: {}
+  # The ImagePullPolicy to use.
+  imagePullPolicy: IfNotPresent
+  # Selectors and tolerations that should apply to KubeVirt infrastructure components.
+  infra: {}
+  # Specifies if KubeVirt can be deleted if workloads are still present.
+  # This is mainly a precaution to avoid accidental data loss.
+  uninstallStrategy: ""
+  # Selectors and tolerations that should apply to KubeVirt workloads.
+  workloads: {}
+  # WorkloadUpdateStrategy defines at the cluster level how to handle automated workload updates.
+  workloadUpdateStrategy: {}
+  # Optionally enable ServiceMonitor for prometheus, see
+  # https://kubevirt.io/user-guide/user_workloads/component_monitoring/
+  monitorAccount: ""
+  monitorNamespace: ""
+
+hookImage: rancher/kubectl:v1.33.1
+hookRestartPolicy: OnFailure
+hookSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
