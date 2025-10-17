@@ -64,7 +64,7 @@ images:
   ironic:
     repository: registry.opensuse.org/isv/suse/edge/containers/images/ironic
     pullPolicy: IfNotPresent
-    tag: 29.0.4.3
+    tag: 29.0.4.4
   ironicIPADownloader:
     repository: registry.opensuse.org/isv/suse/edge/containers/images/ironic-ipa-downloader
     pullPolicy: IfNotPresent
@@ -137,6 +137,8 @@ baremetaloperator:
 
 debug:
   ironicRamdiskSshKey: ""
+
+ironicExtraEnv: {}
 
 tlscerts:
   cacert: ""

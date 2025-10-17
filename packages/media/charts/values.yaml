@@ -42,8 +42,8 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext:
-  runAsUser: 10475
-  fsGroup: 10475
+  runAsUser: 499
+  fsGroup: 486
 
 securityContext:
   allowPrivilegeEscalation: false
@@ -102,11 +102,16 @@ volumes:
   - name: assets
     persistentVolumeClaim:
       claimName: media
+  - name: run
+    emptyDir:
+      sizeLimit: 10Mi
 
 # volume mounts
 volumeMounts:
   - mountPath: /srv/www/htdocs
     name: assets
+  - mountPath: /run
+    name: run
 
 # media volume settings
 mediaVolume:

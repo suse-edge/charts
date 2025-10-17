@@ -52,3 +52,6 @@ data:
   {{- else }}
   IRONIC_USE_MARIADB: "false"
   {{- end }}
+  {{- with .Values.ironicExtraEnv -}}
+  {{ toYaml . | nindent 2 }}
+  {{- end -}}
