@@ -12,7 +12,7 @@ die(){
 
 command -v helm > /dev/null 2>&1 || die "helm command not found" 2
 
-helm plugin list | grep -q repo-html || helm plugin install https://github.com/halkeye/helm-repo-html --verify=false
+helm plugin list | grep -q repo-html || helm plugin install https://github.com/halkeye/helm-repo-html
 helm repo-html -t index.tpl
 
 # Not sure if this is needed
