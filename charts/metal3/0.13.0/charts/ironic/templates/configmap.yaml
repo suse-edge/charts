@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ironic
+  labels:
+    {{- include "ironic.labels" . | nindent 4 }}
+data:
+  {{- if  ( .Values.global.enable_dnsmasq ) }}
+  DNSMASQ_DNS_SERVER_ADDRESS: {{ .Values.global.dnsmasqDNSServer }}
+  DNSMASQ_DEFAULT_ROUTER: {{ .Values.global.dnsmasqDefaultRouter }}
+  DHCP_RANGE: {{ .Values.global.dhcpRange }}
+  {{- end }}
+  {{- if  .Values.debug.ironicRamdiskSshKey }}
+  IRONIC_RAMDISK_SSH_KEY: {{ .Values.debug.ironicRamdiskSshKey }}
+  {{- end }}
+  HTTP_PORT: "6180"
+  PREDICTABLE_NIC_NAMES: "{{ .Values.global.predictableNicNames }}"
+  IRONIC_EXTERNAL_HTTP_URL: {{ include "ironic.externalHttpUrl" . }}
+  ENABLE_PXE_BOOT: "{{ .Values.global.enable_pxe_boot }}"
+  {{- if .Values.global.provisioningInterface }}
+  PROVISIONING_INTERFACE: {{ .Values.global.provisioningInterface }}
+  {{- end }}
+  {{- if .Values.global.provisioningIP }}
+  PROVISIONING_IP: {{ include "metal3.hostIP" . }}
+  {{- else if .Values.global.ironicIP }}
+  IRONIC_IP: {{ include "metal3.hostIP" . }}
+  {{- else if .Values.global.provisioningHostname }}
+  IRONIC_URL_HOSTNAME: {{ .Values.global.provisioningHostname }}
+  {{- end }}
+  IRONIC_FAST_TRACK: "true"
+  LISTEN_ALL_INTERFACES: "{{ .Values.listenOnAll }}"
+  {{- if  ( .Values.global.enable_tls ) }}
+  RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
+  IRONIC_KERNEL_PARAMS: {{ .Values.global.ironicKernelParams }} tls.enabled=true
+  IPA_INSECURE: "0"
+  IRONIC_REVERSE_PROXY_SETUP: "true"
+  {{- if  ( .Values.global.enable_vmedia_tls ) }}
+  VMEDIA_TLS_PORT: "{{ .Values.global.vmediaTLSPort }}"
+  {{- end }}
+  {{- else }}
+  RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
+  IRONIC_KERNEL_PARAMS: {{ .Values.global.ironicKernelParams }}
+  IPA_INSECURE: "1"
+  IRONIC_REVERSE_PROXY_SETUP: "false"
+  {{- end }}
+  {{- if  ( .Values.global.enable_basicAuth ) }}
+  AUTH_STRATEGY: "http_basic"
+  {{- end }}
+  {{- if .Values.global.enable_mariadb }}
+  MARIADB_HOST: {{ .Values.global.databaseServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+  IRONIC_USE_MARIADB: "true"
+  {{- else }}
+  IRONIC_USE_MARIADB: "false"
+  {{- end }}
+  {{- with .Values.ironicExtraEnv -}}
+  {{ toYaml . | nindent 2 }}
+  {{- end -}}
