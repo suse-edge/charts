@@ -34,8 +34,75 @@
    admissionControllers:
      enabled: false
      certificates:
-@@ -90,9 +84,9 @@
-         #      -----END EC PRIVATE KEY-----
+@@ -56,43 +50,44 @@
+       # cluster. In that case, the ca.crt must be base64 encoded twice since it ends up being an env variable.
+       custom:
+         enabled: false
+-        #   operator:
+-        #     caCrt: |
+-        #       -----BEGIN CERTIFICATE-----
+-        #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
+-        #       ...
+-        #       -----END CERTIFICATE-----
+-        #     tlsCrt: |
+-        #       -----BEGIN CERTIFICATE-----
+-        #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
+-        #       ...
+-        #       -----END CERTIFICATE-----
+-        #     tlsKey: |
+-        #       -----BEGIN EC PRIVATE KEY-----
+-        #       MHcl4wOuDwKQa+upc8GftXE2C//4mKANBC6It01gUaTIpo=
+-        #       ...
+-        #      -----END EC PRIVATE KEY-----
+-        #   injector:
+-        #     caCrt: |
+-        #       -----BEGIN CERTIFICATE-----
+-        #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
+-        #       ...
+-        #       -----END CERTIFICATE-----
+-        #     tlsCrt: |
+-        #       -----BEGIN CERTIFICATE-----
+-        #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
+-        #       ...
+-        #       -----END CERTIFICATE-----
+-        #     tlsKey: |
+-        #       -----BEGIN EC PRIVATE KEY-----
+-        #       MHcl4wOuDwKQa+upc8GftXE2C//4mKANBC6It01gUaTIpo=
+-        #       ...
+-        #      -----END EC PRIVATE KEY-----
++    #   operator:
++    #     caCrt: |
++    #       -----BEGIN CERTIFICATE-----
++    #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
++    #       ...
++    #       -----END CERTIFICATE-----
++    #     tlsCrt: |
++    #       -----BEGIN CERTIFICATE-----
++    #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
++    #       ...
++    #       -----END CERTIFICATE-----
++    #     tlsKey: |
++    #       -----BEGIN EC PRIVATE KEY-----
++    #       MHcl4wOuDwKQa+upc8GftXE2C//4mKANBC6It01gUaTIpo=
++    #       ...
++    #      -----END EC PRIVATE KEY-----
++    #   injector:
++    #     caCrt: |
++    #       -----BEGIN CERTIFICATE-----
++    #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
++    #       ...
++    #       -----END CERTIFICATE-----
++    #     tlsCrt: |
++    #       -----BEGIN CERTIFICATE-----
++    #       MIIMIICLDCCAdKgAwIBAgIBADAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJCRTEPMA0G
++    #       ...
++    #       -----END CERTIFICATE-----
++    #     tlsKey: |
++    #       -----BEGIN EC PRIVATE KEY-----
++    #       MHcl4wOuDwKQa+upc8GftXE2C//4mKANBC6It01gUaTIpo=
++    #       ...
++    #      -----END EC PRIVATE KEY-----
++
  sriovOperatorConfig:
    # deploy sriovOperatorConfig CR with the below values
 -  deploy: false
@@ -46,42 +113,42 @@
    # log level for both operator and sriov-network-config-daemon
    logLevel: 2
    # disable node draining when configuring SR-IOV, set to true in case of a single node
-@@ -106,16 +100,32 @@
+@@ -106,16 +101,32 @@
  supportedExtraNICs: []
  # Image URIs for sriov-network-operator components
  images:
--  operator: ghcr.io/k8snetworkplumbingwg/sriov-network-operator:v1.5.0
--  sriovConfigDaemon: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-config-daemon:v1.5.0
--  sriovCni: ghcr.io/k8snetworkplumbingwg/sriov-cni:v2.9.0
--  ibSriovCni: ghcr.io/k8snetworkplumbingwg/ib-sriov-cni:v1.2.0
--  ovsCni: ghcr.io/k8snetworkplumbingwg/ovs-cni-plugin:v0.38.0
--  rdmaCni: ghcr.io/k8snetworkplumbingwg/rdma-cni:v1.2.1
--  sriovDevicePlugin: ghcr.io/k8snetworkplumbingwg/sriov-network-device-plugin:v3.9.0
--  resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.1
--  webhook: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-webhook:v1.5.0
--  metricsExporter: ghcr.io/k8snetworkplumbingwg/sriov-network-metrics-exporter:v1.1.1
+-  operator: ghcr.io/k8snetworkplumbingwg/sriov-network-operator:v1.6.0
+-  sriovConfigDaemon: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-config-daemon:v1.6.0
+-  sriovCni: ghcr.io/k8snetworkplumbingwg/sriov-cni:v2.10.0
+-  ibSriovCni: ghcr.io/k8snetworkplumbingwg/ib-sriov-cni:v1.3.0
+-  ovsCni: ghcr.io/k8snetworkplumbingwg/ovs-cni-plugin:v0.39.0
+-  rdmaCni: ghcr.io/k8snetworkplumbingwg/rdma-cni:v1.4.0
+-  sriovDevicePlugin: ghcr.io/k8snetworkplumbingwg/sriov-network-device-plugin:v3.10.0
+-  resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.8.0
+-  webhook: ghcr.io/k8snetworkplumbingwg/sriov-network-operator-webhook:v1.6.0
+-  metricsExporter: ghcr.io/k8snetworkplumbingwg/sriov-network-metrics-exporter:v1.2.0
 -  metricsExporterKubeRbacProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.15.0
 +  operator:
-+    repository: rancher/hardened-sriov-network-operator
-+    tag: v1.5.0-build20250425
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/sriov-network-manager"
++    tag: v1.6.0
 +  sriovConfigDaemon:
-+    repository: rancher/hardened-sriov-network-config-daemon
-+    tag: v1.5.0-build20250425
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/sriov-network-config-daemon"
++    tag: v1.6.0
 +  sriovCni:
-+    repository: rancher/hardened-sriov-cni
-+    tag: v2.9.0-build20250425
-+  ibSriovCni: 
-+    repository: rancher/hardened-ib-sriov-cni
-+    tag: v1.2.1-build20250425
-+  sriovDevicePlugin: 
-+    repository: rancher/hardened-sriov-network-device-plugin
-+    tag: v3.9.0-build20250425
-+  resourcesInjector: 
-+    repository: rancher/hardened-sriov-network-resources-injector
-+    tag: v1.7.1-build20250425
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/sriov-cni"
++    tag: v2.10.0
++  ibSriovCni:
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/ib-sriov-cni"
++    tag: v1.3.0
++  sriovDevicePlugin:
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/sriov-network-device-plugin"
++    tag: v3.10.0
++  resourcesInjector:
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/network-resources-injector"
++    tag: v1.8.0
 +  webhook:
-+    repository: rancher/hardened-sriov-network-webhook
-+    tag: v1.5.0-build20250425
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/sriov-network-webhook"
++    tag: v1.6.0
  imagePullSecrets: []
  extraDeploy: []
 +global:

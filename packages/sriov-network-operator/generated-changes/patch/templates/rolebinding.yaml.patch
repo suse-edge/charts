@@ -11,8 +11,8 @@
 +  name: operator-webhook-sa
 +  namespace: {{ .Release.Namespace }}
 +subjects:
-+- kind: ServiceAccount
-+  name: operator-webhook-sa
++  - kind: ServiceAccount
++    name: operator-webhook-sa
 +roleRef:
 +  kind: Role
 +  name: operator-webhook-sa
