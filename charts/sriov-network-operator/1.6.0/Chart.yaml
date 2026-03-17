@@ -23,4 +23,4 @@ name: sriov-network-operator
 sources:
 - https://github.com/k8snetworkplumbingwg/sriov-network-operator
 type: application
-version: 1.6.4+up1.6.0
+version: 1.6.0
