@@ -13,14 +13,14 @@
 +    rbac.authorization.k8s.io/aggregate-to-admin: "true"
 +  {{- end }}
 +rules:
-+- apiGroups:
-+  - sriovnetwork.openshift.io
-+  resources:
-+  - '*'
-+  verbs:
-+  - "get"
-+  - "watch"
-+  - "list"
++  - apiGroups:
++      - sriovnetwork.openshift.io
++    resources:
++      - '*'
++    verbs:
++      - "get"
++      - "watch"
++      - "list"
 +---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: ClusterRole
@@ -30,14 +30,14 @@
 +    rbac.authorization.k8s.io/aggregate-to-edit: "true"
 +  {{- end }}
 +rules:
-+- apiGroups:
-+  - sriovnetwork.openshift.io
-+  resources:
-+  - '*'
-+  verbs:
-+  - "get"
-+  - "watch"
-+  - "list"
++  - apiGroups:
++      - sriovnetwork.openshift.io
++    resources:
++      - '*'
++    verbs:
++      - "get"
++      - "watch"
++      - "list"
 +---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: ClusterRole
@@ -47,11 +47,11 @@
 +    rbac.authorization.k8s.io/aggregate-to-view: "true"
 +  {{- end }}
 +rules:
-+- apiGroups:
-+  - sriovnetwork.openshift.io
-+  resources:
-+  - '*'
-+  verbs:
-+  - "get"
-+  - "watch"
-+  - "list"
++  - apiGroups:
++      - sriovnetwork.openshift.io
++    resources:
++      - '*'
++    verbs:
++      - "get"
++      - "watch"
++      - "list"

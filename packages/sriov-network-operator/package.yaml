@@ -1,8 +1,10 @@
-url: oci://ghcr.io/k8snetworkplumbingwg/sriov-network-operator-chart:1.5.0
-packageVersion: 02
+url: oci://ghcr.io/k8snetworkplumbingwg/sriov-network-operator-chart:1.6.0
+#packageVersion: 01  # value range: 1-99; to replace version setting (below) in following "releases" of this 1.6.x+up1.6.0 chart
+version: 1.6.0
+workingDir: charts
 additionalCharts:
   - workingDir: charts-crd
     crdOptions:
-      templateDirectory: crd-template
       crdDirectory: templates
+      templateDirectory: crd-template
       addCRDValidationToMainChart: true

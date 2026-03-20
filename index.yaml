@@ -2735,6 +2735,22 @@ entries:
       catalog.cattle.io/permits-os: linux
       catalog.cattle.io/release-name: sriov-crd
     apiVersion: v2
+    appVersion: v1.6.0
+    created: "2026-03-17T17:50:45.278712758+01:00"
+    description: Installs the CRDs for the SR-IOV operator
+    digest: 44efd85b2a773f06f26c9e608c0bbcc27704bb1679115bccba1ca3da8fef23c5
+    name: sriov-crd
+    type: application
+    urls:
+    - assets/sriov-crd/sriov-crd-1.6.0.tgz
+    version: 1.6.0
+  - annotations:
+      catalog.cattle.io/experimental: "true"
+      catalog.cattle.io/hidden: "true"
+      catalog.cattle.io/namespace: cattle-sriov-system
+      catalog.cattle.io/permits-os: linux
+      catalog.cattle.io/release-name: sriov-crd
+    apiVersion: v2
     appVersion: v1.5.0
     created: "2025-05-09T02:56:25.548595175-06:00"
     description: Installs the CRDs for the SR-IOV operator
@@ -2873,6 +2889,36 @@ entries:
     - assets/sriov-crd/sriov-crd-1.1.0+up0.1.0.tgz
     version: 1.1.0+up0.1.0
   sriov-network-operator:
+  - annotations:
+      catalog.cattle.io/auto-install: sriov-crd=match
+      catalog.cattle.io/experimental: "true"
+      catalog.cattle.io/namespace: cattle-sriov-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/permits-os: linux
+      catalog.cattle.io/upstream-version: 1.6.0
+    apiVersion: v2
+    appVersion: v1.6.0
+    created: "2026-03-17T17:50:45.294513163+01:00"
+    dependencies:
+    - condition: sriov-nfd.enabled
+      name: sriov-nfd
+      repository: file://./charts/sriov-nfd
+      version: 0.18.2
+    description: SR-IOV network operator configures and manages SR-IOV networks in
+      the kubernetes cluster
+    digest: df0aa2f187b52d0b08c5248a690ffe1c73ca0bb80348a08c503c8c0ace57288d
+    home: https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    icon: https://charts.rancher.io/assets/logos/sr-iov.svg
+    keywords:
+    - sriov
+    kubeVersion: '>= 1.24.0-0'
+    name: sriov-network-operator
+    sources:
+    - https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    type: application
+    urls:
+    - assets/sriov-network-operator/sriov-network-operator-1.6.0.tgz
+    version: 1.6.0
   - annotations:
       catalog.cattle.io/auto-install: sriov-crd=match
       catalog.cattle.io/experimental: "true"
