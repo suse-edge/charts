@@ -7,11 +7,11 @@
 +  catalog.cattle.io/namespace: cattle-sriov-system
 +  catalog.cattle.io/os: linux
 +  catalog.cattle.io/permits-os: linux
-+  catalog.cattle.io/upstream-version: 1.5.0
++  catalog.cattle.io/upstream-version: 1.6.0
  apiVersion: v2
- appVersion: v1.5.0
+ appVersion: v1.6.0
  dependencies:
-@@ -8,10 +15,11 @@
+@@ -8,11 +15,12 @@
  description: SR-IOV network operator configures and manages SR-IOV networks in the
    kubernetes cluster
  home: https://github.com/k8snetworkplumbingwg/sriov-network-operator
@@ -24,3 +24,5 @@
  sources:
  - https://github.com/k8snetworkplumbingwg/sriov-network-operator
  type: application
+-version: 1.6.0
++version: 1.6.4

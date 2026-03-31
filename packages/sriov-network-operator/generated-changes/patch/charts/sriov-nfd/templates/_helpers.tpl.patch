@@ -1,0 +1,18 @@
+--- charts-original/charts/sriov-nfd/templates/_helpers.tpl
++++ charts/charts/sriov-nfd/templates/_helpers.tpl
+@@ -124,3 +124,15 @@
+ {{- $imagePullSecrets | toJson }}
+ {{- end -}}
+ {{- end -}}
++
++{{/*
++system_default_registry helper - prints global value "cattle.systemDefaultRegistry" (adding a "/" at the end) 
++or empty string (if this global Helm param. not defined)
++*/}}
++{{- define "node-feature-discovery.system_default_registry" -}}
++{{- if .Values.global.cattle.systemDefaultRegistry -}}
++  {{- printf "%s/" .Values.global.cattle.systemDefaultRegistry -}}
++{{- else -}}
++  {{- "" -}}
++{{- end -}}
++{{- end -}}

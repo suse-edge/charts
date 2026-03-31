@@ -1,0 +1,16 @@
+--- charts-original/charts/sriov-nfd/templates/post-delete-job.yaml
++++ charts/charts/sriov-nfd/templates/post-delete-job.yaml
+@@ -72,7 +72,7 @@
+         - name: nfd-master
+           securityContext:
+             {{- toYaml .Values.master.securityContext | nindent 12 }}
+-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
++          image: "{{ include "node-feature-discovery.system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - "nfd-master"
+@@ -99,4 +99,3 @@
+         {{- toYaml . | nindent 8 }}
+       {{- end }}
+ {{- end }}
+-

@@ -1,0 +1,11 @@
+--- charts-original/charts/sriov-nfd/templates/master.yaml
++++ charts/charts/sriov-nfd/templates/master.yaml
+@@ -43,7 +43,7 @@
+         - name: master
+           securityContext:
+             {{- toYaml .Values.master.securityContext | nindent 12 }}
+-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
++          image: "{{ include "node-feature-discovery.system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           startupProbe:
+             httpGet:
