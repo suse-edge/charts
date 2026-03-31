@@ -1,6 +1,6 @@
 --- charts-original/templates/NOTES.txt
 +++ charts/templates/NOTES.txt
-@@ -3,4 +3,15 @@
+@@ -3,4 +3,17 @@
  $ kubectl -n {{ .Release.Namespace }} get pods
  
  For additional instructions on how to use SR-IOV network operator,
@@ -8,13 +8,16 @@
 \ No newline at end of file
 +refer to: https://github.com/k8snetworkplumbingwg/sriov-network-operator
 +
-+{{- if .Values.operator.enableAdmissionController }}
-+{{- if not .Values.cert_manager }}
++{{- if .Values.operator.admissionControllers.enabled }}
++{{- if not .Values.operator.admissionControllers.certificates.certManager.enabled }}
 +Thank you for installing {{ .Chart.Name }}.
 +
-+WARNING! Self signed certificates have been generated for webhooks.
-+These certificates have a one-year validity and will not be rotated
-+automatically. This should not be a production cluster. Please deploy
-+and use cert-manager for production clusters.
++WARNING! Self signed certificates have been generated for the two
++deployed SRIOV dynamic admission controllers: sriov-network-webhook
++and network-resources-injector.  These certificates have a one-year
++validity and will not be rotated automatically.
++This should NOT be a production cluster. Please deploy and use
++cert-manager for production clusters.
 +{{- end }}
 +{{- end }}
+\ No newline at end of file

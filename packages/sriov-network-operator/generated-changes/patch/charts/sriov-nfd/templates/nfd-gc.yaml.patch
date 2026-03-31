@@ -1,0 +1,11 @@
+--- charts-original/charts/sriov-nfd/templates/nfd-gc.yaml
++++ charts/charts/sriov-nfd/templates/nfd-gc.yaml
+@@ -39,7 +39,7 @@
+       hostNetwork: {{ .Values.gc.hostNetwork }}
+       containers:
+       - name: gc
+-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
++        image: "{{ include "node-feature-discovery.system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+         livenessProbe:
+           httpGet:
