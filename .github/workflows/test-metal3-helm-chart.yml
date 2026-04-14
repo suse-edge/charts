@@ -16,11 +16,11 @@ jobs:
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32 # v46.0.1
-        
+
     - name: Verify and copy metal3 assets 
       run: |
         metal3_archive=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | tr -s " " "\012" | grep assets/metal3/)
-        
+
         # Count the number of files in the array
         num_files=$(echo "${metal3_archive}" | wc -l)
         # Check if there is only one file
@@ -31,7 +31,7 @@ jobs:
           done
           exit 1  # Fail the workflow
         fi
-        
+
         mkdir helm-metal3-charts
         tar xvzf "${metal3_archive}" -C helm-metal3-charts/
 
@@ -41,9 +41,19 @@ jobs:
 
     - name: Install Helm
       run: |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-        chmod +x get_helm.sh
-        ./get_helm.sh
+        set -euo pipefail
+
+        HELM_VERSION="v3.20.1"
+        HELM_TARBALL="helm-${HELM_VERSION}-linux-amd64.tar.gz"
+        HELM_SHA256="0165ee4a2db012cc657381001e593e981f42aa5707acdd50658326790c9d0dc3"
+
+        curl -fsSLO "https://get.helm.sh/${HELM_TARBALL}"
+
+        echo "${HELM_SHA256}  ${HELM_TARBALL}" | sha256sum -c -
+
+        tar -xzf "${HELM_TARBALL}"
+        sudo mv linux-amd64/helm /usr/local/bin/helm
+        helm version --short
 
     - name: Install CertManager
       run: |
@@ -55,42 +65,42 @@ jobs:
           --create-namespace \
           --set installCRDs=true \
           --version v1.11.1
-  
+
     - name: Set IronicIP
       run: |
         echo "global:" > custom_values.yaml
         echo "  ironicIP: 192.0.2.1" >> custom_values.yaml # TEST-NET-1
         echo "  enable_metal3_media_server: true" >> custom_values.yaml
-        
+
     - name: Deploy Metal3 Helm Chart
       run: |
         export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
         helm install metal3 helm-metal3-charts/metal3 --values custom_values.yaml
-        
+
     - name: Wait for all Metal3 pods to become ready
       run: |
         export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-        
+
         # Set a timeout of 5 minutes
         timeout=$((SECONDS + 300))
-        
+
         while [ $SECONDS -lt $timeout ]; do
             # Run the kubectl command to get pod information
             kubectl_output=$(kubectl -n default get po | tail -n +2)
-        
+
             # Flag to track whether all pods are ready
             all_pods_ready=true
-        
+
             # Iterate over each line in the kubectl output
             while IFS= read -r line; do
                 # Extract the pod name and the readiness status
                 pod_name=$(echo "$line" | awk '{print $1}')
                 readiness_status=$(echo "$line" | awk '{print $2}')
-        
+
                 # Extract the desired and running replicas from the readiness status
                 desired_replicas=$(echo "$readiness_status" | awk -F'/' '{print $1}')
                 running_replicas=$(echo "$readiness_status" | awk -F'/' '{print $2}')
-        
+
                 # Check if the digit before / is the same as the one after /
                 if [ "$desired_replicas" -eq "$running_replicas" ]; then
                     echo "$pod_name is ready"
@@ -99,17 +109,17 @@ jobs:
                     all_pods_ready=false
                 fi
             done <<< "$kubectl_output"
-        
+
             # Check if all pods are ready
             if [ "$all_pods_ready" = true ]; then
                 echo "All pods are ready"
                 exit 0
             fi
-        
+
             # Wait for a moment before checking again
             sleep 5
         done
-        
+
         # If the loop completes, it means the timeout occurred
         echo "Timeout: Not all pods are ready in 5 minutes."
         exit 1
