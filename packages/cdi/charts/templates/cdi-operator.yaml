@@ -81,9 +81,28 @@ rules:
       - update
       - delete
   - apiGroups:
+      - admissionregistration.k8s.io
+    resourceNames:
+      - cdi-api-dataimportcron-mutate
+    resources:
+      - mutatingwebhookconfigurations
+    verbs:
+      - delete
+  - apiGroups:
       - apiregistration.k8s.io
     resources:
       - apiservices
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - delete
+  - apiGroups:
+      - populator.storage.k8s.io
+    resources:
+      - volumepopulators
     verbs:
       - get
       - list
@@ -201,6 +220,9 @@ rules:
     verbs:
       - create
       - patch
+      - get
+      - list
+      - watch
   - apiGroups:
       - ""
     resources:
@@ -244,6 +266,14 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
       - configmaps
     verbs:
       - get
@@ -274,6 +304,7 @@ rules:
       - get
   - apiGroups:
       - cdi.kubevirt.io
+      - forklift.cdi.kubevirt.io
     resources:
       - '*'
     verbs:
@@ -334,14 +365,11 @@ rules:
     verbs:
       - update
   - apiGroups:
-      - forklift.cdi.kubevirt.io
+      - authorization.k8s.io
     resources:
-      - ovirtvolumepopulators
-      - openstackvolumepopulators
+      - subjectaccessreviews
     verbs:
-      - get
-      - list
-      - watch
+      - create
   - apiGroups:
       - ""
     resources:
@@ -586,6 +614,7 @@ metadata:
   labels:
     cdi.kubevirt.io: cdi-operator
     name: cdi-operator
+    np.kubevirt.io/allow-access-cluster-services: "true"
     operator.cdi.kubevirt.io: ""
     prometheus.cdi.kubevirt.io: "true"
   name: cdi-operator
@@ -604,6 +633,7 @@ spec:
       labels:
         cdi.kubevirt.io: cdi-operator
         name: cdi-operator
+        np.kubevirt.io/allow-access-cluster-services: "true"
         operator.cdi.kubevirt.io: ""
         prometheus.cdi.kubevirt.io: "true"
     spec:
@@ -641,6 +671,16 @@ spec:
             - containerPort: 8080
               name: metrics
               protocol: TCP
+            - containerPort: 8444
+              name: health
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8444
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 10
           resources:
 {{- .Values.deployment.resources | toYaml | nindent 12 }}
           securityContext:
@@ -658,6 +698,3 @@ spec:
       securityContext:
         runAsNonRoot: true
       serviceAccountName: cdi-operator
-      tolerations:
-        - key: CriticalAddonsOnly
-          operator: Exists
