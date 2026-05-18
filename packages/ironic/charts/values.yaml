@@ -64,11 +64,14 @@ images:
   ironic:
     repository: registry.opensuse.org/isv/suse/edge/containers/images/ironic
     pullPolicy: IfNotPresent
-    tag: 32.0.0.1
+    tag: 35.0.0.1
   ironicIPADownloader:
     repository: registry.opensuse.org/isv/suse/edge/containers/images/ironic-ipa-downloader
     pullPolicy: IfNotPresent
-    tag: 3.0.11
+    tag: 3.1.1
+  ipa:
+    repository: registry.opensuse.org/isv/suse/edge/containers/images/ironic-python-agent
+    tag: 3.0.8
 
 nameOverride: ""
 fullnameOverride: ""
@@ -83,6 +86,9 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
+
+ipa:
+  useHauler: false
 
 podSecurityContext:
   runAsUser: 10475

@@ -32,15 +32,20 @@ data:
   {{- if  ( .Values.global.enable_tls ) }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "true"
   IRONIC_KERNEL_PARAMS: {{ .Values.global.ironicKernelParams }} tls.enabled=true
-  IPA_INSECURE: "0"
+  IRONIC_IPA_INSECURE: "0"
   IRONIC_REVERSE_PROXY_SETUP: "true"
+  {{- if .Values.global.trustedCAs }}
+  WEBSERVER_CACERT_FILE: /certs/ca/trusted/ca-bundle.pem
+  {{- else }}
+  WEBSERVER_CACERT_FILE: /var/lib/ca-certificates/ca-bundle.pem
+  {{- end }}
   {{- if  ( .Values.global.enable_vmedia_tls ) }}
   VMEDIA_TLS_PORT: "{{ .Values.global.vmediaTLSPort }}"
   {{- end }}
   {{- else }}
   RESTART_CONTAINER_CERTIFICATE_UPDATED: "false"
   IRONIC_KERNEL_PARAMS: {{ .Values.global.ironicKernelParams }}
-  IPA_INSECURE: "1"
+  IRONIC_IPA_INSECURE: "1"
   IRONIC_REVERSE_PROXY_SETUP: "false"
   {{- end }}
   {{- if  ( .Values.global.enable_basicAuth ) }}

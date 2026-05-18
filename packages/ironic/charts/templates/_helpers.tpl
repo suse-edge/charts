@@ -82,6 +82,11 @@ Get ironic CA volumeMounts
   mountPath: "/certs/ca/vmedia"
   readOnly: true
 {{- end }}
+{{- if .Values.global.trustedCAs }}
+- name: trusted-ca
+  mountPath: "/certs/ca/trusted"
+  readOnly: true
+{{- end }}
 {{- end }}
 
 {{/*

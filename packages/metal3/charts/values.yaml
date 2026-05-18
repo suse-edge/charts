@@ -32,12 +32,13 @@ global:
     ironicUsername: ""
     ironicPassword: ""
 
-  # whether to have additional trusted CA
-  # NOTE: If enabled, a secret with name tls-ca-additional should be deployed
-  # The secret should be like this:
+  # CA bundle to be trusted by Ironic and its python agent, should be the
+  # name of a deployed ConfigMap in the same namespace. If left empty the
+  # default public CA bundle will be used.
+  # The ConfigMap should be like this:
   # data:
-  #   ca-additional.crt: <b64enc cert>
-  additionalTrustedCAs: false
+  #   ca-bundle.pem: <CA cert bundle>
+  trustedCAs: ""
 
   # Will be used when tls is enabled
   vmediaTLSPort: 6185
@@ -89,7 +90,6 @@ metal3-media:
   # available to the Ironic deployment services.
   mediaVolume:
     hostPath: /opt/media
-
 
 #
 # ironic service
