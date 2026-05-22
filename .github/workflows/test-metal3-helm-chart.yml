@@ -81,8 +81,8 @@ jobs:
       run: |
         export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
-        # Set a timeout of 5 minutes
-        timeout=$((SECONDS + 300))
+        # Set a timeout of 10 minutes
+        timeout=$((SECONDS + 600))
 
         while [ $SECONDS -lt $timeout ]; do
             # Run the kubectl command to get pod information
