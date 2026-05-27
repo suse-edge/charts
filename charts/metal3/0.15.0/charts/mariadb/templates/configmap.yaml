@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata:
+  name: mariadb-cm
+  labels:
+    {{- include "mariadb.labels" . | nindent 4 }}
+data:
+  MARIADB_USER: ironic
+  MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+  MARIADB_DATABASE: ironic
+  MARIADB_AUTO_UPGRADE: "yes"
