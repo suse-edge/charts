@@ -207,6 +207,32 @@ spec:
           - name: REGISTRY_INSECURE
             value: "true"
           {{- end }}
+          {{- if .Values.ipa.httpProxy }}
+          - name: HTTP_PROXY
+            value: {{ .Values.ipa.httpProxy | quote }}
+          - name: http_proxy
+            value: {{ .Values.ipa.httpProxy | quote }}
+          {{- end }}
+          {{- if .Values.ipa.httpsProxy }}
+          - name: HTTPS_PROXY
+            value: {{ .Values.ipa.httpsProxy | quote }}
+          - name: https_proxy
+            value: {{ .Values.ipa.httpsProxy | quote }}
+          {{- end }}
+          {{- if .Values.ipa.noProxy }}
+          - name: NO_PROXY
+            value: {{ .Values.ipa.noProxy | quote }}
+          - name: no_proxy
+            value: {{ .Values.ipa.noProxy | quote }}
+          {{- end }}
+          {{- if .Values.ipa.tlsInsecure }}
+          - name: TLS_INSECURE
+            value: {{ .Values.ipa.tlsInsecure | quote }}
+          {{- end }}
+          {{- if .Values.ipa.trustedCA }}
+          - name: CA_BUNDLE
+            value: "/certs/ca/ipa/ca-bundle.pem"
+          {{- end }}
           - name: IPA_BASEURI
             {{- if .Values.ipa.baseUri }}
             value: {{ .Values.ipa.baseUri }}
@@ -220,6 +246,11 @@ spec:
             {{- end }}
         volumeMounts:
           {{- include "ironic.sharedVolumeMount" . | nindent 10 }}
+          {{- if .Values.ipa.trustedCA }}
+          - name: ipa-trusted-ca
+            mountPath: /certs/ca/ipa
+            readOnly: true
+          {{- end }}
       volumes:
       - name: ironic-data-volume
       {{- if .Values.persistence.ironic.size }}
@@ -237,6 +268,11 @@ spec:
       - name: trusted-ca
         configMap:
           name: {{ .Values.global.trustedCAs }}
+      {{- end }}
+      {{- if .Values.ipa.trustedCA }}
+      - name: ipa-trusted-ca
+        configMap:
+          name: {{ .Values.ipa.trustedCA }}
       {{- end }}
       {{- if .Values.global.enable_tls }}
       - name: cert-ironic-ca

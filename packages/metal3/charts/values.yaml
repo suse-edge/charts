@@ -104,6 +104,12 @@ metal3-ironic:
     ironic:
       # storageClass for the ironic shared volume
       storageClass: ""
+  ipa:
+    httpProxy: ""
+    httpsProxy: ""
+    noProxy: ""
+    tlsInsecure: false
+    trustedCA: ""
 
 #
 # Database Service
