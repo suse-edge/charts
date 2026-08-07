@@ -24,6 +24,7 @@ A repository that contains different Helm Charts from the SUSE Edge engineering 
 | [KubeVirt Dashboard Extension](charts/kubevirt-dashboard-extension) | KubeVirt extension for Rancher Dashboard                                                                                      |
 | [Metal<sup>3</sup>](charts/metal3)                                  | All of The Dependencies to Deploy Metal<sup>3</sup>                                                                           |
 | [MetalLB](charts/metallb)                                           | A network load-balancer implementation for Kubernetes using standard routing protocols                                        |
+| [SR-IOV Network Operator](charts/sriov-network-operator) and related [SR-IOV CRDs](charts/sriov-crd)                                           | Simplifies the deployment and management of SR-IOV networking in Kubernetes clusters.                                    |
 | [Rancher Turtles](charts/rancher-turtles)                           | A wrapper for the Rancher Turtles chart which applies specific versions/image/configuration
 
 </div>
