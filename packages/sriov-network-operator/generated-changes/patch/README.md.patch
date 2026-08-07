@@ -1,0 +1,18 @@
+--- charts-original/README.md
++++ charts/README.md
+@@ -78,13 +78,14 @@
+ | ---- | ---- | ------- | ----------- |
+ | `operator.tolerations` | list | `[{"key":"node-role.kubernetes.io/master","operator":"Exists","effect":"NoSchedule"},{"key":"node-role.kubernetes.io/control-plane","operator":"Exists","effect":"NoSchedule"}]` | Operator's tolerations |
+ | `operator.nodeSelector` | object | {} | Operator's node selector |
+-| `operator.affinity` | object | `{"nodeAffinity":{"preferredDuringSchedulingIgnoredDuringExecution":[{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/master","operator":"In","values":[""]}]}},{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/control-plane","operator":"In","values":[""]}]}}]}}` | Operator's afffinity configuration |
++| `operator.affinity` | object | `{"nodeAffinity":{"preferredDuringSchedulingIgnoredDuringExecution":[{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/master","operator":"In","values":[""]}]}},{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/control-plane","operator":"In","values":[""]}]}}]}}` | Operator's affinity configuration |
+ | `operator.nameOverride` | string | `` | Operator's resource name override |
+ | `operator.fullnameOverride` | string | `` | Operator's resource full name override |
+ | `operator.resourcePrefix` | string | `openshift.io` | Device plugin resource prefix |
+ | `operator.cniBinPath` | string | `/opt/cni/bin` | Path for CNI binary |
+ | `operator.clustertype` | string | `kubernetes` | Cluster environment type |
+ | `operator.metricsExporter.port` | string | `9110` | Port where the Network Metrics Exporter listen |
++| `operator.metricsExporter.seLinuxType` | string | `spc_t` | SELinux domain label (aka process type) to apply to the `metrics-exporter` container (leave empty for the containers engine to apply the default one, i.e. `container_t`) |
+ | `operator.metricsExporter.certificates.secretName` | string | `metrics-exporter-cert` | Secret name to serve metrics via TLS. The secret must have the same fields as `operator.admissionControllers.certificates.secretNames` |
+ | `operator.metricsExporter.prometheusOperator.enabled` | bool | false | Wheter the operator shoud configure Prometheus resources or not (e.g. `ServiceMonitors`). |
+ | `operator.metricsExporter.prometheusOperator.serviceAccount` | string | `prometheus-k8s` | The service account used by the Prometheus Operator. This is used to give Prometheus the permission to list resource in the SR-IOV operator namespace |
