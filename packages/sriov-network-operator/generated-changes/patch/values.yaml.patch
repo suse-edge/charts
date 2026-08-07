@@ -34,7 +34,7 @@
    admissionControllers:
      enabled: false
      certificates:
-@@ -56,43 +50,44 @@
+@@ -56,43 +50,55 @@
        # cluster. In that case, the ca.crt must be base64 encoded twice since it ends up being an env variable.
        custom:
          enabled: false
@@ -102,7 +102,18 @@
 +    #       MHcl4wOuDwKQa+upc8GftXE2C//4mKANBC6It01gUaTIpo=
 +    #       ...
 +    #      -----END EC PRIVATE KEY-----
-+
++  # Following settings apply if sriovOperatorConfig.featureGates.metricsExporter set to true
++  metricsExporter:
++    port: "9110"
++    # Comment following line to leave metrics-exporter container's securityContext.seLinuxOptions empty
++    seLinuxType: "spc_t"
++    certificates:
++      secretName: "metrics-exporter-cert"
++    prometheusOperator:
++      enabled: false
++      serviceAccount: "prometheus-k8s"
++      namespace: "monitoring"
++      deployRules: false
  sriovOperatorConfig:
    # deploy sriovOperatorConfig CR with the below values
 -  deploy: false
@@ -113,7 +124,17 @@
    # log level for both operator and sriov-network-config-daemon
    logLevel: 2
    # disable node draining when configuring SR-IOV, set to true in case of a single node
-@@ -106,16 +101,32 @@
+@@ -102,20 +108,48 @@
+   configurationMode: daemon
+   # feature gates to enable/disable
+   featureGates: {}
++  #---------------------------------------------------------------
++  # Example: how to enable the "metricsExporter" feature
++  #-----------------------------------------------------
++  # featureGates:
++  #  metricsExporter: true
++  #---------------------------------------------------------------
+ # Example for supportedExtraNICs values ['MyNIC: "8086 1521 1520"']
  supportedExtraNICs: []
  # Image URIs for sriov-network-operator components
  images:
@@ -149,6 +170,12 @@
 +  webhook:
 +    repository: "registry.opensuse.org/isv/suse/edge/containers/images/sriov-network-webhook"
 +    tag: v1.6.0
++  metricsExporter:
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/sriov-network-metrics-exporter"
++    tag: v1.2.0
++  metricsExporterKubeRbacProxy:
++    repository: "registry.opensuse.org/isv/suse/edge/containers/images/kube-rbac-proxy"
++    tag: 0.22.1
  imagePullSecrets: []
  extraDeploy: []
 +global:
@@ -157,4 +184,3 @@
 +  rbac:
 +    userRoles:
 +      aggregateToDefaultRoles: false
-\ No newline at end of file

@@ -25,4 +25,4 @@
  - https://github.com/k8snetworkplumbingwg/sriov-network-operator
  type: application
 -version: 1.6.0
-+version: 1.6.4
++version: 1.6.5+up1.6.0

@@ -17,7 +17,7 @@
            command:
              - sriov-network-operator
            resources:
-@@ -53,41 +57,19 @@
+@@ -53,31 +57,27 @@
                  fieldRef:
                    fieldPath: metadata.namespace
              - name: SRIOV_CNI_IMAGE
@@ -43,25 +43,28 @@
 +              value: {{ include "system_default_registry" . }}{{ .Values.images.sriovConfigDaemon.repository }}:{{ .Values.images.sriovConfigDaemon.tag }}
              - name: SRIOV_NETWORK_WEBHOOK_IMAGE
 -              value: {{ .Values.images.webhook }}
--            - name: METRICS_EXPORTER_IMAGE
--              value: {{ .Values.images.metricsExporter }}
--            - name: METRICS_EXPORTER_PORT
--              value: "{{ .Values.operator.metricsExporter.port }}"
--            - name: METRICS_EXPORTER_SECRET_NAME
--              value: {{ .Values.operator.metricsExporter.certificates.secretName }}
--            - name: METRICS_EXPORTER_KUBE_RBAC_PROXY_IMAGE
--              value: {{ .Values.images.metricsExporterKubeRbacProxy }}
--            {{- if .Values.operator.metricsExporter.prometheusOperator.enabled }}
--            - name: METRICS_EXPORTER_PROMETHEUS_OPERATOR_ENABLED
--              value: {{ .Values.operator.metricsExporter.prometheusOperator.enabled | quote}}
--            - name: METRICS_EXPORTER_PROMETHEUS_DEPLOY_RULES
--              value: {{ .Values.operator.metricsExporter.prometheusOperator.deployRules | quote}}
--            - name: METRICS_EXPORTER_PROMETHEUS_OPERATOR_SERVICE_ACCOUNT
--              value: {{ .Values.operator.metricsExporter.prometheusOperator.serviceAccount }}
--            - name: METRICS_EXPORTER_PROMETHEUS_OPERATOR_NAMESPACE
--              value: {{ .Values.operator.metricsExporter.prometheusOperator.namespace }}
--            {{- end }}
 +              value: {{ include "system_default_registry" . }}{{ .Values.images.webhook.repository }}:{{ .Values.images.webhook.tag }}
+             - name: METRICS_EXPORTER_IMAGE
+-              value: {{ .Values.images.metricsExporter }}
++              value: {{ include "system_default_registry" . }}{{ .Values.images.metricsExporter.repository }}:{{ .Values.images.metricsExporter.tag }}
+             - name: METRICS_EXPORTER_PORT
+               value: "{{ .Values.operator.metricsExporter.port }}"
+             - name: METRICS_EXPORTER_SECRET_NAME
+               value: {{ .Values.operator.metricsExporter.certificates.secretName }}
+             - name: METRICS_EXPORTER_KUBE_RBAC_PROXY_IMAGE
+-              value: {{ .Values.images.metricsExporterKubeRbacProxy }}
++              value: {{ include "system_default_registry" . }}{{ .Values.images.metricsExporterKubeRbacProxy.repository }}:{{ .Values.images.metricsExporterKubeRbacProxy.tag }}
+             {{- if .Values.operator.metricsExporter.prometheusOperator.enabled }}
+             - name: METRICS_EXPORTER_PROMETHEUS_OPERATOR_ENABLED
+               value: {{ .Values.operator.metricsExporter.prometheusOperator.enabled | quote}}
+@@ -88,6 +88,10 @@
+             - name: METRICS_EXPORTER_PROMETHEUS_OPERATOR_NAMESPACE
+               value: {{ .Values.operator.metricsExporter.prometheusOperator.namespace }}
+             {{- end }}
++            {{- if .Values.operator.metricsExporter.seLinuxType }}
++            - name: METRICS_EXPORTER_SELINUX_TYPE
++              value: {{ .Values.operator.metricsExporter.seLinuxType }}
++            {{- end }}
              - name: RESOURCE_PREFIX
                value: {{ .Values.operator.resourcePrefix }}
              - name: IMAGE_PULL_SECRETS
