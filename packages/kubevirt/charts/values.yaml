@@ -1,6 +1,6 @@
 operator:
-  image: registry.suse.com/suse/sles/15.7/virt-operator
-  version: 1.7.0-150700.3.16.2
+  image: registry.suse.com/suse/sles/16.0/virt-operator
+  version: 1.8.3
   replicas: 2
   pullPolicy: IfNotPresent
   affinity:
