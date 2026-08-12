@@ -666,9 +666,16 @@ spec:
             - name: MONITORING_NAMESPACE
           image: {{ .Values.deployment.operatorImage }}:{{ .Values.deployment.version }}
           imagePullPolicy: {{ .Values.deployment.pullPolicy }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8444
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 10
           name: cdi-operator
           ports:
-            - containerPort: 8080
+            - containerPort: 8443
               name: metrics
               protocol: TCP
             - containerPort: 8444
@@ -692,7 +699,7 @@ spec:
             seccompProfile:
               type: RuntimeDefault
           terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
+          terminationMessagePolicy: FallbackToLogsOnError
       nodeSelector:
         kubernetes.io/os: linux
       securityContext:
