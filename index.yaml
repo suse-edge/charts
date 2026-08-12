@@ -180,6 +180,17 @@ entries:
     version: 0.1.0
   cdi:
   - apiVersion: v2
+    appVersion: 1.65.0
+    created: "2026-08-12T19:08:18.530579+03:00"
+    description: A Helm chart for Containerized Data Importer (CDI)
+    digest: b1d0e95b7318d8225cfb24f54698051e0efed2743b446bb13b37fc63bc960c4d
+    icon: https://raw.githubusercontent.com/cncf/artwork/main/projects/kubevirt/icon/color/kubevirt-icon-color.svg
+    name: cdi
+    type: application
+    urls:
+    - assets/cdi/cdi-0.8.0.tgz
+    version: 0.8.0
+  - apiVersion: v2
     appVersion: 1.64.0
     created: "2026-05-04T10:48:44.536963+03:00"
     description: A Helm chart for Containerized Data Importer (CDI)
