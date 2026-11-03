@@ -13,7 +13,7 @@
        containers:
          - name: {{ include "sriov-network-operator.fullname" . }}
 -          image: {{ .Values.images.operator }}
-+          image: {{ include "system_default_registry" . }}{{ .Values.images.operator.repository }}:{{ .Values.images.operator.tag }}
++          image: {{ .Values.images.operator.repository }}:{{ .Values.images.operator.tag }}
            command:
              - sriov-network-operator
            resources:
@@ -22,38 +22,38 @@
                    fieldPath: metadata.namespace
              - name: SRIOV_CNI_IMAGE
 -              value: {{ .Values.images.sriovCni }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.sriovCni.repository }}:{{ .Values.images.sriovCni.tag }}
++              value: {{ .Values.images.sriovCni.repository }}:{{ .Values.images.sriovCni.tag }}
              - name: SRIOV_INFINIBAND_CNI_IMAGE
 -              value: {{ .Values.images.ibSriovCni }}
 -            - name: OVS_CNI_IMAGE
 -              value: {{ .Values.images.ovsCni }}
 -            - name: RDMA_CNI_IMAGE
 -              value: {{ .Values.images.rdmaCni }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.ibSriovCni.repository }}:{{ .Values.images.ibSriovCni.tag }}
++              value: {{ .Values.images.ibSriovCni.repository }}:{{ .Values.images.ibSriovCni.tag }}
              - name: SRIOV_DEVICE_PLUGIN_IMAGE
 -              value: {{ .Values.images.sriovDevicePlugin }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.sriovDevicePlugin.repository }}:{{ .Values.images.sriovDevicePlugin.tag }}
++              value: {{ .Values.images.sriovDevicePlugin.repository }}:{{ .Values.images.sriovDevicePlugin.tag }}
              - name: NETWORK_RESOURCES_INJECTOR_IMAGE
 -              value: {{ .Values.images.resourcesInjector }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.resourcesInjector.repository }}:{{ .Values.images.resourcesInjector.tag }}
++              value: {{ .Values.images.resourcesInjector.repository }}:{{ .Values.images.resourcesInjector.tag }}
              - name: OPERATOR_NAME
                value: sriov-network-operator
              - name: SRIOV_NETWORK_CONFIG_DAEMON_IMAGE
 -              value: {{ .Values.images.sriovConfigDaemon }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.sriovConfigDaemon.repository }}:{{ .Values.images.sriovConfigDaemon.tag }}
++              value: {{ .Values.images.sriovConfigDaemon.repository }}:{{ .Values.images.sriovConfigDaemon.tag }}
              - name: SRIOV_NETWORK_WEBHOOK_IMAGE
 -              value: {{ .Values.images.webhook }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.webhook.repository }}:{{ .Values.images.webhook.tag }}
++              value: {{ .Values.images.webhook.repository }}:{{ .Values.images.webhook.tag }}
              - name: METRICS_EXPORTER_IMAGE
 -              value: {{ .Values.images.metricsExporter }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.metricsExporter.repository }}:{{ .Values.images.metricsExporter.tag }}
++              value: {{ .Values.images.metricsExporter.repository }}:{{ .Values.images.metricsExporter.tag }}
              - name: METRICS_EXPORTER_PORT
                value: "{{ .Values.operator.metricsExporter.port }}"
              - name: METRICS_EXPORTER_SECRET_NAME
                value: {{ .Values.operator.metricsExporter.certificates.secretName }}
              - name: METRICS_EXPORTER_KUBE_RBAC_PROXY_IMAGE
 -              value: {{ .Values.images.metricsExporterKubeRbacProxy }}
-+              value: {{ include "system_default_registry" . }}{{ .Values.images.metricsExporterKubeRbacProxy.repository }}:{{ .Values.images.metricsExporterKubeRbacProxy.tag }}
++              value: {{ .Values.images.metricsExporterKubeRbacProxy.repository }}:{{ .Values.images.metricsExporterKubeRbacProxy.tag }}
              {{- if .Values.operator.metricsExporter.prometheusOperator.enabled }}
              - name: METRICS_EXPORTER_PROMETHEUS_OPERATOR_ENABLED
                value: {{ .Values.operator.metricsExporter.prometheusOperator.enabled | quote}}
