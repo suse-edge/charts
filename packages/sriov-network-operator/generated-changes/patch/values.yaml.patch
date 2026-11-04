@@ -124,7 +124,7 @@
    # log level for both operator and sriov-network-config-daemon
    logLevel: 2
    # disable node draining when configuring SR-IOV, set to true in case of a single node
-@@ -102,20 +108,48 @@
+@@ -102,20 +108,46 @@
    configurationMode: daemon
    # feature gates to enable/disable
    featureGates: {}
@@ -179,8 +179,6 @@
  imagePullSecrets: []
  extraDeploy: []
 +global:
-+  cattle:
-+    systemDefaultRegistry: ""
 +  rbac:
 +    userRoles:
 +      aggregateToDefaultRoles: false
