@@ -171,6 +171,21 @@ tlscerts:
   key: ""
   crt: ""
 
+# Lifetimes of the certificates cert-manager issues when global.enable_tls is
+# true. An empty value keeps the cert-manager default (2160h, renewed after two
+# thirds of it).
+certificates:
+  # ironic-cacert, the CA that signs the server certificates. Its consumers
+  # (the Bare Metal Operator, Ironic and the ramdisk CA bundle Ironic builds)
+  # read it at start, so it outlives them: 10 years.
+  ca:
+    duration: "87600h"
+    renewBefore: ""
+  # ironic-cert and ironic-vmedia-cert.
+  server:
+    duration: ""
+    renewBefore: ""
+
 persistence:
   ironic:
     # storageClass for the ironic shared volume
