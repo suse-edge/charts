@@ -7,6 +7,17 @@ spec:
   commonName: ironic-ca
   isCA: true
   {{- include "ironic.subjectAltNames" . | indent 2 }}
+  {{- with .Values.certificates.ca.duration }}
+  duration: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.certificates.ca.renewBefore }}
+  renewBefore: {{ . | quote }}
+  {{- end }}
+  # The CA keeps its key across renewals: the certificates it signed stay
+  # valid, and the Bare Metal Operator and Ironic, which read the CA at start,
+  # keep trusting it.
+  privateKey:
+    rotationPolicy: Never
   issuerRef:
     kind: Issuer
     name: selfsigned-issuer
@@ -19,6 +30,12 @@ metadata:
 spec:
   commonName: ironic-cert
   {{- include "ironic.subjectAltNames" . | indent 2 }}
+  {{- with .Values.certificates.server.duration }}
+  duration: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.certificates.server.renewBefore }}
+  renewBefore: {{ . | quote }}
+  {{- end }}
   issuerRef:
     kind: Issuer
     name: ca-issuer
@@ -32,6 +49,12 @@ metadata:
 spec:
   commonName: ironic-vmedia-cert
   {{- include "ironic.subjectAltNames" . | indent 2 }}
+  {{- with .Values.certificates.server.duration }}
+  duration: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.certificates.server.renewBefore }}
+  renewBefore: {{ . | quote }}
+  {{- end }}
   issuerRef:
     kind: Issuer
     name: ca-issuer
