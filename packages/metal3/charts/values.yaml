@@ -31,6 +31,13 @@ global:
   auth:
     ironicUsername: ""
     ironicPassword: ""
+    # Name of an existing Secret holding the basic auth credentials, with the
+    # keys username, password, htpasswd and auth-config. When set, the chart
+    # does not create ironic-basic-auth, and Ironic and the Bare Metal Operator
+    # read this Secret instead. Lets a GitOps tool or an external secret store
+    # own the credentials: rendered without cluster access, the chart would
+    # generate a new password at every render.
+    existingSecret: ""
 
   # CA bundle to be trusted by Ironic and its python agent, should be the
   # name of a deployed ConfigMap in the same namespace. If left empty the

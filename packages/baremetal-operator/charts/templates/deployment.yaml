@@ -99,7 +99,7 @@ spec:
       {{- if .Values.global.enable_basicAuth }}
       - name: ironic-basic-auth
         secret:
-          secretName: ironic-basic-auth
+          secretName: {{ .Values.global.auth.existingSecret | default "ironic-basic-auth" }}
       {{- end }}
       {{- if .Values.global.enable_tls }}
       - name: cacert
